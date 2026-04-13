@@ -41,21 +41,6 @@ func (e HostnameCheckStatus) Valid() bool {
 	}
 }
 
-// Defines values for StencilDeleteRequestConfirm.
-const (
-	Yes StencilDeleteRequestConfirm = "yes"
-)
-
-// Valid indicates whether the value is a known member of the StencilDeleteRequestConfirm enum.
-func (e StencilDeleteRequestConfirm) Valid() bool {
-	switch e {
-	case Yes:
-		return true
-	default:
-		return false
-	}
-}
-
 // Defines values for StencilDeployRequestPublicNetwork.
 const (
 	StencilDeployRequestPublicNetworkN StencilDeployRequestPublicNetwork = "n"
@@ -482,24 +467,6 @@ func (e GetQuotaParamsSite) Valid() bool {
 	}
 }
 
-// Defines values for DeleteStencilParamsSite.
-const (
-	DeleteStencilParamsSiteRtp DeleteStencilParamsSite = "rtp"
-	DeleteStencilParamsSiteSvl DeleteStencilParamsSite = "svl"
-)
-
-// Valid indicates whether the value is a known member of the DeleteStencilParamsSite enum.
-func (e DeleteStencilParamsSite) Valid() bool {
-	switch e {
-	case DeleteStencilParamsSiteRtp:
-		return true
-	case DeleteStencilParamsSiteSvl:
-		return true
-	default:
-		return false
-	}
-}
-
 // Defines values for ListStencilsParamsSite.
 const (
 	ListStencilsParamsSiteRtp ListStencilsParamsSite = "rtp"
@@ -512,6 +479,96 @@ func (e ListStencilsParamsSite) Valid() bool {
 	case ListStencilsParamsSiteRtp:
 		return true
 	case ListStencilsParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ListMyStencilsParamsSite.
+const (
+	ListMyStencilsParamsSiteRtp ListMyStencilsParamsSite = "rtp"
+	ListMyStencilsParamsSiteSvl ListMyStencilsParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the ListMyStencilsParamsSite enum.
+func (e ListMyStencilsParamsSite) Valid() bool {
+	switch e {
+	case ListMyStencilsParamsSiteRtp:
+		return true
+	case ListMyStencilsParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ListPrivateStencilsParamsSite.
+const (
+	ListPrivateStencilsParamsSiteRtp ListPrivateStencilsParamsSite = "rtp"
+	ListPrivateStencilsParamsSiteSvl ListPrivateStencilsParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the ListPrivateStencilsParamsSite enum.
+func (e ListPrivateStencilsParamsSite) Valid() bool {
+	switch e {
+	case ListPrivateStencilsParamsSiteRtp:
+		return true
+	case ListPrivateStencilsParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ListStencilsByProductGroupParamsSite.
+const (
+	ListStencilsByProductGroupParamsSiteRtp ListStencilsByProductGroupParamsSite = "rtp"
+	ListStencilsByProductGroupParamsSiteSvl ListStencilsByProductGroupParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the ListStencilsByProductGroupParamsSite enum.
+func (e ListStencilsByProductGroupParamsSite) Valid() bool {
+	switch e {
+	case ListStencilsByProductGroupParamsSiteRtp:
+		return true
+	case ListStencilsByProductGroupParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ListPublicStencilsParamsSite.
+const (
+	ListPublicStencilsParamsSiteRtp ListPublicStencilsParamsSite = "rtp"
+	ListPublicStencilsParamsSiteSvl ListPublicStencilsParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the ListPublicStencilsParamsSite enum.
+func (e ListPublicStencilsParamsSite) Valid() bool {
+	switch e {
+	case ListPublicStencilsParamsSiteRtp:
+		return true
+	case ListPublicStencilsParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ListStencilsBySiteParamsSite.
+const (
+	ListStencilsBySiteParamsSiteRtp ListStencilsBySiteParamsSite = "rtp"
+	ListStencilsBySiteParamsSiteSvl ListStencilsBySiteParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the ListStencilsBySiteParamsSite enum.
+func (e ListStencilsBySiteParamsSite) Valid() bool {
+	switch e {
+	case ListStencilsBySiteParamsSiteRtp:
+		return true
+	case ListStencilsBySiteParamsSiteSvl:
 		return true
 	default:
 		return false
@@ -1456,15 +1513,6 @@ type StencilCreateRequest struct {
 	Public *bool `json:"public,omitempty"`
 }
 
-// StencilDeleteRequest defines model for StencilDeleteRequest.
-type StencilDeleteRequest struct {
-	// Confirm Confirmation required
-	Confirm StencilDeleteRequestConfirm `json:"confirm"`
-}
-
-// StencilDeleteRequestConfirm Confirmation required
-type StencilDeleteRequestConfirm string
-
 // StencilDeployRequest defines model for StencilDeployRequest.
 type StencilDeployRequest struct {
 	// Description VM description
@@ -1484,21 +1532,36 @@ type StencilDeployRequest struct {
 type StencilDeployRequestPublicNetwork string
 
 // StencilList defines model for StencilList.
-type StencilList struct {
-	Status   *string           `json:"status,omitempty"`
-	Stencils *[]StencilSummary `json:"stencils,omitempty"`
-}
+type StencilList = []StencilSummary
 
 // StencilSummary defines model for StencilSummary.
 type StencilSummary struct {
+	ComplianceDate *string `json:"compliance_date,omitempty"`
+	Cpu            *int    `json:"cpu,omitempty"`
+	Created        *string `json:"created,omitempty"`
 	Description    *string `json:"description,omitempty"`
-	Id             *string `json:"id,omitempty"`
+	Disk           *string `json:"disk,omitempty"`
+	DiskQty        *int    `json:"disk_qty,omitempty"`
+	Memory         *int    `json:"memory,omitempty"`
 	Name           *string `json:"name,omitempty"`
 	Os             *string `json:"os,omitempty"`
-	Owner          *string `json:"owner,omitempty"`
+	Owner          *struct {
+		Email    *string `json:"email,omitempty"`
+		Name     *string `json:"name,omitempty"`
+		UserId   *int    `json:"user_id,omitempty"`
+		Username *string `json:"username,omitempty"`
+	} `json:"owner,omitempty"`
+	Permission     *string `json:"permission,omitempty"`
 	Platform       *string `json:"platform,omitempty"`
-	ProductGroupId *string `json:"product_group_id,omitempty"`
-	Public         *bool   `json:"public,omitempty"`
+	PrivateIp      *string `json:"private_ip,omitempty"`
+	ProductGroupId *int    `json:"product_group_id,omitempty"`
+	PublicIp       *string `json:"public_ip,omitempty"`
+	StencilIds     *[]struct {
+		Location  *string `json:"location,omitempty"`
+		StencilId *string `json:"stencil_id,omitempty"`
+	} `json:"stencil_ids,omitempty"`
+	Type    *string `json:"type,omitempty"`
+	Updated *string `json:"updated,omitempty"`
 }
 
 // Success defines model for Success.
@@ -1969,15 +2032,6 @@ type GetQuotaParams struct {
 // GetQuotaParamsSite defines parameters for GetQuota.
 type GetQuotaParamsSite string
 
-// DeleteStencilParams defines parameters for DeleteStencil.
-type DeleteStencilParams struct {
-	// Site Site location (svl or rtp)
-	Site *DeleteStencilParamsSite `form:"site,omitempty" json:"site,omitempty"`
-}
-
-// DeleteStencilParamsSite defines parameters for DeleteStencil.
-type DeleteStencilParamsSite string
-
 // ListStencilsParams defines parameters for ListStencils.
 type ListStencilsParams struct {
 	// Site Site location (svl or rtp)
@@ -1986,6 +2040,45 @@ type ListStencilsParams struct {
 
 // ListStencilsParamsSite defines parameters for ListStencils.
 type ListStencilsParamsSite string
+
+// ListMyStencilsParams defines parameters for ListMyStencils.
+type ListMyStencilsParams struct {
+	// Site Site location (svl or rtp)
+	Site *ListMyStencilsParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// ListMyStencilsParamsSite defines parameters for ListMyStencils.
+type ListMyStencilsParamsSite string
+
+// ListPrivateStencilsParams defines parameters for ListPrivateStencils.
+type ListPrivateStencilsParams struct {
+	// Site Site location (svl or rtp)
+	Site *ListPrivateStencilsParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// ListPrivateStencilsParamsSite defines parameters for ListPrivateStencils.
+type ListPrivateStencilsParamsSite string
+
+// ListStencilsByProductGroupParams defines parameters for ListStencilsByProductGroup.
+type ListStencilsByProductGroupParams struct {
+	// Site Site location (svl or rtp)
+	Site *ListStencilsByProductGroupParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// ListStencilsByProductGroupParamsSite defines parameters for ListStencilsByProductGroup.
+type ListStencilsByProductGroupParamsSite string
+
+// ListPublicStencilsParams defines parameters for ListPublicStencils.
+type ListPublicStencilsParams struct {
+	// Site Site location (svl or rtp)
+	Site *ListPublicStencilsParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// ListPublicStencilsParamsSite defines parameters for ListPublicStencils.
+type ListPublicStencilsParamsSite string
+
+// ListStencilsBySiteParamsSite defines parameters for ListStencilsBySite.
+type ListStencilsBySiteParamsSite string
 
 // GetUserDetailsParams defines parameters for GetUserDetails.
 type GetUserDetailsParams struct {
@@ -2320,9 +2413,6 @@ type RemoveVMsFromClusterJSONRequestBody = ClusterVMRequest
 // AttachFloatingIPJSONRequestBody defines body for AttachFloatingIP for application/json ContentType.
 type AttachFloatingIPJSONRequestBody = FloatingIPRequest
 
-// DeleteStencilJSONRequestBody defines body for DeleteStencil for application/json ContentType.
-type DeleteStencilJSONRequestBody = StencilDeleteRequest
-
 // CreateVMJSONRequestBody defines body for CreateVM for application/json ContentType.
 type CreateVMJSONRequestBody = VMCreateRequest
 
@@ -2605,13 +2695,23 @@ type ClientInterface interface {
 	// GetQuota request
 	GetQuota(ctx context.Context, params *GetQuotaParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// DeleteStencilWithBody request with any body
-	DeleteStencilWithBody(ctx context.Context, stencilId StencilId, params *DeleteStencilParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	DeleteStencil(ctx context.Context, stencilId StencilId, params *DeleteStencilParams, body DeleteStencilJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
-
 	// ListStencils request
 	ListStencils(ctx context.Context, params *ListStencilsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListMyStencils request
+	ListMyStencils(ctx context.Context, params *ListMyStencilsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListPrivateStencils request
+	ListPrivateStencils(ctx context.Context, params *ListPrivateStencilsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListStencilsByProductGroup request
+	ListStencilsByProductGroup(ctx context.Context, productGroupId ProductGroupId, params *ListStencilsByProductGroupParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListPublicStencils request
+	ListPublicStencils(ctx context.Context, params *ListPublicStencilsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListStencilsBySite request
+	ListStencilsBySite(ctx context.Context, site ListStencilsBySiteParamsSite, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetUserDetails request
 	GetUserDetails(ctx context.Context, params *GetUserDetailsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -2916,32 +3016,68 @@ func (c *Client) GetQuota(ctx context.Context, params *GetQuotaParams, reqEditor
 	return c.Client.Do(req)
 }
 
-func (c *Client) DeleteStencilWithBody(ctx context.Context, stencilId StencilId, params *DeleteStencilParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeleteStencilRequestWithBody(c.Server, stencilId, params, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) DeleteStencil(ctx context.Context, stencilId StencilId, params *DeleteStencilParams, body DeleteStencilJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewDeleteStencilRequest(c.Server, stencilId, params, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
 func (c *Client) ListStencils(ctx context.Context, params *ListStencilsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewListStencilsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ListMyStencils(ctx context.Context, params *ListMyStencilsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListMyStencilsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ListPrivateStencils(ctx context.Context, params *ListPrivateStencilsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListPrivateStencilsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ListStencilsByProductGroup(ctx context.Context, productGroupId ProductGroupId, params *ListStencilsByProductGroupParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListStencilsByProductGroupRequest(c.Server, productGroupId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ListPublicStencils(ctx context.Context, params *ListPublicStencilsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListPublicStencilsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ListStencilsBySite(ctx context.Context, site ListStencilsBySiteParamsSite, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListStencilsBySiteRequest(c.Server, site)
 	if err != nil {
 		return nil, err
 	}
@@ -4100,75 +4236,6 @@ func NewGetQuotaRequest(server string, params *GetQuotaParams) (*http.Request, e
 	return req, nil
 }
 
-// NewDeleteStencilRequest calls the generic DeleteStencil builder with application/json body
-func NewDeleteStencilRequest(server string, stencilId StencilId, params *DeleteStencilParams, body DeleteStencilJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewDeleteStencilRequestWithBody(server, stencilId, params, "application/json", bodyReader)
-}
-
-// NewDeleteStencilRequestWithBody generates requests for DeleteStencil with any type of body
-func NewDeleteStencilRequestWithBody(server string, stencilId StencilId, params *DeleteStencilParams, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	var pathParam0 string
-
-	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "stencil_id", stencilId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
-	if err != nil {
-		return nil, err
-	}
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/stencil/%s", pathParam0)
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	if params != nil {
-		queryValues := queryURL.Query()
-
-		if params.Site != nil {
-
-			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		queryURL.RawQuery = queryValues.Encode()
-	}
-
-	req, err := http.NewRequest("DELETE", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
 // NewListStencilsRequest generates requests for ListStencils
 func NewListStencilsRequest(server string, params *ListStencilsParams) (*http.Request, error) {
 	var err error
@@ -4208,6 +4275,243 @@ func NewListStencilsRequest(server string, params *ListStencilsParams) (*http.Re
 		}
 
 		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewListMyStencilsRequest generates requests for ListMyStencils
+func NewListMyStencilsRequest(server string, params *ListMyStencilsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/stencils/my_stencils")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewListPrivateStencilsRequest generates requests for ListPrivateStencils
+func NewListPrivateStencilsRequest(server string, params *ListPrivateStencilsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/stencils/private")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewListStencilsByProductGroupRequest generates requests for ListStencilsByProductGroup
+func NewListStencilsByProductGroupRequest(server string, productGroupId ProductGroupId, params *ListStencilsByProductGroupParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "product_group_id", productGroupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/stencils/product_group/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewListPublicStencilsRequest generates requests for ListPublicStencils
+func NewListPublicStencilsRequest(server string, params *ListPublicStencilsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/stencils/public")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewListStencilsBySiteRequest generates requests for ListStencilsBySite
+func NewListStencilsBySiteRequest(server string, site ListStencilsBySiteParamsSite) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "site", site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/stencils/site/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
 	}
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
@@ -6424,13 +6728,23 @@ type ClientWithResponsesInterface interface {
 	// GetQuotaWithResponse request
 	GetQuotaWithResponse(ctx context.Context, params *GetQuotaParams, reqEditors ...RequestEditorFn) (*GetQuotaResponse, error)
 
-	// DeleteStencilWithBodyWithResponse request with any body
-	DeleteStencilWithBodyWithResponse(ctx context.Context, stencilId StencilId, params *DeleteStencilParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteStencilResponse, error)
-
-	DeleteStencilWithResponse(ctx context.Context, stencilId StencilId, params *DeleteStencilParams, body DeleteStencilJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteStencilResponse, error)
-
 	// ListStencilsWithResponse request
 	ListStencilsWithResponse(ctx context.Context, params *ListStencilsParams, reqEditors ...RequestEditorFn) (*ListStencilsResponse, error)
+
+	// ListMyStencilsWithResponse request
+	ListMyStencilsWithResponse(ctx context.Context, params *ListMyStencilsParams, reqEditors ...RequestEditorFn) (*ListMyStencilsResponse, error)
+
+	// ListPrivateStencilsWithResponse request
+	ListPrivateStencilsWithResponse(ctx context.Context, params *ListPrivateStencilsParams, reqEditors ...RequestEditorFn) (*ListPrivateStencilsResponse, error)
+
+	// ListStencilsByProductGroupWithResponse request
+	ListStencilsByProductGroupWithResponse(ctx context.Context, productGroupId ProductGroupId, params *ListStencilsByProductGroupParams, reqEditors ...RequestEditorFn) (*ListStencilsByProductGroupResponse, error)
+
+	// ListPublicStencilsWithResponse request
+	ListPublicStencilsWithResponse(ctx context.Context, params *ListPublicStencilsParams, reqEditors ...RequestEditorFn) (*ListPublicStencilsResponse, error)
+
+	// ListStencilsBySiteWithResponse request
+	ListStencilsBySiteWithResponse(ctx context.Context, site ListStencilsBySiteParamsSite, reqEditors ...RequestEditorFn) (*ListStencilsBySiteResponse, error)
 
 	// GetUserDetailsWithResponse request
 	GetUserDetailsWithResponse(ctx context.Context, params *GetUserDetailsParams, reqEditors ...RequestEditorFn) (*GetUserDetailsResponse, error)
@@ -6781,30 +7095,6 @@ func (r GetQuotaResponse) StatusCode() int {
 	return 0
 }
 
-type DeleteStencilResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *Success
-	JSON400      *Error
-	JSON401      *Error
-}
-
-// Status returns HTTPResponse.Status
-func (r DeleteStencilResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r DeleteStencilResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
 type ListStencilsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -6822,6 +7112,121 @@ func (r ListStencilsResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r ListStencilsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListMyStencilsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *StencilList
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r ListMyStencilsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListMyStencilsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListPrivateStencilsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *StencilList
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r ListPrivateStencilsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListPrivateStencilsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListStencilsByProductGroupResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *StencilList
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r ListStencilsByProductGroupResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListStencilsByProductGroupResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListPublicStencilsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *StencilList
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r ListPublicStencilsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListPublicStencilsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListStencilsBySiteResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *StencilList
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r ListStencilsBySiteResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListStencilsBySiteResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -7752,23 +8157,6 @@ func (c *ClientWithResponses) GetQuotaWithResponse(ctx context.Context, params *
 	return ParseGetQuotaResponse(rsp)
 }
 
-// DeleteStencilWithBodyWithResponse request with arbitrary body returning *DeleteStencilResponse
-func (c *ClientWithResponses) DeleteStencilWithBodyWithResponse(ctx context.Context, stencilId StencilId, params *DeleteStencilParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteStencilResponse, error) {
-	rsp, err := c.DeleteStencilWithBody(ctx, stencilId, params, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseDeleteStencilResponse(rsp)
-}
-
-func (c *ClientWithResponses) DeleteStencilWithResponse(ctx context.Context, stencilId StencilId, params *DeleteStencilParams, body DeleteStencilJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteStencilResponse, error) {
-	rsp, err := c.DeleteStencil(ctx, stencilId, params, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseDeleteStencilResponse(rsp)
-}
-
 // ListStencilsWithResponse request returning *ListStencilsResponse
 func (c *ClientWithResponses) ListStencilsWithResponse(ctx context.Context, params *ListStencilsParams, reqEditors ...RequestEditorFn) (*ListStencilsResponse, error) {
 	rsp, err := c.ListStencils(ctx, params, reqEditors...)
@@ -7776,6 +8164,51 @@ func (c *ClientWithResponses) ListStencilsWithResponse(ctx context.Context, para
 		return nil, err
 	}
 	return ParseListStencilsResponse(rsp)
+}
+
+// ListMyStencilsWithResponse request returning *ListMyStencilsResponse
+func (c *ClientWithResponses) ListMyStencilsWithResponse(ctx context.Context, params *ListMyStencilsParams, reqEditors ...RequestEditorFn) (*ListMyStencilsResponse, error) {
+	rsp, err := c.ListMyStencils(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListMyStencilsResponse(rsp)
+}
+
+// ListPrivateStencilsWithResponse request returning *ListPrivateStencilsResponse
+func (c *ClientWithResponses) ListPrivateStencilsWithResponse(ctx context.Context, params *ListPrivateStencilsParams, reqEditors ...RequestEditorFn) (*ListPrivateStencilsResponse, error) {
+	rsp, err := c.ListPrivateStencils(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListPrivateStencilsResponse(rsp)
+}
+
+// ListStencilsByProductGroupWithResponse request returning *ListStencilsByProductGroupResponse
+func (c *ClientWithResponses) ListStencilsByProductGroupWithResponse(ctx context.Context, productGroupId ProductGroupId, params *ListStencilsByProductGroupParams, reqEditors ...RequestEditorFn) (*ListStencilsByProductGroupResponse, error) {
+	rsp, err := c.ListStencilsByProductGroup(ctx, productGroupId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListStencilsByProductGroupResponse(rsp)
+}
+
+// ListPublicStencilsWithResponse request returning *ListPublicStencilsResponse
+func (c *ClientWithResponses) ListPublicStencilsWithResponse(ctx context.Context, params *ListPublicStencilsParams, reqEditors ...RequestEditorFn) (*ListPublicStencilsResponse, error) {
+	rsp, err := c.ListPublicStencils(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListPublicStencilsResponse(rsp)
+}
+
+// ListStencilsBySiteWithResponse request returning *ListStencilsBySiteResponse
+func (c *ClientWithResponses) ListStencilsBySiteWithResponse(ctx context.Context, site ListStencilsBySiteParamsSite, reqEditors ...RequestEditorFn) (*ListStencilsBySiteResponse, error) {
+	rsp, err := c.ListStencilsBySite(ctx, site, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListStencilsBySiteResponse(rsp)
 }
 
 // GetUserDetailsWithResponse request returning *GetUserDetailsResponse
@@ -8558,33 +8991,26 @@ func ParseGetQuotaResponse(rsp *http.Response) (*GetQuotaResponse, error) {
 	return response, nil
 }
 
-// ParseDeleteStencilResponse parses an HTTP response from a DeleteStencilWithResponse call
-func ParseDeleteStencilResponse(rsp *http.Response) (*DeleteStencilResponse, error) {
+// ParseListStencilsResponse parses an HTTP response from a ListStencilsWithResponse call
+func ParseListStencilsResponse(rsp *http.Response) (*ListStencilsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &DeleteStencilResponse{
+	response := &ListStencilsResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest Success
+		var dest StencilList
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
-		var dest Error
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON400 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
 		var dest Error
@@ -8598,15 +9024,147 @@ func ParseDeleteStencilResponse(rsp *http.Response) (*DeleteStencilResponse, err
 	return response, nil
 }
 
-// ParseListStencilsResponse parses an HTTP response from a ListStencilsWithResponse call
-func ParseListStencilsResponse(rsp *http.Response) (*ListStencilsResponse, error) {
+// ParseListMyStencilsResponse parses an HTTP response from a ListMyStencilsWithResponse call
+func ParseListMyStencilsResponse(rsp *http.Response) (*ListMyStencilsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &ListStencilsResponse{
+	response := &ListMyStencilsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StencilList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListPrivateStencilsResponse parses an HTTP response from a ListPrivateStencilsWithResponse call
+func ParseListPrivateStencilsResponse(rsp *http.Response) (*ListPrivateStencilsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListPrivateStencilsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StencilList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListStencilsByProductGroupResponse parses an HTTP response from a ListStencilsByProductGroupWithResponse call
+func ParseListStencilsByProductGroupResponse(rsp *http.Response) (*ListStencilsByProductGroupResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListStencilsByProductGroupResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StencilList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListPublicStencilsResponse parses an HTTP response from a ListPublicStencilsWithResponse call
+func ParseListPublicStencilsResponse(rsp *http.Response) (*ListPublicStencilsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListPublicStencilsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StencilList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListStencilsBySiteResponse parses an HTTP response from a ListStencilsBySiteWithResponse call
+func ParseListStencilsBySiteResponse(rsp *http.Response) (*ListStencilsBySiteResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListStencilsBySiteResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}

@@ -170,7 +170,6 @@ func (d *DataSourceVMCheckHostname) Read(ctx context.Context, req datasource.Rea
 	checkResp, err := d.client.CheckHostnameWithResponse(ctx, hostname, &client.CheckHostnameParams{
 		Site: &site,
 	})
-
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Client Error",

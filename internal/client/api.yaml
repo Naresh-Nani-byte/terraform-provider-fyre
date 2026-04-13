@@ -737,34 +737,68 @@ components:
                 type: string
 
     StencilList:
-      type: object
-      properties:
-        status:
-          type: string
-        stencils:
-          type: array
-          items:
-            $ref: '#/components/schemas/StencilSummary'
+      # Updated from actual API response on 2026-04-13
+      # Response is a direct array of stencil objects
+      type: array
+      items:
+        $ref: '#/components/schemas/StencilSummary'
 
     StencilSummary:
+      # Updated from actual API response on 2026-04-13
       type: object
       properties:
-        id:
-          type: string
+        stencil_ids:
+          type: array
+          items:
+            type: object
+            properties:
+              stencil_id:
+                type: string
+              location:
+                type: string
         name:
           type: string
         description:
           type: string
         platform:
           type: string
-        os:
-          type: string
-        public:
-          type: boolean
-        owner:
+        type:
           type: string
         product_group_id:
+          type: integer
+        os:
           type: string
+        cpu:
+          type: integer
+        memory:
+          type: integer
+        disk_qty:
+          type: integer
+        disk:
+          type: string
+        public_ip:
+          type: string
+        private_ip:
+          type: string
+        compliance_date:
+          type: string
+        permission:
+          type: string
+        created:
+          type: string
+        updated:
+          type: string
+        owner:
+          type: object
+          properties:
+            user_id:
+              type: integer
+            email:
+              type: string
+            username:
+              type: string
+            name:
+              type: string
 
     ClusterList:
       type: object
@@ -2188,34 +2222,122 @@ paths:
                 $ref: '#/components/schemas/Error'
 
   /stencil/{stencil_id}:
-    delete:
+
+  /stencils/product_group/{product_group_id}:
+    get:
       tags:
         - Stencils
-      summary: Delete stencil
-      description: Delete a stencil (requires confirmation)
-      operationId: deleteStencil
+      summary: List stencils by product group
+      description: Get list of stencils filtered by product group ID
+      operationId: listStencilsByProductGroup
       parameters:
-        - $ref: '#/components/parameters/stencilId'
+        - $ref: '#/components/parameters/productGroupId'
         - $ref: '#/components/parameters/siteQuery'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/StencilDeleteRequest'
       responses:
         '200':
-          description: Stencil deleted
+          description: Successful response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Success'
-        '400':
-          description: Bad request
+                $ref: '#/components/schemas/StencilList'
+        '401':
+          description: Unauthorized
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
+  /stencils/public:
+    get:
+      tags:
+        - Stencils
+      summary: List public stencils
+      description: Get list of public stencils available to all users
+      operationId: listPublicStencils
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StencilList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /stencils/private:
+    get:
+      tags:
+        - Stencils
+      summary: List private stencils
+      description: Get list of private stencils owned by the authenticated user
+      operationId: listPrivateStencils
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StencilList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /stencils/site/{site}:
+    get:
+      tags:
+        - Stencils
+      summary: List stencils by site
+      description: Get list of stencils available at a specific site
+      operationId: listStencilsBySite
+      parameters:
+        - name: site
+          in: path
+          required: true
+          description: Site name (svl or rtp)
+          schema:
+            type: string
+            enum: [svl, rtp]
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StencilList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /stencils/my_stencils:
+    get:
+      tags:
+        - Stencils
+      summary: List my stencils
+      description: Get list of stencils owned by the authenticated user
+      operationId: listMyStencils
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StencilList'
         '401':
           description: Unauthorized
           content:

@@ -176,7 +176,6 @@ func (d *DataSourceVMSnapshots) Read(ctx context.Context, req datasource.ReadReq
 	snapshotsResp, err := d.client.GetVMSnapshotsWithResponse(ctx, vmIdentifier, &client.GetVMSnapshotsParams{
 		Site: &site,
 	})
-
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Client Error",

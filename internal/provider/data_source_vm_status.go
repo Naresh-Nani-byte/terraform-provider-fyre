@@ -28,13 +28,13 @@ type DataSourceVMStatus struct {
 }
 
 type VMStatusModel struct {
-	ID           types.String `tfsdk:"id"`
-	VmID         types.String `tfsdk:"vm_id"`
-	IP           types.String `tfsdk:"ip"`
-	FQDN         types.String `tfsdk:"fqdn"`
-	Site         types.String `tfsdk:"site"`
-	LastOSState  types.String `tfsdk:"last_os_state"`
-	Status       types.String `tfsdk:"status"`
+	ID          types.String `tfsdk:"id"`
+	VmID        types.String `tfsdk:"vm_id"`
+	IP          types.String `tfsdk:"ip"`
+	FQDN        types.String `tfsdk:"fqdn"`
+	Site        types.String `tfsdk:"site"`
+	LastOSState types.String `tfsdk:"last_os_state"`
+	Status      types.String `tfsdk:"status"`
 }
 
 // Metadata sets the data source type name for the VM status data source.

@@ -39,8 +39,9 @@ Create `internal/provider/data_source_<name>.go` with:
 // ✅ CORRECT
 func NewDataSourceUser() datasource.DataSource { return &DataSourceUser{} }
 type DataSourceUser struct { ... }
-type UserModel struct { ... }
+type UserModel struct { ... } //
 type DevelopmentModel struct { ... }  // nested model
+type UserDevelopmentModel struct { ... }  // nested model when conflicts arise
 
 // ❌ WRONG - Do NOT use these patterns
 func NewUserDataSource() datasource.DataSource { ... }  // Wrong order
@@ -109,6 +110,7 @@ if vmID == "" {
 Update `internal/provider/provider.go`:
 - Add `NewDataSource<Name>()` to `DataSources()` method
 - Follow existing pattern
+- Always order entries
 
 ### 6. Test and Verify
 
@@ -161,6 +163,7 @@ output "<name>" {
   value = data.fyre_<name>.test
 }
 ```
+- Ensure `data` and `output` blocks are ordered by their <name>
 
 Update `enos/enos-scenario-fyre.hcl`:
 ```hcl
@@ -168,6 +171,7 @@ output "<name>" {
   value = step.test_datasources.<name>
 }
 ```
+- Ensure `output` blocks are ordered by their <name>
 
 ## Reference Files
 

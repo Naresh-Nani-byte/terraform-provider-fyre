@@ -56,6 +56,11 @@ data "fyre_vm_check_hostname" "test" {
   site     = "svl"
 }
 
+data "fyre_stencils" "test" {
+  product_group_id = data.fyre_user.current.development.default_product_group_id
+  site             = "svl"
+}
+
 output "quota_svl" {
   value = data.fyre_quota.svl
 }
@@ -90,4 +95,8 @@ output "vm_os_available_z" {
 
 output "vm_check_hostname" {
   value = data.fyre_vm_check_hostname.test
+}
+
+output "stencils" {
+  value = data.fyre_stencils.test
 }

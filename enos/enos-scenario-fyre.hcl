@@ -57,4 +57,8 @@ scenario "fyre" {
   output "vm_check_hostname" {
     value = step.test_datasources.vm_check_hostname
   }
+
+  output "stencils" {
+    value = step.test_datasources.stencils
+  }
 }

@@ -186,7 +186,6 @@ func (d *DataSourceVMOSAvailable) Read(ctx context.Context, req datasource.ReadR
 	osResp, err := d.client.GetAvailableOSWithResponse(ctx, client.GetAvailableOSParamsPlatform(platform), &client.GetAvailableOSParams{
 		Site: &siteParam,
 	})
-
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Client Error",

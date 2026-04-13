@@ -573,14 +573,36 @@ components:
                     max_memory:
                       type: string
 
+    # Updated from actual API response on 2026-04-13
     HostnameCheck:
       type: object
       properties:
         status:
           type: string
           enum: [success, warning]
-        message:
+          description: "success if hostname is available, warning if in use"
+        details:
           type: string
+          description: "Human-readable message about hostname availability"
+        fqdn:
+          type: string
+          description: "Fully qualified domain name (only present when status is success)"
+        owning_user:
+          type: integer
+          description: "User ID of current owner (only present when status is warning)"
+        owner:
+          type: object
+          description: "Owner details (only present when status is warning)"
+          properties:
+            id:
+              type: integer
+            username:
+              type: string
+            email:
+              type: string
+        vm_id:
+          type: string
+          description: "VM ID of the VM using this hostname (only present when status is warning)"
 
     RequestStatus:
       type: object

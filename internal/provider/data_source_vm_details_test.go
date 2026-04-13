@@ -11,6 +11,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+// TestAccDataSourceVMDetails verifies the fyre_vm_details data source can successfully
+// retrieve comprehensive VM information from the Fyre API. It requires FYRE_USERNAME,
+// FYRE_API_KEY, and FYRE_ACC_VM_ID environment variables to be set. The test validates
+// that the data source returns expected attributes including VM configuration, resource
+// allocation, networking details, owner information, and operational status.
 func TestAccDataSourceVMDetails(t *testing.T) {
 	if os.Getenv("FYRE_USERNAME") == "" || os.Getenv("FYRE_API_KEY") == "" {
 		t.Skip("FYRE_USERNAME and FYRE_API_KEY must be set for acceptance tests")

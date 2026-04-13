@@ -17,6 +17,8 @@ import (
 
 var _ datasource.DataSource = &DataSourceVMSnapshots{}
 
+// NewDataSourceVMSnapshots creates a new instance of the VM snapshots data source.
+// This factory function is called by the provider to instantiate the data source.
 func NewDataSourceVMSnapshots() datasource.DataSource {
 	return &DataSourceVMSnapshots{}
 }
@@ -26,7 +28,7 @@ type DataSourceVMSnapshots struct {
 	defaultSite string
 }
 
-type DataSourceVMSnapshotsModel struct {
+type VMSnapshotsModel struct {
 	ID            types.String `tfsdk:"id"`
 	VMID          types.String `tfsdk:"vm_id"`
 	Site          types.String `tfsdk:"site"`
@@ -45,10 +47,15 @@ type SnapshotModel struct {
 	Created      types.String `tfsdk:"created"`
 }
 
+// Metadata sets the data source type name for the VM snapshots data source.
+// The type name is used in Terraform configurations as "fyre_vm_snapshots".
 func (d *DataSourceVMSnapshots) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_vm_snapshots"
 }
 
+// Schema defines the structure and attributes of the VM snapshots data source.
+// It specifies the required vm_id parameter, optional site parameter, and computed
+// attributes including snapshot count, limit, and the list of snapshots with their details.
 func (d *DataSourceVMSnapshots) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Fetches the list of snapshots for a VM. The VM can be identified by VM ID (format: x-xxxxxxx), IP address, or fully qualified domain name (FQDN) that is in DNS.",
@@ -124,6 +131,9 @@ func (d *DataSourceVMSnapshots) Schema(ctx context.Context, req datasource.Schem
 	}
 }
 
+// Configure initializes the VM snapshots data source with the Fyre API client
+// and default site configuration from the provider. This method is called by the
+// framework during provider initialization.
 func (d *DataSourceVMSnapshots) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -142,8 +152,12 @@ func (d *DataSourceVMSnapshots) Configure(ctx context.Context, req datasource.Co
 	d.defaultSite = providerData.DefaultSite
 }
 
+// Read retrieves VM snapshot information from the Fyre API for a specified VM.
+// The VM can be identified by VM ID (format: x-xxxxxxx), IP address, or FQDN.
+// It fetches the snapshot count, limit, and detailed information about each snapshot
+// including name, comment, creation time, and disk usage.
 func (d *DataSourceVMSnapshots) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data DataSourceVMSnapshotsModel
+	var data VMSnapshotsModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {

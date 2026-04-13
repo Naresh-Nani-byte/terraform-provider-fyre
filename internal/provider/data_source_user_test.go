@@ -10,7 +10,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccUserDataSource(t *testing.T) {
+// TestAccDataSourceUser verifies the fyre_user data source can successfully
+// retrieve authenticated user information from the Fyre API. It requires
+// FYRE_USERNAME and FYRE_API_KEY environment variables to be set.
+// The test validates that the data source returns expected attributes including
+// user details, development information, and sentry access status.
+func TestAccDataSourceUser(t *testing.T) {
 	// Skip if credentials are not set
 	if os.Getenv("FYRE_USERNAME") == "" || os.Getenv("FYRE_API_KEY") == "" {
 		t.Skip("FYRE_USERNAME and FYRE_API_KEY must be set for acceptance tests")

@@ -16,6 +16,8 @@ import (
 
 var _ datasource.DataSource = &DataSourceVMStatus{}
 
+// NewDataSourceVMStatus creates a new instance of the VM status data source.
+// This factory function is called by the provider to instantiate the data source.
 func NewDataSourceVMStatus() datasource.DataSource {
 	return &DataSourceVMStatus{}
 }
@@ -35,10 +37,15 @@ type VMStatusModel struct {
 	Status       types.String `tfsdk:"status"`
 }
 
+// Metadata sets the data source type name for the VM status data source.
+// The type name is used in Terraform configurations as "fyre_vm_status".
 func (d *DataSourceVMStatus) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_vm_status"
 }
 
+// Schema defines the structure and attributes of the VM status data source.
+// It specifies optional vm_id, ip, and fqdn parameters (at least one required),
+// optional site parameter, and computed attributes including last OS state and status.
 func (d *DataSourceVMStatus) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Fetches the current status of a Fyre VM. You must provide at least one identifier: vm_id, ip, or fqdn. The data source will try each non-null identifier until it successfully retrieves the VM status.",
@@ -76,6 +83,9 @@ func (d *DataSourceVMStatus) Schema(ctx context.Context, req datasource.SchemaRe
 	}
 }
 
+// Configure initializes the VM status data source with the Fyre API client
+// and default site configuration from the provider. This method is called by the
+// framework during provider initialization.
 func (d *DataSourceVMStatus) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -94,6 +104,10 @@ func (d *DataSourceVMStatus) Configure(ctx context.Context, req datasource.Confi
 	d.defaultSite = providerData.DefaultSite
 }
 
+// Read retrieves the current status of a Fyre VM from the API. It accepts vm_id,
+// ip, or fqdn as identifiers (at least one required) and tries each in order until
+// successful. Returns the VM's last OS state and any status messages about requests
+// in progress.
 func (d *DataSourceVMStatus) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	var data VMStatusModel
 

@@ -10,6 +10,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+// TestAccDataSourceQuota verifies the fyre_quota data source can successfully
+// retrieve quota information from the Fyre API. It requires FYRE_USERNAME and
+// FYRE_API_KEY environment variables to be set. The test validates that the data
+// source returns expected attributes including product group details, platform-specific
+// resource quotas (CPU, memory, disk), and IP allocation quotas.
 func TestAccDataSourceQuota(t *testing.T) {
 	// Skip if credentials are not set
 	if os.Getenv("FYRE_USERNAME") == "" || os.Getenv("FYRE_API_KEY") == "" {

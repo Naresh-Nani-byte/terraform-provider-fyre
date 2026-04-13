@@ -1277,11 +1277,30 @@ type FloatingIPRequest struct {
 
 // HostnameCheck defines model for HostnameCheck.
 type HostnameCheck struct {
-	Message *string              `json:"message,omitempty"`
-	Status  *HostnameCheckStatus `json:"status,omitempty"`
+	// Details Human-readable message about hostname availability
+	Details *string `json:"details,omitempty"`
+
+	// Fqdn Fully qualified domain name (only present when status is success)
+	Fqdn *string `json:"fqdn,omitempty"`
+
+	// Owner Owner details (only present when status is warning)
+	Owner *struct {
+		Email    *string `json:"email,omitempty"`
+		Id       *int    `json:"id,omitempty"`
+		Username *string `json:"username,omitempty"`
+	} `json:"owner,omitempty"`
+
+	// OwningUser User ID of current owner (only present when status is warning)
+	OwningUser *int `json:"owning_user,omitempty"`
+
+	// Status success if hostname is available, warning if in use
+	Status *HostnameCheckStatus `json:"status,omitempty"`
+
+	// VmId VM ID of the VM using this hostname (only present when status is warning)
+	VmId *string `json:"vm_id,omitempty"`
 }
 
-// HostnameCheckStatus defines model for HostnameCheck.Status.
+// HostnameCheckStatus success if hostname is available, warning if in use
 type HostnameCheckStatus string
 
 // OSList defines model for OSList.

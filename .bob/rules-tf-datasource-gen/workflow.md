@@ -1,92 +1,132 @@
 # Terraform Data Source Generator Workflow
 
-This skill generates complete Terraform data sources for Fyre API resources.
+This mode generates complete Terraform data sources for Fyre API resources.
 
 ## Usage
 
-Switch to the `tf-datasource-gen` mode and provide:
-1. The resource name (e.g., "user", "stencil", "cluster")
-2. The API route/operation (e.g., "/user/{user_identifier}", "GetUserDetails")
+Provide the resource name and API operation:
 
-Example:
 ```
-Switch to tf-datasource-gen mode and create a data source for the user resource using the /user/{user_identifier} endpoint
+Create a data source for the user resource using the GetUserDetails operation
 ```
 
 ## Workflow Steps
 
 ### 1. Prerequisites Check
-- Verify the client library has the necessary types in `internal/client/client.gen.go`
+- Verify `internal/client/client.gen.go` has the necessary types
 - Check for the API operation method (e.g., `GetUserDetailsWithResponse`)
 - Verify response types are complete and accurate
-- **If incomplete**: Switch to `fyre-api-updater` mode first to update the client library
+- **If incomplete**: Switch to `fyre-api-updater` mode first
 
 ### 2. Analyze API Structure
-- Review the OpenAPI spec in `internal/client/api.yaml`
-- Identify the operation ID and response schema
+- Review OpenAPI spec in `internal/client/api.yaml`
+- Identify operation ID and response schema
 - Note required vs optional parameters
-- Understand the response structure (nested objects, arrays, etc.)
+- Understand response structure (nested objects, arrays, etc.)
 
 ### 3. Generate Data Source Implementation
+
 Create `internal/provider/data_source_<name>.go` with:
-- Proper copyright header
+
+**CRITICAL Naming Conventions:**
+- **Function**: `NewDataSource<Name>()` (e.g., `NewDataSourceVMSnapshots`, `NewDataSourceUser`)
+- **Struct**: `DataSource<Name>` (e.g., `DataSourceVMSnapshots`, `DataSourceUser`)
+- **Model**: `<Name>Model` (e.g., `UserModel`, `VMDetailsModel`) - NO DataSource prefix
+- **Nested Models**: `<NestedName>Model` (e.g., `DevelopmentModel`, `SnapshotModel`) - NO DataSource prefix
+
+**Examples of Correct Naming:**
+```go
+// ✅ CORRECT
+func NewDataSourceUser() datasource.DataSource { return &DataSourceUser{} }
+type DataSourceUser struct { ... }
+type UserModel struct { ... }
+type DevelopmentModel struct { ... }  // nested model
+
+// ❌ WRONG - Do NOT use these patterns
+func NewUserDataSource() datasource.DataSource { ... }  // Wrong order
+type UserDataSource struct { ... }  // Wrong order
+type UserDataSourceModel struct { ... }  // Unnecessary suffix
+type DataSourceDevelopmentModel struct { ... }  // Unnecessary prefix
+```
+
+**CRITICAL Attribute Naming (must be consistent across all data sources):**
+- VM identifier: `vm_id` (NOT `vm_identifier`)
+- User identifier: `user_id` (NOT `user_identifier`)
+- Cluster identifier: `cluster_id` (NOT `cluster_identifier`)
+- **Always check existing data sources for the correct attribute name**
+
+**Required Components:**
+- Copyright header: `// Copyright IBM Corp. 2021, 2026`
 - Data source struct implementing `datasource.DataSource`
-- **CRITICAL**: Function name MUST be `NewDataSource<Name>()` (e.g., `NewDataSourceVMSnapshots`, NOT `NewVMSnapshotsDataSource`)
-- Model structs for the data and nested objects
-- `Metadata()` method setting the type name
+- Model structs for data and nested objects
+- `Metadata()` method setting type name
 - `Schema()` method defining all attributes
 - `Configure()` method receiving provider data
-- `Read()` method implementing the API call and mapping
+- `Read()` method implementing API call and mapping
 
-**Naming Conventions (CRITICAL):**
-- Function: `NewDataSource<Name>()` - Always prefix with "NewDataSource" (e.g., `NewDataSourceVMSnapshots`)
-- Struct: `DataSource<Name>` - Always prefix with "DataSource" (e.g., `DataSourceVMSnapshots`, NOT `VMSnapshotsDataSource`)
-- Model: `DataSource<Name>Model` - Always prefix with "DataSource" (e.g., `DataSourceVMSnapshotsModel`, NOT `VMSnapshotsDataSourceModel`)
-- **Attribute names MUST be consistent across all data sources:**
-  - VM identifier: Use `vm_id` (NOT `vm_identifier`)
-  - User identifier: Use `user_id` (NOT `user_identifier`)
-  - Cluster identifier: Use `cluster_id` (NOT `cluster_identifier`)
-  - Check existing data sources for the correct attribute name before creating new ones
-
-Key patterns:
-- Site parameter: `Optional: true, Computed: true` with default to 'svl'
-- Use `types.StringValue()`, `types.Int64Value()`, etc. for conversions
-- Handle nil pointers safely
-- Use `types.ObjectValueFrom()` for nested objects
-- Use `types.ListValue()` for arrays
-- Initialize with Null values, populate if data exists
+**Key Implementation Patterns:**
+- Site parameter: `Optional: true, Computed: true`, defaults to 'svl'
+- Type conversions: `types.StringValue()`, `types.Int64Value()`, etc.
+- Nil handling: Always check pointers before accessing
+- Nested objects: Use `types.ObjectValueFrom()` with proper `AttrTypes`
+- Arrays: Use `types.ListValue()` with element type
+- Initialize all fields with Null values, populate conditionally
+- Always use modern Go syntax and features (i.e. `any` in-place of `interface{}`)
+- Always write GoDoc compatible comments on _all_ public funtions or methods. (They always start with a capital letter)
 
 ### 4. Generate Test File
-Create `internal/provider/data_source_<name>_test.go` with:
-- `TestAccDataSource<Name>` function
-- Credential check and skip logic (FYRE_USERNAME, FYRE_API_KEY)
-- **External resource requirements**: Use environment variables for test data
-  - For VM identifiers: Use `FYRE_TEST_VM_ID` environment variable
-  - Skip test if required environment variable is not set
-  - Never hardcode specific resource IDs that may not exist
-- Test configuration with provider setup
-- Comprehensive attribute checks using `TestCheckResourceAttrSet`
 
-**Test Pattern for External Resources:**
+Create `internal/provider/data_source_<name>_test.go` with:
+
+**Test Function:**
+- Name: `TestAccDataSource<Name>` (e.g., `TestAccDataSourceUser`, `TestAccDataSourceVMDetails`)
+- Credential check: Skip if `FYRE_USERNAME` or `FYRE_API_KEY` not set
+
+**External Resource Requirements:**
+- Use environment variables prefixed with `FYRE_ACC_`
+- Example: `FYRE_ACC_VM_ID` for VM identifiers
+- Skip test if required environment variable not set
+- **Never hardcode specific resource IDs**
+- **Always scan existing tests for `FYRE_ACC_` variables to reuse**
+- Where possible, only require a single VM. Use the API client for tests that need VM properties.
+- Use `github.com/stretchr/testify/require` for test assertions
+
+**Test Pattern:**
 ```go
-vmID := os.Getenv("FYRE_TEST_VM_ID")
+vmID := os.Getenv("FYRE_ACC_VM_ID")
 if vmID == "" {
-    t.Skip("FYRE_TEST_VM_ID must be set for acceptance tests")
+    t.Skip("FYRE_ACC_VM_ID must be set for acceptance tests")
 }
 ```
 
+**Test Configuration:**
+- Provider setup
+- Data source configuration using environment variables
+- Comprehensive attribute checks with `TestCheckResourceAttrSet`
+
 ### 5. Register Data Source
+
 Update `internal/provider/provider.go`:
-- Add `NewDataSource<Name>()` to the `DataSources()` method
-- Follow the existing pattern
+- Add `NewDataSource<Name>()` to `DataSources()` method
+- Follow existing pattern
 
-### 6. Create Example Configuration
-Create `examples/data-sources/<name>/main.tf` with:
-- Provider configuration
-- Data source usage example
-- Output demonstrating the data source
+### 6. Test and Verify
 
-Example structure:
+```bash
+# Run acceptance test
+TF_ACC=1 go test -v ./internal/provider -run TestAccDataSource<Name>
+
+# Generate documentation
+make generate
+
+# Optional: Test with enos (ALWAYS ask user first)
+cd enos && enos scenario run fyre use:dev
+```
+
+### 7. Create Example Configuration
+
+Create `examples/data-sources/<name>/main.tf`:
+
 ```hcl
 terraform {
   required_providers {
@@ -109,12 +149,9 @@ output "<name>_info" {
 }
 ```
 
-### 7. Add to Enos Test Scenario
-Update `enos/modules/datasources/main.tf`:
-- Add the new data source with appropriate test values
-- Add output to expose the data source results
+### 8. Add to Enos Test Scenario
 
-Example:
+Update `enos/modules/datasources/main.tf`:
 ```hcl
 data "fyre_<name>" "test" {
   # Test attributes
@@ -126,68 +163,92 @@ output "<name>" {
 ```
 
 Update `enos/enos-scenario-fyre.hcl`:
-- Add output to expose the step results
-- Make sure outputs are ordered
-
-Example:
 ```hcl
 output "<name>" {
   value = step.test_datasources.<name>
 }
 ```
 
-### 8. Test and Verify
-```bash
-# Run the acceptance test
-go test -v ./internal/provider -run TestAccDataSource<Name>
-
-# Generate documentation
-make generate
-
-# Test with enos (optional). ALWAYS ask user if they wish to do this
-cd enos && enos scenario run fyre use:dev
-```
-
-## Example: User Data Source
-
-For a user data source using `/user/{user_identifier}`:
-
-1. Check client has `GetUserDetailsWithResponse` method
-2. Create `data_source_user.go` with:
-   - `DataSourceUser` struct
-   - `DataSourceUserModel` with fields from API response
-   - Schema with `user_identifier` (required) and `site` (optional)
-   - Read method calling `GetUserDetailsWithResponse`
-3. Create `data_source_user_test.go` with test cases
-4. Register in provider.go
-5. Test with `go test -v ./internal/provider -run TestAccDataSourceUser`
-
 ## Reference Files
 
-- Style reference: `internal/provider/data_source_quota.go`
-- Test reference: `internal/provider/data_source_user_test.go`
-- Client library: `internal/client/client.gen.go`
-- OpenAPI spec: `internal/client/api.yaml`
+- **Style Guide**: `internal/provider/data_source_quota.go`
+- **Test Guide**: `internal/provider/data_source_vm_details_test.go`
+- **Client Library**: `internal/client/client.gen.go`
+- **OpenAPI Spec**: `internal/client/api.yaml`
+
+## Common Implementation Patterns
+
+### Nested Object Mapping
+Create separate model structs and use `types.ObjectValueFrom()`:
+
+```go
+type DetailsModel struct {
+    Field1 types.String `tfsdk:"field1"`
+    Field2 types.Int64  `tfsdk:"field2"`
+}
+
+// In Read method
+detailsModel := DetailsModel{
+    Field1: types.StringNull(),
+    Field2: types.Int64Null(),
+}
+
+if response.Details != nil {
+    if response.Details.Field1 != nil {
+        detailsModel.Field1 = types.StringValue(*response.Details.Field1)
+    }
+}
+
+detailsObj, diags := types.ObjectValueFrom(ctx, map[string]attr.Type{
+    "field1": types.StringType,
+    "field2": types.Int64Type,
+}, detailsModel)
+```
+
+### List/Array Fields
+Create slice of `attr.Value` and use `types.ListValue()`:
+
+```go
+if response.Items != nil && len(*response.Items) > 0 {
+    itemsList := make([]attr.Value, 0, len(*response.Items))
+    for _, item := range *response.Items {
+        itemsList = append(itemsList, types.StringValue(item))
+    }
+    listValue, diags := types.ListValue(types.StringType, itemsList)
+    resp.Diagnostics.Append(diags...)
+    if !resp.Diagnostics.HasError() {
+        data.Items = listValue
+    }
+}
+```
+
+### Optional Field Handling
+Always initialize with Null, populate conditionally:
+
+```go
+data.Field = types.StringNull()
+if response.Field != nil {
+    data.Field = types.StringValue(*response.Field)
+}
+```
 
 ## Common Issues
 
 ### Client Library Missing Types
-**Solution**: Use `fyre-api-updater` mode to update the OpenAPI spec and regenerate the client.
+**Solution**: Use `fyre-api-updater` mode to update OpenAPI spec and regenerate client.
 
-### Nested Object Mapping
-**Solution**: Create separate model structs for nested objects and use `types.ObjectValueFrom()` with proper `AttrTypes`.
+### Nested Object Mapping Errors
+**Solution**: Ensure `AttrTypes` map matches model struct fields exactly.
 
-### Optional Fields
-**Solution**: Initialize with `types.<Type>Null()`, then conditionally set with `types.<Type>Value()` if data exists.
-
-### List/Array Fields
-**Solution**: Create a slice of `attr.Value`, populate it, then use `types.ListValue()` with the element type.
+### Test Environment Variables
+**Solution**: Check existing tests for `FYRE_ACC_` variables before creating new ones.
 
 ## Tips
 
-- Always follow the quota data source as a style reference
-- Use `tflog.Debug()` for debugging API responses
-- Handle all error cases properly
-- Ensure MarkdownDescription is clear and helpful
+- Follow `data_source_quota.go` as style reference
+- Use `tflog.Debug()` for API response debugging
+- Use `tflog.Trace()` for execution flow
+- Handle all error cases with clear messages
+- Ensure MarkdownDescription is helpful
 - Test with real credentials before committing
-- Documentation is auto-generated - don't create docs manually
+- Documentation is auto-generated - don't create manually

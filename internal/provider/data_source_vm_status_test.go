@@ -11,7 +11,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccVMStatusDataSource(t *testing.T) {
+// TestAccDataSourceVMStatus verifies the fyre_vm_status data source can successfully
+// retrieve VM status information from the Fyre API. It requires FYRE_USERNAME,
+// FYRE_API_KEY, and FYRE_TEST_VM_ID environment variables to be set.
+// The test validates that the data source returns expected attributes including
+// id, site, last_os_state, and status.
+func TestAccDataSourceVMStatus(t *testing.T) {
 	if os.Getenv("FYRE_USERNAME") == "" || os.Getenv("FYRE_API_KEY") == "" {
 		t.Skip("FYRE_USERNAME and FYRE_API_KEY must be set for acceptance tests")
 	}

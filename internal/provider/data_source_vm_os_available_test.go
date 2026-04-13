@@ -10,6 +10,11 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
+// TestAccDataSourceVMOSAvailable verifies the fyre_vm_os_available data source can
+// successfully retrieve available operating systems and VM sizing constraints from the
+// Fyre API. It requires FYRE_USERNAME and FYRE_API_KEY environment variables to be set.
+// The test validates multiple platforms (x, z) and verifies that OS lists and default
+// sizing information are returned correctly for different sites.
 func TestAccDataSourceVMOSAvailable(t *testing.T) {
 	if os.Getenv("FYRE_USERNAME") == "" || os.Getenv("FYRE_API_KEY") == "" {
 		t.Skip("FYRE_USERNAME and FYRE_API_KEY must be set for acceptance tests")

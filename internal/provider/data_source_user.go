@@ -18,6 +18,8 @@ import (
 // Ensure provider defined types fully satisfy framework interfaces.
 var _ datasource.DataSource = &DataSourceUser{}
 
+// NewDataSourceUser creates a new instance of the user data source.
+// This factory function is called by the provider to instantiate the data source.
 func NewDataSourceUser() datasource.DataSource {
 	return &DataSourceUser{}
 }
@@ -84,10 +86,16 @@ type ProductGroupsModel struct {
 	GroupName   types.String `tfsdk:"group_name"`
 }
 
+// Metadata sets the data source type name for the user data source.
+// The type name is used in Terraform configurations as "fyre_user".
 func (d *DataSourceUser) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_user"
 }
 
+// Schema defines the structure and attributes of the user data source.
+// It specifies computed attributes including authentication status, email, login information,
+// development environment details (authorizations, product groups, roles), and sentry
+// authentication details (2FA status, access level).
 func (d *DataSourceUser) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Fetches user details for the authenticated user, including authentication status, email, login information, and development/sentry details.",
@@ -289,6 +297,9 @@ func (d *DataSourceUser) Schema(ctx context.Context, req datasource.SchemaReques
 	}
 }
 
+// Configure initializes the user data source with the Fyre API client
+// and default site configuration from the provider. This method is called by the
+// framework during provider initialization.
 func (d *DataSourceUser) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	// Prevent panic if the provider has not been configured.
 	if req.ProviderData == nil {
@@ -309,6 +320,10 @@ func (d *DataSourceUser) Configure(ctx context.Context, req datasource.Configure
 	d.defaultSite = providerData.DefaultSite
 }
 
+// Read retrieves authenticated user details from the Fyre API including authentication
+// status, email, login information, development environment details (authorizations,
+// product groups, roles, settings), and sentry authentication information (2FA status,
+// access level, authentication method).
 func (d *DataSourceUser) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	var data UserModel
 

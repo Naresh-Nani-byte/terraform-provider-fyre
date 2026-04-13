@@ -51,6 +51,11 @@ data "fyre_vm_os_available" "z_platform" {
   site     = "svl"
 }
 
+data "fyre_vm_check_hostname" "test" {
+  hostname = data.fyre_vm_details.test.hostname
+  site     = "svl"
+}
+
 output "quota_svl" {
   value = data.fyre_quota.svl
 }
@@ -81,4 +86,8 @@ output "vm_os_available_x" {
 
 output "vm_os_available_z" {
   value = data.fyre_vm_os_available.z_platform
+}
+
+output "vm_check_hostname" {
+  value = data.fyre_vm_check_hostname.test
 }

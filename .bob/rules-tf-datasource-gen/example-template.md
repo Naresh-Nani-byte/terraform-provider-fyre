@@ -38,42 +38,37 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-var _ datasource.DataSource = &UserDataSource{}
+var _ datasource.DataSource = &DataSourceUser{}
 
-func NewUserDataSource() datasource.DataSource {
-	return &UserDataSource{}
+func NewDataSourceUser() datasource.DataSource {
+	return &DataSourceUser{}
 }
 
-type UserDataSource struct {
+type DataSourceUser struct {
 	client      *client.ClientWithResponses
 	defaultSite string
 }
 
-type UserDataSourceModel struct {
-	ID              types.String `tfsdk:"id"`
-	UserIdentifier  types.String `tfsdk:"user_identifier"`
-	Site            types.String `tfsdk:"site"`
-	FullName        types.String `tfsdk:"full_name"`
-	Email           types.String `tfsdk:"email"`
-	Authenticated   types.Bool   `tfsdk:"authenticated"`
+type UserModel struct {
+	ID            types.String `tfsdk:"id"`
+	Site          types.String `tfsdk:"site"`
+	FullName      types.String `tfsdk:"full_name"`
+	Email         types.String `tfsdk:"email"`
+	Authenticated types.Bool   `tfsdk:"authenticated"`
 	// Add other fields from UserDetails response
 }
 
-func (d *UserDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+func (d *DataSourceUser) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_user"
 }
 
-func (d *UserDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *DataSourceUser) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Fetches details about a Fyre user by identifier (user ID, username, or email).",
+		MarkdownDescription: "Fetches details about the authenticated Fyre user.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				MarkdownDescription: "The user identifier",
 				Computed:            true,
-			},
-			"user_identifier": schema.StringAttribute{
-				MarkdownDescription: "User identifier (can be user ID, username, or email)",
-				Required:            true,
 			},
 			"site": schema.StringAttribute{
 				MarkdownDescription: "Site location (svl or rtp). Defaults to 'svl' or inherits from provider configuration.",
@@ -97,7 +92,7 @@ func (d *UserDataSource) Schema(ctx context.Context, req datasource.SchemaReques
 	}
 }
 
-func (d *UserDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (d *DataSourceUser) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
 	}
@@ -115,8 +110,8 @@ func (d *UserDataSource) Configure(ctx context.Context, req datasource.Configure
 	d.defaultSite = providerData.DefaultSite
 }
 
-func (d *UserDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data UserDataSourceModel
+func (d *DataSourceUser) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data UserModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
@@ -129,10 +124,8 @@ func (d *UserDataSource) Read(ctx context.Context, req datasource.ReadRequest, r
 		site = client.GetUserDetailsParamsSite(d.defaultSite)
 	}
 
-	userIdentifier := data.UserIdentifier.ValueString()
-
 	// Call API
-	userResp, err := d.client.GetUserDetailsWithResponse(ctx, userIdentifier, &client.GetUserDetailsParams{
+	userResp, err := d.client.GetUserDetailsWithResponse(ctx, &client.GetUserDetailsParams{
 		Site: &site,
 	})
 
@@ -161,7 +154,7 @@ func (d *UserDataSource) Read(ctx context.Context, req datasource.ReadRequest, r
 	}
 
 	// Map to Terraform state
-	data.ID = types.StringValue(userIdentifier)
+	data.ID = types.StringValue("user")
 	data.Site = types.StringValue(string(site))
 
 	if userResp.JSON200.FullName != nil {
@@ -205,7 +198,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccUserDataSource(t *testing.T) {
+func TestAccDataSourceUser(t *testing.T) {
 	if os.Getenv("FYRE_USERNAME") == "" || os.Getenv("FYRE_API_KEY") == "" {
 		t.Skip("FYRE_USERNAME and FYRE_API_KEY must be set for acceptance tests")
 	}
@@ -235,7 +228,6 @@ provider "fyre" {
 }
 
 data "fyre_user" "test" {
-  user_identifier = "testuser@example.com"
 }
 `
 }
@@ -248,8 +240,8 @@ Add to the `DataSources()` method:
 ```go
 func (p *FyreProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
-		NewUserDataSource,  // Add this line
-		NewQuotaDataSource,
+		NewDataSourceUser,  // Add this line
+		NewDataSourceQuota,
 	}
 }
 ```
@@ -260,7 +252,7 @@ func (p *FyreProvider) DataSources(ctx context.Context) []func() datasource.Data
 # Run the acceptance test
 export FYRE_USERNAME="your-username"
 export FYRE_API_KEY="your-api-key"
-go test -v ./internal/provider -run TestAccUserDataSource
+go test -v ./internal/provider -run TestAccDataSourceUser
 
 # Generate documentation
 make generate
@@ -268,12 +260,18 @@ make generate
 
 ## Key Patterns Demonstrated
 
-1. **Site Parameter**: Optional, computed, defaults to provider's site or 'svl'
-2. **Nil Handling**: Check for nil pointers before accessing values
-3. **Type Conversion**: Use `types.StringValue()`, `types.BoolValue()`, etc.
-4. **Error Handling**: Check HTTP status, parse errors, nil responses
-5. **Logging**: Use `tflog.Trace()` for debugging
-6. **Testing**: Skip if credentials not set, verify all computed attributes
+1. **Naming Conventions**:
+   - Function: `NewDataSource<Name>()` (e.g., `NewDataSourceUser`)
+   - Struct: `DataSource<Name>` (e.g., `DataSourceUser`)
+   - Model: `<Name>Model` (e.g., `UserModel`)
+   - Nested Models: `<NestedName>Model` (e.g., `DevelopmentModel`)
+
+2. **Site Parameter**: Optional, computed, defaults to provider's site or 'svl'
+3. **Nil Handling**: Check for nil pointers before accessing values
+4. **Type Conversion**: Use `types.StringValue()`, `types.BoolValue()`, etc.
+5. **Error Handling**: Check HTTP status, parse errors, nil responses
+6. **Logging**: Use `tflog.Trace()` for debugging
+7. **Testing**: Skip if credentials not set, verify all computed attributes
 
 ## Common Variations
 

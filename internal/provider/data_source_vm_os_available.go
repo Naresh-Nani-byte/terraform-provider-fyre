@@ -17,6 +17,8 @@ import (
 
 var _ datasource.DataSource = &DataSourceVMOSAvailable{}
 
+// NewDataSourceVMOSAvailable creates a new instance of the VM OS available data source.
+// This factory function is called by the provider to instantiate the data source.
 func NewDataSourceVMOSAvailable() datasource.DataSource {
 	return &DataSourceVMOSAvailable{}
 }
@@ -26,7 +28,7 @@ type DataSourceVMOSAvailable struct {
 	defaultSite string
 }
 
-type DataSourceVMOSAvailableModel struct {
+type VMOSAvailableModel struct {
 	ID               types.String `tfsdk:"id"`
 	Platform         types.String `tfsdk:"platform"`
 	Site             types.String `tfsdk:"site"`
@@ -48,10 +50,15 @@ type DefaultSizeModel struct {
 	PVMMaxMemory     types.String `tfsdk:"pvm_max_memory"`
 }
 
+// Metadata sets the data source type name for the VM OS available data source.
+// The type name is used in Terraform configurations as "fyre_vm_os_available".
 func (d *DataSourceVMOSAvailable) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_vm_os_available"
 }
 
+// Schema defines the structure and attributes of the VM OS available data source.
+// It specifies the required platform parameter, optional site parameter, and computed
+// attributes including the map of available operating systems and default VM sizing constraints.
 func (d *DataSourceVMOSAvailable) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Fetches the list of available operating systems for a specific platform and site, along with default VM sizing constraints.",
@@ -130,6 +137,9 @@ func (d *DataSourceVMOSAvailable) Schema(ctx context.Context, req datasource.Sch
 	}
 }
 
+// Configure initializes the VM OS available data source with the Fyre API client
+// and default site configuration from the provider. This method is called by the
+// framework during provider initialization.
 func (d *DataSourceVMOSAvailable) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -148,8 +158,12 @@ func (d *DataSourceVMOSAvailable) Configure(ctx context.Context, req datasource.
 	d.defaultSite = providerData.DefaultSite
 }
 
+// Read retrieves the list of available operating systems and default VM sizing
+// constraints from the Fyre API for a specified platform (x, pvm, or z) and site.
+// It returns a map of OS families to available versions along with default and
+// maximum VM resource limits.
 func (d *DataSourceVMOSAvailable) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data DataSourceVMOSAvailableModel
+	var data VMOSAvailableModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 	if resp.Diagnostics.HasError() {
@@ -197,7 +211,7 @@ func (d *DataSourceVMOSAvailable) Read(ctx context.Context, req datasource.ReadR
 		return
 	}
 
-	tflog.Debug(ctx, "Received OS list response", map[string]interface{}{
+	tflog.Debug(ctx, "Received OS list response", map[string]any{
 		"platform": platform,
 		"site":     site,
 		"status":   osResp.JSON200.Status,

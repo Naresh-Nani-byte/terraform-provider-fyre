@@ -167,6 +167,7 @@ func (p *FyreProvider) DataSources(ctx context.Context) []func() datasource.Data
 	return []func() datasource.DataSource{
 		NewDataSourceQuota,
 		NewDataSourceUser,
+		NewDataSourceVMCheckHostname,
 		NewDataSourceVMDetails,
 		NewDataSourceVMOSAvailable,
 		NewDataSourceVMSnapshots,

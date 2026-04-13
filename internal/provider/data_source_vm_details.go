@@ -17,6 +17,8 @@ import (
 
 var _ datasource.DataSource = &DataSourceVMDetails{}
 
+// NewDataSourceVMDetails creates a new instance of the VM details data source.
+// This factory function is called by the provider to instantiate the data source.
 func NewDataSourceVMDetails() datasource.DataSource {
 	return &DataSourceVMDetails{}
 }
@@ -66,10 +68,16 @@ type VMDetailsModel struct {
 	IPs                 types.List   `tfsdk:"ips"`
 }
 
+// Metadata sets the data source type name for the VM details data source.
+// The type name is used in Terraform configurations as "fyre_vm_details".
 func (d *DataSourceVMDetails) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_vm_details"
 }
 
+// Schema defines the structure and attributes of the VM details data source.
+// It specifies optional vm_id, ip, and fqdn parameters (at least one required),
+// optional site parameter, and extensive computed attributes including VM configuration,
+// resource allocation, networking, owner information, and operational status.
 func (d *DataSourceVMDetails) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Fetches detailed information about a Fyre VM. You must provide at least one identifier: vm_id, ip, or fqdn. The data source will try each non-null identifier until it successfully retrieves the VM details.",
@@ -265,6 +273,9 @@ func (d *DataSourceVMDetails) Schema(ctx context.Context, req datasource.SchemaR
 	}
 }
 
+// Configure initializes the VM details data source with the Fyre API client
+// and default site configuration from the provider. This method is called by the
+// framework during provider initialization.
 func (d *DataSourceVMDetails) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	if req.ProviderData == nil {
 		return
@@ -283,6 +294,10 @@ func (d *DataSourceVMDetails) Configure(ctx context.Context, req datasource.Conf
 	d.defaultSite = providerData.DefaultSite
 }
 
+// Read retrieves comprehensive details about a Fyre VM from the API. It accepts vm_id,
+// ip, or fqdn as identifiers (at least one required) and tries each in order until
+// successful. Returns extensive VM information including configuration, resources,
+// networking, owner details, and operational status.
 func (d *DataSourceVMDetails) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	var data VMDetailsModel
 

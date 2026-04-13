@@ -10,7 +10,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccVMSnapshotsDataSource(t *testing.T) {
+// TestAccDataSourceVMSnapshots verifies the fyre_vm_snapshots data source can successfully
+// retrieve VM snapshot information from the Fyre API. It requires FYRE_USERNAME,
+// FYRE_API_KEY, and FYRE_TEST_VM_ID environment variables to be set.
+// The test validates that the data source returns expected attributes including
+// snapshot count, snapshot limit, and the list of snapshots.
+func TestAccDataSourceVMSnapshots(t *testing.T) {
 	if os.Getenv("FYRE_USERNAME") == "" || os.Getenv("FYRE_API_KEY") == "" {
 		t.Skip("FYRE_USERNAME and FYRE_API_KEY must be set for acceptance tests")
 	}

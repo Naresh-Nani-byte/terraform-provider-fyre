@@ -18,6 +18,8 @@ import (
 // Ensure provider defined types fully satisfy framework interfaces.
 var _ datasource.DataSource = &DataSourceQuota{}
 
+// NewDataSourceQuota creates a new instance of the quota data source.
+// This factory function is called by the provider to instantiate the data source.
 func NewDataSourceQuota() datasource.DataSource {
 	return &DataSourceQuota{}
 }
@@ -69,10 +71,16 @@ type PlatformQuotaModel struct {
 	MemoryUsed    types.Int64 `tfsdk:"memory_used"`
 }
 
+// Metadata sets the data source type name for the quota data source.
+// The type name is used in Terraform configurations as "fyre_quota".
 func (d *DataSourceQuota) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_quota"
 }
 
+// Schema defines the structure and attributes of the quota data source.
+// It specifies optional site parameter and computed attributes including IP quotas,
+// available platforms, product group details, and platform-specific resource quotas
+// (CPU, memory, disk usage and limits).
 func (d *DataSourceQuota) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Fetches quota information for the authenticated user, including IP quotas, available platforms, product group details, and platform-specific resource quotas (CPU, memory, disk).",
@@ -175,6 +183,9 @@ func (d *DataSourceQuota) Schema(ctx context.Context, req datasource.SchemaReque
 	}
 }
 
+// Configure initializes the quota data source with the Fyre API client
+// and default site configuration from the provider. This method is called by the
+// framework during provider initialization.
 func (d *DataSourceQuota) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	// Prevent panic if the provider has not been configured.
 	if req.ProviderData == nil {
@@ -195,6 +206,10 @@ func (d *DataSourceQuota) Configure(ctx context.Context, req datasource.Configur
 	d.defaultSite = providerData.DefaultSite
 }
 
+// Read retrieves quota information for the authenticated user from the Fyre API.
+// Returns IP allocation quotas, available platforms, product group details, and
+// platform-specific resource quotas including CPU, memory, and disk usage with
+// percentage utilization.
 func (d *DataSourceQuota) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	var data QuotaModel
 

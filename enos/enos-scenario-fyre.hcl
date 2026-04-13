@@ -53,4 +53,8 @@ scenario "fyre" {
   output "vm_os_available_z" {
     value = step.test_datasources.vm_os_available_z
   }
+
+  output "vm_check_hostname" {
+    value = step.test_datasources.vm_check_hostname
+  }
 }

@@ -12,7 +12,6 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
-	"time"
 
 	"github.com/oapi-codegen/runtime"
 )
@@ -1328,10 +1327,26 @@ type RequestStatus struct {
 
 // Snapshot defines model for Snapshot.
 type Snapshot struct {
-	Comment      *string    `json:"comment,omitempty"`
-	Created      *time.Time `json:"created,omitempty"`
-	FullSnapshot *bool      `json:"full_snapshot,omitempty"`
-	Name         *string    `json:"name,omitempty"`
+	// Active Whether snapshot is active - "true" or "false" as string
+	Active *string `json:"active,omitempty"`
+
+	// Comment Snapshot comment/description
+	Comment *string `json:"comment,omitempty"`
+
+	// Created Snapshot creation timestamp
+	Created *string `json:"created,omitempty"`
+
+	// Enabled Whether snapshot is enabled - "y" or "n"
+	Enabled *string `json:"enabled,omitempty"`
+
+	// FullSnapshot Whether this is a full snapshot - "true" or "false" as string
+	FullSnapshot *string `json:"full_snapshot,omitempty"`
+
+	// Name Snapshot name
+	Name *string `json:"name,omitempty"`
+
+	// Used Disk space used by snapshot
+	Used *int `json:"used,omitempty"`
 }
 
 // SnapshotCreateRequest defines model for SnapshotCreateRequest.
@@ -1354,8 +1369,12 @@ type SnapshotDeleteRequest struct {
 
 // SnapshotList defines model for SnapshotList.
 type SnapshotList struct {
-	Snapshots *[]Snapshot `json:"snapshots,omitempty"`
-	Status    *string     `json:"status,omitempty"`
+	// SnapshotCount Number of snapshots (returned as string)
+	SnapshotCount *string `json:"snapshot_count,omitempty"`
+
+	// SnapshotLimit Maximum number of snapshots allowed (returned as string)
+	SnapshotLimit *string     `json:"snapshot_limit,omitempty"`
+	Snapshots     *[]Snapshot `json:"snapshots,omitempty"`
 }
 
 // SnapshotRevertRequest defines model for SnapshotRevertRequest.

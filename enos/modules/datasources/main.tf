@@ -11,6 +11,11 @@ terraform {
   }
 }
 
+variable "vm_id" {
+  type        = string
+  description = "VM ID to use for testing VM data sources"
+}
+
 data "fyre_quota" "rtp" {
   site = "rtp"
 }
@@ -20,6 +25,21 @@ data "fyre_quota" "svl" {
 }
 
 data "fyre_user" "current" {}
+
+data "fyre_vm_status" "test" {
+  vm_id = var.vm_id
+  site  = "svl"
+}
+
+data "fyre_vm_details" "test" {
+  vm_id = var.vm_id
+  site  = "svl"
+}
+
+data "fyre_vm_snapshots" "test" {
+  vm_id = var.vm_id
+  site  = "svl"
+}
 
 output "quota_svl" {
   value = data.fyre_quota.svl
@@ -31,4 +51,16 @@ output "quota_rtp" {
 
 output "user" {
   value = data.fyre_user.current
+}
+
+output "vm_status" {
+  value = data.fyre_vm_status.test
+}
+
+output "vm_details" {
+  value = data.fyre_vm_details.test
+}
+
+output "vm_snapshots" {
+  value = data.fyre_vm_snapshots.test
 }

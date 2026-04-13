@@ -31,11 +31,22 @@ Switch to tf-datasource-gen mode and create a data source for the user resource 
 Create `internal/provider/data_source_<name>.go` with:
 - Proper copyright header
 - Data source struct implementing `datasource.DataSource`
+- **CRITICAL**: Function name MUST be `NewDataSource<Name>()` (e.g., `NewDataSourceVMSnapshots`, NOT `NewVMSnapshotsDataSource`)
 - Model structs for the data and nested objects
 - `Metadata()` method setting the type name
 - `Schema()` method defining all attributes
 - `Configure()` method receiving provider data
 - `Read()` method implementing the API call and mapping
+
+**Naming Conventions (CRITICAL):**
+- Function: `NewDataSource<Name>()` - Always prefix with "NewDataSource" (e.g., `NewDataSourceVMSnapshots`)
+- Struct: `DataSource<Name>` - Always prefix with "DataSource" (e.g., `DataSourceVMSnapshots`, NOT `VMSnapshotsDataSource`)
+- Model: `DataSource<Name>Model` - Always prefix with "DataSource" (e.g., `DataSourceVMSnapshotsModel`, NOT `VMSnapshotsDataSourceModel`)
+- **Attribute names MUST be consistent across all data sources:**
+  - VM identifier: Use `vm_id` (NOT `vm_identifier`)
+  - User identifier: Use `user_id` (NOT `user_identifier`)
+  - Cluster identifier: Use `cluster_id` (NOT `cluster_identifier`)
+  - Check existing data sources for the correct attribute name before creating new ones
 
 Key patterns:
 - Site parameter: `Optional: true, Computed: true` with default to 'svl'
@@ -69,13 +80,72 @@ Update `internal/provider/provider.go`:
 - Add `NewDataSource<Name>()` to the `DataSources()` method
 - Follow the existing pattern
 
-### 6. Test and Verify
+### 6. Create Example Configuration
+Create `examples/data-sources/<name>/main.tf` with:
+- Provider configuration
+- Data source usage example
+- Output demonstrating the data source
+
+Example structure:
+```hcl
+terraform {
+  required_providers {
+    fyre = {
+      source = "hashicorp-forge/fyre"
+    }
+  }
+}
+
+provider "fyre" {
+  site = "svl"
+}
+
+data "fyre_<name>" "example" {
+  # Required attributes
+}
+
+output "<name>_info" {
+  value = data.fyre_<name>.example
+}
+```
+
+### 7. Add to Enos Test Scenario
+Update `enos/modules/datasources/main.tf`:
+- Add the new data source with appropriate test values
+- Add output to expose the data source results
+
+Example:
+```hcl
+data "fyre_<name>" "test" {
+  # Test attributes
+}
+
+output "<name>" {
+  value = data.fyre_<name>.test
+}
+```
+
+Update `enos/enos-scenario-fyre.hcl`:
+- Add output to expose the step results
+- Make sure outputs are ordered
+
+Example:
+```hcl
+output "<name>" {
+  value = step.test_datasources.<name>
+}
+```
+
+### 8. Test and Verify
 ```bash
 # Run the acceptance test
 go test -v ./internal/provider -run TestAccDataSource<Name>
 
 # Generate documentation
 make generate
+
+# Test with enos (optional). ALWAYS ask user if they wish to do this
+cd enos && enos scenario run fyre use:dev
 ```
 
 ## Example: User Data Source

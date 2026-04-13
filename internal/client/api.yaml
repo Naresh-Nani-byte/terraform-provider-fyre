@@ -467,11 +467,16 @@ components:
           type: string
           description: Status message about any requests in progress
 
+    # Updated from actual API response on 2026-04-13
     SnapshotList:
       type: object
       properties:
-        status:
+        snapshot_count:
           type: string
+          description: Number of snapshots (returned as string)
+        snapshot_limit:
+          type: string
+          description: Maximum number of snapshots allowed (returned as string)
         snapshots:
           type: array
           items:
@@ -482,13 +487,26 @@ components:
       properties:
         name:
           type: string
+          description: Snapshot name
         comment:
           type: string
+          description: Snapshot comment/description
+        full_snapshot:
+          type: string
+          description: Whether this is a full snapshot - "true" or "false" as string
+        active:
+          type: string
+          description: Whether snapshot is active - "true" or "false" as string
+        used:
+          type: integer
+          description: Disk space used by snapshot
+        enabled:
+          type: string
+          description: Whether snapshot is enabled - "y" or "n"
         created:
           type: string
-          format: date-time
-        full_snapshot:
-          type: boolean
+          description: Snapshot creation timestamp
+          example: "2026-04-13 14:06:59"
 
     OSList:
       type: object

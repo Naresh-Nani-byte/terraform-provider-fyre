@@ -1286,8 +1286,47 @@ type HostnameCheckStatus string
 
 // OSList defines model for OSList.
 type OSList struct {
-	OperatingSystems *[]string `json:"operating_systems,omitempty"`
-	Status           *string   `json:"status,omitempty"`
+	// DefaultSize Default and maximum VM sizing constraints
+	DefaultSize *struct {
+		Vm *struct {
+			// Count Default VM count
+			Count *string `json:"count,omitempty"`
+
+			// Cpu Default CPU count
+			Cpu *string `json:"cpu,omitempty"`
+
+			// MaxCount Maximum VM count
+			MaxCount *string `json:"max_count,omitempty"`
+
+			// MaxCpu Maximum CPU count
+			MaxCpu *string `json:"max_cpu,omitempty"`
+
+			// MaxDiskCount Maximum number of disks
+			MaxDiskCount *string `json:"max_disk_count,omitempty"`
+
+			// MaxDiskSize Maximum disk size in GB
+			MaxDiskSize *string `json:"max_disk_size,omitempty"`
+
+			// MaxMemory Maximum memory in GB
+			MaxMemory *string `json:"max_memory,omitempty"`
+
+			// MaxTotalDiskSize Maximum total disk size in GB
+			MaxTotalDiskSize *string `json:"max_total_disk_size,omitempty"`
+
+			// Memory Default memory in GB
+			Memory *string `json:"memory,omitempty"`
+
+			// Pvm PVM-specific maximums (may not be present in all responses)
+			Pvm *struct {
+				MaxCpu    *string `json:"max_cpu,omitempty"`
+				MaxMemory *string `json:"max_memory,omitempty"`
+			} `json:"pvm,omitempty"`
+		} `json:"vm,omitempty"`
+	} `json:"default_size,omitempty"`
+
+	// OperatingSystems Map of OS families to available versions
+	OperatingSystems *map[string][]string `json:"operating_systems,omitempty"`
+	Status           *string              `json:"status,omitempty"`
 }
 
 // QuotaResponse defines model for QuotaResponse.

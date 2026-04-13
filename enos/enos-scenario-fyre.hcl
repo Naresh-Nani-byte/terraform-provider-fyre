@@ -45,4 +45,12 @@ scenario "fyre" {
   output "vm_snapshots" {
     value = step.test_datasources.vm_snapshots
   }
+
+  output "vm_os_available_x" {
+    value = step.test_datasources.vm_os_available_x
+  }
+
+  output "vm_os_available_z" {
+    value = step.test_datasources.vm_os_available_z
+  }
 }

@@ -41,6 +41,16 @@ data "fyre_vm_snapshots" "test" {
   site  = "svl"
 }
 
+data "fyre_vm_os_available" "x_platform" {
+  platform = "x"
+  site     = "svl"
+}
+
+data "fyre_vm_os_available" "z_platform" {
+  platform = "z"
+  site     = "svl"
+}
+
 output "quota_svl" {
   value = data.fyre_quota.svl
 }
@@ -63,4 +73,12 @@ output "vm_details" {
 
 output "vm_snapshots" {
   value = data.fyre_vm_snapshots.test
+}
+
+output "vm_os_available_x" {
+  value = data.fyre_vm_os_available.x_platform
+}
+
+output "vm_os_available_z" {
+  value = data.fyre_vm_os_available.z_platform
 }

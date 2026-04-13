@@ -508,15 +508,70 @@ components:
           description: Snapshot creation timestamp
           example: "2026-04-13 14:06:59"
 
+    # Updated from actual API response on 2026-04-13
+    # Response structure verified for x and z platforms across SVL and RTP sites
     OSList:
       type: object
       properties:
         status:
           type: string
+          example: success
         operating_systems:
-          type: array
-          items:
-            type: string
+          type: object
+          description: Map of OS families to available versions
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          example:
+            RedHat:
+              - "RedHat 10.0"
+              - "RedHat 9.6"
+            Ubuntu:
+              - "Ubuntu 22.04"
+              - "Ubuntu 24.04"
+        default_size:
+          type: object
+          description: Default and maximum VM sizing constraints
+          properties:
+            vm:
+              type: object
+              properties:
+                count:
+                  type: string
+                  description: Default VM count
+                cpu:
+                  type: string
+                  description: Default CPU count
+                memory:
+                  type: string
+                  description: Default memory in GB
+                max_count:
+                  type: string
+                  description: Maximum VM count
+                max_cpu:
+                  type: string
+                  description: Maximum CPU count
+                max_memory:
+                  type: string
+                  description: Maximum memory in GB
+                max_disk_count:
+                  type: string
+                  description: Maximum number of disks
+                max_disk_size:
+                  type: string
+                  description: Maximum disk size in GB
+                max_total_disk_size:
+                  type: string
+                  description: Maximum total disk size in GB
+                pvm:
+                  type: object
+                  description: PVM-specific maximums (may not be present in all responses)
+                  properties:
+                    max_cpu:
+                      type: string
+                    max_memory:
+                      type: string
 
     HostnameCheck:
       type: object

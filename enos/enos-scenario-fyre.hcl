@@ -15,4 +15,12 @@ scenario "fyre" {
   output "user" {
     value = step.test_datasources.user
   }
+
+  output "quota_svl" {
+    value = step.test_datasources.quota_svl
+  }
+
+  output "quota_rtp" {
+    value = step.test_datasources.quota_rtp
+  }
 }

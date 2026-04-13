@@ -16,20 +16,20 @@ import (
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
-var _ datasource.DataSource = &UserDataSource{}
+var _ datasource.DataSource = &DataSourceUser{}
 
-func NewUserDataSource() datasource.DataSource {
-	return &UserDataSource{}
+func NewDataSourceUser() datasource.DataSource {
+	return &DataSourceUser{}
 }
 
-// UserDataSource defines the data source implementation.
-type UserDataSource struct {
+// DataSourceUser defines the data source implementation.
+type DataSourceUser struct {
 	client      *client.ClientWithResponses
 	defaultSite string
 }
 
-// UserDataSourceModel describes the data source data model.
-type UserDataSourceModel struct {
+// UserModel describes the data source data model.
+type UserModel struct {
 	ID                      types.String `tfsdk:"id"`
 	Site                    types.String `tfsdk:"site"`
 	Authenticated           types.Bool   `tfsdk:"authenticated"`
@@ -84,11 +84,11 @@ type ProductGroupsModel struct {
 	GroupName   types.String `tfsdk:"group_name"`
 }
 
-func (d *UserDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+func (d *DataSourceUser) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_user"
 }
 
-func (d *UserDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *DataSourceUser) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Fetches user details for the authenticated user, including authentication status, email, login information, and development/sentry details.",
 		Attributes: map[string]schema.Attribute{
@@ -289,7 +289,7 @@ func (d *UserDataSource) Schema(ctx context.Context, req datasource.SchemaReques
 	}
 }
 
-func (d *UserDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (d *DataSourceUser) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	// Prevent panic if the provider has not been configured.
 	if req.ProviderData == nil {
 		return
@@ -309,8 +309,8 @@ func (d *UserDataSource) Configure(ctx context.Context, req datasource.Configure
 	d.defaultSite = providerData.DefaultSite
 }
 
-func (d *UserDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data UserDataSourceModel
+func (d *DataSourceUser) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data UserModel
 
 	// Read Terraform configuration data into the model
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)

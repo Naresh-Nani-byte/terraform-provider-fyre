@@ -16,20 +16,20 @@ import (
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
-var _ datasource.DataSource = &QuotaDataSource{}
+var _ datasource.DataSource = &DataSourceQuota{}
 
-func NewQuotaDataSource() datasource.DataSource {
-	return &QuotaDataSource{}
+func NewDataSourceQuota() datasource.DataSource {
+	return &DataSourceQuota{}
 }
 
-// QuotaDataSource defines the data source implementation.
-type QuotaDataSource struct {
+// DataSourceQuota defines the data source implementation.
+type DataSourceQuota struct {
 	client      *client.ClientWithResponses
 	defaultSite string
 }
 
-// QuotaDataSourceModel describes the data source data model.
-type QuotaDataSourceModel struct {
+// QuotaModel describes the data source data model.
+type QuotaModel struct {
 	ID      types.String `tfsdk:"id"`
 	Site    types.String `tfsdk:"site"`
 	Status  types.String `tfsdk:"status"`
@@ -69,11 +69,11 @@ type PlatformQuotaModel struct {
 	MemoryUsed    types.Int64 `tfsdk:"memory_used"`
 }
 
-func (d *QuotaDataSource) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
+func (d *DataSourceQuota) Metadata(ctx context.Context, req datasource.MetadataRequest, resp *datasource.MetadataResponse) {
 	resp.TypeName = req.ProviderTypeName + "_quota"
 }
 
-func (d *QuotaDataSource) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
+func (d *DataSourceQuota) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		MarkdownDescription: "Fetches quota information for the authenticated user, including IP quotas, available platforms, product group details, and platform-specific resource quotas (CPU, memory, disk).",
 		Attributes: map[string]schema.Attribute{
@@ -82,7 +82,8 @@ func (d *QuotaDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 				Computed:            true,
 			},
 			"site": schema.StringAttribute{
-				MarkdownDescription: "Site location where quota was fetched from",
+				MarkdownDescription: "Site location (svl or rtp). Defaults to 'svl' or inherits from provider configuration.",
+				Optional:            true,
 				Computed:            true,
 			},
 			"status": schema.StringAttribute{
@@ -174,7 +175,7 @@ func (d *QuotaDataSource) Schema(ctx context.Context, req datasource.SchemaReque
 	}
 }
 
-func (d *QuotaDataSource) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
+func (d *DataSourceQuota) Configure(ctx context.Context, req datasource.ConfigureRequest, resp *datasource.ConfigureResponse) {
 	// Prevent panic if the provider has not been configured.
 	if req.ProviderData == nil {
 		return
@@ -194,8 +195,8 @@ func (d *QuotaDataSource) Configure(ctx context.Context, req datasource.Configur
 	d.defaultSite = providerData.DefaultSite
 }
 
-func (d *QuotaDataSource) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
-	var data QuotaDataSourceModel
+func (d *DataSourceQuota) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
+	var data QuotaModel
 
 	// Read Terraform configuration data into the model
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)

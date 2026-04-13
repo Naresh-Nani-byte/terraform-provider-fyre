@@ -204,27 +204,6 @@ func (e VMCreateRequestSite) Valid() bool {
 	}
 }
 
-// Defines values for VMStatusVmStatus.
-const (
-	VMStatusVmStatusError   VMStatusVmStatus = "error"
-	VMStatusVmStatusRunning VMStatusVmStatus = "running"
-	VMStatusVmStatusStopped VMStatusVmStatus = "stopped"
-)
-
-// Valid indicates whether the value is a known member of the VMStatusVmStatus enum.
-func (e VMStatusVmStatus) Valid() bool {
-	switch e {
-	case VMStatusVmStatusError:
-		return true
-	case VMStatusVmStatusRunning:
-		return true
-	case VMStatusVmStatusStopped:
-		return true
-	default:
-		return false
-	}
-}
-
 // Defines values for VMSummaryPlatform.
 const (
 	VMSummaryPlatformPvm VMSummaryPlatform = "pvm"
@@ -1516,6 +1495,11 @@ type VIPDeleteRequest struct {
 	IpAddress *string `json:"ip_address,omitempty"`
 }
 
+// VMAdditionalDisk defines model for VMAdditionalDisk.
+type VMAdditionalDisk struct {
+	Size *int `json:"size,omitempty"`
+}
+
 // VMCloneRequest defines model for VMCloneRequest.
 type VMCloneRequest struct {
 	// Cpu Number of CPUs
@@ -1648,23 +1632,50 @@ type VMDescriptionUpdate struct {
 
 // VMDetails defines model for VMDetails.
 type VMDetails struct {
-	AdditionalDisk *[]int     `json:"additional_disk,omitempty"`
-	Cpu            *int       `json:"cpu,omitempty"`
-	Created        *time.Time `json:"created,omitempty"`
-	Description    *string    `json:"description,omitempty"`
-	Disk           *int       `json:"disk,omitempty"`
-	Expiration     *time.Time `json:"expiration,omitempty"`
-	Fqdn           *string    `json:"fqdn,omitempty"`
-	Hostname       *string    `json:"hostname,omitempty"`
-	Id             *string    `json:"id,omitempty"`
-	Ip             *string    `json:"ip,omitempty"`
-	Memory         *int       `json:"memory,omitempty"`
-	Os             *string    `json:"os,omitempty"`
-	Owner          *string    `json:"owner,omitempty"`
-	Platform       *string    `json:"platform,omitempty"`
-	ProductGroupId *string    `json:"product_group_id,omitempty"`
-	PublicIp       *string    `json:"public_ip,omitempty"`
-	Status         *string    `json:"status,omitempty"`
+	AllowFloatingIp *string `json:"allow_floating_ip,omitempty"`
+	AutoPatch       *string `json:"auto_patch,omitempty"`
+	Comment         *string `json:"comment,omitempty"`
+	Compliance      *string `json:"compliance,omitempty"`
+	Cpu             *int    `json:"cpu,omitempty"`
+	Created         *string `json:"created,omitempty"`
+	CreatedIso8601  *string `json:"created_iso8601,omitempty"`
+	Description     *string `json:"description,omitempty"`
+	DisableDelete   *string `json:"disable_delete,omitempty"`
+	DiskDriver      *string `json:"disk_driver,omitempty"`
+	Domain          *string `json:"domain,omitempty"`
+	Expiration      *string `json:"expiration,omitempty"`
+	Fqdn            *string `json:"fqdn,omitempty"`
+	HostDown        *string `json:"host_down,omitempty"`
+	Hostname        *string `json:"hostname,omitempty"`
+	Ips             *[]struct {
+		Ip    *string `json:"ip,omitempty"`
+		Scope *string `json:"scope,omitempty"`
+		Type  *string `json:"type,omitempty"`
+	} `json:"ips,omitempty"`
+	Location            *string `json:"location,omitempty"`
+	Memory              *int    `json:"memory,omitempty"`
+	Os                  *string `json:"os,omitempty"`
+	OsDisk              *int    `json:"os_disk,omitempty"`
+	Pingable            *string `json:"pingable,omitempty"`
+	PingableLastChecked *string `json:"pingable_last_checked,omitempty"`
+	Platform            *string `json:"platform,omitempty"`
+	ProductGroup        *string `json:"product_group,omitempty"`
+	ProductGroupId      *int    `json:"product_group_id,omitempty"`
+	QuotaType           *string `json:"quota_type,omitempty"`
+	SecurityLock        *string `json:"security_lock,omitempty"`
+	Sshable             *string `json:"sshable,omitempty"`
+	SshableLastChecked  *string `json:"sshable_last_checked,omitempty"`
+	State               *string `json:"state,omitempty"`
+	Timezone            *string `json:"timezone,omitempty"`
+	TransferComment     *string `json:"transfer_comment,omitempty"`
+	User                *struct {
+		DisplayName *string `json:"display_name,omitempty"`
+		Email       *string `json:"email,omitempty"`
+		Id          *int    `json:"id,omitempty"`
+		Status      *string `json:"status,omitempty"`
+		Username    *string `json:"username,omitempty"`
+	} `json:"user,omitempty"`
+	VmId *string `json:"vm_id,omitempty"`
 }
 
 // VMDiskAdd defines model for VMDiskAdd.
@@ -1673,10 +1684,20 @@ type VMDiskAdd struct {
 	AdditionalDisk []int `json:"additional_disk"`
 }
 
+// VMIP defines model for VMIP.
+type VMIP struct {
+	IpAddress *string `json:"ip_address,omitempty"`
+}
+
 // VMListResponse defines model for VMListResponse.
-type VMListResponse struct {
-	Status *string      `json:"status,omitempty"`
-	Vms    *[]VMSummary `json:"vms,omitempty"`
+type VMListResponse = []VMSummary
+
+// VMOwnerSummary defines model for VMOwnerSummary.
+type VMOwnerSummary struct {
+	Displayname *string `json:"displayname,omitempty"`
+	Email       *string `json:"email,omitempty"`
+	UserId      *int    `json:"user_id,omitempty"`
+	Username    *string `json:"username,omitempty"`
 }
 
 // VMPasswordUpdate defines model for VMPasswordUpdate.
@@ -1696,20 +1717,44 @@ type VMResourceUpdate struct {
 
 // VMStatus defines model for VMStatus.
 type VMStatus struct {
-	Status   *string           `json:"status,omitempty"`
-	VmStatus *VMStatusVmStatus `json:"vm_status,omitempty"`
-}
+	// LastOsState The last known operating system state of the VM
+	LastOsState *string `json:"last_os_state,omitempty"`
 
-// VMStatusVmStatus defines model for VMStatus.VmStatus.
-type VMStatusVmStatus string
+	// Status Status message about any requests in progress
+	Status *string `json:"status,omitempty"`
+}
 
 // VMSummary defines model for VMSummary.
 type VMSummary struct {
-	Hostname *string            `json:"hostname,omitempty"`
-	Id       *string            `json:"id,omitempty"`
-	Ip       *string            `json:"ip,omitempty"`
-	Platform *VMSummaryPlatform `json:"platform,omitempty"`
-	Status   *string            `json:"status,omitempty"`
+	AdditionalDisks     *[]VMAdditionalDisk `json:"additional_disks,omitempty"`
+	AllowFloatingIp     *string             `json:"allow_floating_ip,omitempty"`
+	AutoPatch           *string             `json:"auto_patch,omitempty"`
+	Compliance          *string             `json:"compliance,omitempty"`
+	Cpu                 *int                `json:"cpu,omitempty"`
+	Created             *string             `json:"created,omitempty"`
+	CreatedIso8601      *string             `json:"created_iso8601,omitempty"`
+	CurrentOwner        *VMOwnerSummary     `json:"current_owner,omitempty"`
+	Description         *string             `json:"description,omitempty"`
+	DisableDelete       *string             `json:"disable_delete,omitempty"`
+	Expiration          *string             `json:"expiration,omitempty"`
+	Fqdn                *string             `json:"fqdn,omitempty"`
+	HostDown            *string             `json:"host_down,omitempty"`
+	Hostname            *string             `json:"hostname,omitempty"`
+	InProgress          *string             `json:"in_progress,omitempty"`
+	Ips                 *[]VMIP             `json:"ips,omitempty"`
+	Location            *string             `json:"location,omitempty"`
+	Memory              *int                `json:"memory,omitempty"`
+	Os                  *string             `json:"os,omitempty"`
+	OsDisk              *int                `json:"os_disk,omitempty"`
+	Pingable            *string             `json:"pingable,omitempty"`
+	PingableLastChecked *string             `json:"pingable_last_checked,omitempty"`
+	Platform            *VMSummaryPlatform  `json:"platform,omitempty"`
+	ProductGroupId      *int                `json:"product_group_id,omitempty"`
+	QuotaType           *string             `json:"quota_type,omitempty"`
+	SnapshotDisk        *int                `json:"snapshot_disk,omitempty"`
+	State               *string             `json:"state,omitempty"`
+	TotalDisk           *int                `json:"total_disk,omitempty"`
+	VmId                *string             `json:"vm_id,omitempty"`
 }
 
 // VMSummaryPlatform defines model for VMSummary.Platform.

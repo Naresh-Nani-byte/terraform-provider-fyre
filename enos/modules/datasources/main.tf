@@ -11,7 +11,23 @@ terraform {
   }
 }
 
+data "fyre_quota" "rtp" {
+  site = "rtp"
+}
+
+data "fyre_quota" "svl" {
+  site = "svl"
+}
+
 data "fyre_user" "current" {}
+
+output "quota_svl" {
+  value = data.fyre_quota.svl
+}
+
+output "quota_rtp" {
+  value = data.fyre_quota.rtp
+}
 
 output "user" {
   value = data.fyre_user.current

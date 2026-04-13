@@ -10,7 +10,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
-func TestAccQuotaDataSource(t *testing.T) {
+func TestAccDataSourceQuota(t *testing.T) {
 	// Skip if credentials are not set
 	if os.Getenv("FYRE_USERNAME") == "" || os.Getenv("FYRE_API_KEY") == "" {
 		t.Skip("FYRE_USERNAME and FYRE_API_KEY must be set for acceptance tests")
@@ -22,7 +22,7 @@ func TestAccQuotaDataSource(t *testing.T) {
 		Steps: []resource.TestStep{
 			// Read testing
 			{
-				Config: testAccQuotaDataSourceConfig(),
+				Config: testAccDataSourceQuotaConfig(),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					// Verify top-level attributes
 					resource.TestCheckResourceAttrSet("data.fyre_quota.test", "id"),
@@ -53,7 +53,7 @@ func TestAccQuotaDataSource(t *testing.T) {
 	})
 }
 
-func testAccQuotaDataSourceConfig() string {
+func testAccDataSourceQuotaConfig() string {
 	return `
 provider "fyre" {
   site = "svl"

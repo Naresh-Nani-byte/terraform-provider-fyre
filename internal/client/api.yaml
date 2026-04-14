@@ -881,11 +881,13 @@ components:
                   type: string
                   enum: [private, public]
 
+    # Updated from actual API response on 2026-04-14
     ClusterList:
       type: object
       properties:
-        status:
-          type: string
+        cluster_count:
+          type: integer
+          description: Total number of clusters
         clusters:
           type: array
           items:
@@ -895,13 +897,25 @@ components:
       type: object
       properties:
         id:
-          type: string
+          type: integer
+          description: Cluster ID
         name:
           type: string
+          description: Cluster name
         description:
           type: string
+          description: Cluster description
+        created:
+          type: string
+          description: Cluster creation timestamp
+          example: "2026-04-13 16:00:49"
+        updated:
+          type: string
+          description: Cluster last update timestamp
+          example: "2026-04-13 16:00:49"
         vm_count:
           type: integer
+          description: Number of VMs in the cluster
 
     # Updated from actual API response on 2026-04-13
     ClusterDetails:

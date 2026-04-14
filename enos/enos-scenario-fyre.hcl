@@ -73,6 +73,10 @@ scenario "fyre" {
     value = step.test_datasources.cluster_details_with_vms
   }
 
+  output "clusters" {
+    value = step.test_datasources.clusters
+  }
+
   output "stencils" {
     value = step.test_datasources.stencils
   }

@@ -77,6 +77,10 @@ data "fyre_cluster_details" "test_with_vms" {
   include_vms = true
 }
 
+data "fyre_clusters" "test" {
+  site = "svl"
+}
+
 output "cluster_details" {
   value = data.fyre_cluster_details.test
 }
@@ -119,6 +123,10 @@ output "vm_os_available_z" {
 
 output "vm_check_hostname" {
   value = data.fyre_vm_check_hostname.test
+}
+
+output "clusters" {
+  value = data.fyre_clusters.test
 }
 
 output "stencils" {

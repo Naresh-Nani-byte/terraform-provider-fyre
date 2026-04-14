@@ -1423,16 +1423,30 @@ type ClusterDetails struct {
 
 // ClusterList defines model for ClusterList.
 type ClusterList struct {
-	Clusters *[]ClusterSummary `json:"clusters,omitempty"`
-	Status   *string           `json:"status,omitempty"`
+	// ClusterCount Total number of clusters
+	ClusterCount *int              `json:"cluster_count,omitempty"`
+	Clusters     *[]ClusterSummary `json:"clusters,omitempty"`
 }
 
 // ClusterSummary defines model for ClusterSummary.
 type ClusterSummary struct {
+	// Created Cluster creation timestamp
+	Created *string `json:"created,omitempty"`
+
+	// Description Cluster description
 	Description *string `json:"description,omitempty"`
-	Id          *string `json:"id,omitempty"`
-	Name        *string `json:"name,omitempty"`
-	VmCount     *int    `json:"vm_count,omitempty"`
+
+	// Id Cluster ID
+	Id *int `json:"id,omitempty"`
+
+	// Name Cluster name
+	Name *string `json:"name,omitempty"`
+
+	// Updated Cluster last update timestamp
+	Updated *string `json:"updated,omitempty"`
+
+	// VmCount Number of VMs in the cluster
+	VmCount *int `json:"vm_count,omitempty"`
 }
 
 // ClusterUpdateRequest defines model for ClusterUpdateRequest.

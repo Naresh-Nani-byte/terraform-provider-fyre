@@ -1,2 +1,3 @@
 enos/.enos/**
 dist/**
+.bob/.bob-errors/*

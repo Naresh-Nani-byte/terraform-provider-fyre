@@ -165,6 +165,7 @@ func (p *FyreProvider) EphemeralResources(ctx context.Context) []func() ephemera
 
 func (p *FyreProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
+		NewDataSourceClusterDetails,
 		NewDataSourceQuota,
 		NewDataSourceStencils,
 		NewDataSourceUser,

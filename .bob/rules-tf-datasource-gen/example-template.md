@@ -252,7 +252,7 @@ func (p *FyreProvider) DataSources(ctx context.Context) []func() datasource.Data
 # Run the acceptance test
 export FYRE_USERNAME="your-username"
 export FYRE_API_KEY="your-api-key"
-go test -v ./internal/provider -run TestAccDataSourceUser
+TF_ACC=1 go test -v ./internal/provider -run TestAccDataSourceUser
 
 # Generate documentation
 make generate

@@ -59,6 +59,99 @@ func (e StencilDeployRequestPublicNetwork) Valid() bool {
 	}
 }
 
+// Defines values for StencilDetailsActive.
+const (
+	StencilDetailsActiveN StencilDetailsActive = "n"
+	StencilDetailsActiveY StencilDetailsActive = "y"
+)
+
+// Valid indicates whether the value is a known member of the StencilDetailsActive enum.
+func (e StencilDetailsActive) Valid() bool {
+	switch e {
+	case StencilDetailsActiveN:
+		return true
+	case StencilDetailsActiveY:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for StencilDetailsPrivate.
+const (
+	StencilDetailsPrivateN StencilDetailsPrivate = "n"
+	StencilDetailsPrivateY StencilDetailsPrivate = "y"
+)
+
+// Valid indicates whether the value is a known member of the StencilDetailsPrivate enum.
+func (e StencilDetailsPrivate) Valid() bool {
+	switch e {
+	case StencilDetailsPrivateN:
+		return true
+	case StencilDetailsPrivateY:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for StencilDetailsSite.
+const (
+	StencilDetailsSiteRtp StencilDetailsSite = "rtp"
+	StencilDetailsSiteSvl StencilDetailsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the StencilDetailsSite enum.
+func (e StencilDetailsSite) Valid() bool {
+	switch e {
+	case StencilDetailsSiteRtp:
+		return true
+	case StencilDetailsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for StencilDetailsVmsInterfaces.
+const (
+	StencilDetailsVmsInterfacesPrivate StencilDetailsVmsInterfaces = "private"
+	StencilDetailsVmsInterfacesPublic  StencilDetailsVmsInterfaces = "public"
+)
+
+// Valid indicates whether the value is a known member of the StencilDetailsVmsInterfaces enum.
+func (e StencilDetailsVmsInterfaces) Valid() bool {
+	switch e {
+	case StencilDetailsVmsInterfacesPrivate:
+		return true
+	case StencilDetailsVmsInterfacesPublic:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for StencilDetailsVmsPlatform.
+const (
+	StencilDetailsVmsPlatformPvm StencilDetailsVmsPlatform = "pvm"
+	StencilDetailsVmsPlatformX   StencilDetailsVmsPlatform = "x"
+	StencilDetailsVmsPlatformZ   StencilDetailsVmsPlatform = "z"
+)
+
+// Valid indicates whether the value is a known member of the StencilDetailsVmsPlatform enum.
+func (e StencilDetailsVmsPlatform) Valid() bool {
+	switch e {
+	case StencilDetailsVmsPlatformPvm:
+		return true
+	case StencilDetailsVmsPlatformX:
+		return true
+	case StencilDetailsVmsPlatformZ:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for VMCloneRequestDns.
 const (
 	VMCloneRequestDnsN VMCloneRequestDns = "n"
@@ -413,6 +506,24 @@ func (e AddVMsToClusterParamsSite) Valid() bool {
 	}
 }
 
+// Defines values for GetClusterDetailsWithVMsParamsSite.
+const (
+	GetClusterDetailsWithVMsParamsSiteRtp GetClusterDetailsWithVMsParamsSite = "rtp"
+	GetClusterDetailsWithVMsParamsSiteSvl GetClusterDetailsWithVMsParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetClusterDetailsWithVMsParamsSite enum.
+func (e GetClusterDetailsWithVMsParamsSite) Valid() bool {
+	switch e {
+	case GetClusterDetailsWithVMsParamsSiteRtp:
+		return true
+	case GetClusterDetailsWithVMsParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for RemoveVMsFromClusterParamsSite.
 const (
 	RemoveVMsFromClusterParamsSiteRtp RemoveVMsFromClusterParamsSite = "rtp"
@@ -461,6 +572,24 @@ func (e GetQuotaParamsSite) Valid() bool {
 	case GetQuotaParamsSiteRtp:
 		return true
 	case GetQuotaParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetStencilDetailsParamsSite.
+const (
+	GetStencilDetailsParamsSiteRtp GetStencilDetailsParamsSite = "rtp"
+	GetStencilDetailsParamsSiteSvl GetStencilDetailsParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetStencilDetailsParamsSite enum.
+func (e GetStencilDetailsParamsSite) Valid() bool {
+	switch e {
+	case GetStencilDetailsParamsSiteRtp:
+		return true
+	case GetStencilDetailsParamsSiteSvl:
 		return true
 	default:
 		return false
@@ -685,19 +814,19 @@ func (e GetAvailableOSParamsSite) Valid() bool {
 
 // Defines values for GetAvailableOSParamsPlatform.
 const (
-	GetAvailableOSParamsPlatformPvm GetAvailableOSParamsPlatform = "pvm"
-	GetAvailableOSParamsPlatformX   GetAvailableOSParamsPlatform = "x"
-	GetAvailableOSParamsPlatformZ   GetAvailableOSParamsPlatform = "z"
+	Pvm GetAvailableOSParamsPlatform = "pvm"
+	X   GetAvailableOSParamsPlatform = "x"
+	Z   GetAvailableOSParamsPlatform = "z"
 )
 
 // Valid indicates whether the value is a known member of the GetAvailableOSParamsPlatform enum.
 func (e GetAvailableOSParamsPlatform) Valid() bool {
 	switch e {
-	case GetAvailableOSParamsPlatformPvm:
+	case Pvm:
 		return true
-	case GetAvailableOSParamsPlatformX:
+	case X:
 		return true
-	case GetAvailableOSParamsPlatformZ:
+	case Z:
 		return true
 	default:
 		return false
@@ -1210,16 +1339,16 @@ func (e AttachVIPParamsSite) Valid() bool {
 
 // Defines values for AttachVIPParamsVipType.
 const (
-	Private AttachVIPParamsVipType = "private"
-	Public  AttachVIPParamsVipType = "public"
+	AttachVIPParamsVipTypePrivate AttachVIPParamsVipType = "private"
+	AttachVIPParamsVipTypePublic  AttachVIPParamsVipType = "public"
 )
 
 // Valid indicates whether the value is a known member of the AttachVIPParamsVipType enum.
 func (e AttachVIPParamsVipType) Valid() bool {
 	switch e {
-	case Private:
+	case AttachVIPParamsVipTypePrivate:
 		return true
-	case Public:
+	case AttachVIPParamsVipTypePublic:
 		return true
 	default:
 		return false
@@ -1228,16 +1357,16 @@ func (e AttachVIPParamsVipType) Valid() bool {
 
 // Defines values for VmPowerActionParamsSite.
 const (
-	Rtp VmPowerActionParamsSite = "rtp"
-	Svl VmPowerActionParamsSite = "svl"
+	VmPowerActionParamsSiteRtp VmPowerActionParamsSite = "rtp"
+	VmPowerActionParamsSiteSvl VmPowerActionParamsSite = "svl"
 )
 
 // Valid indicates whether the value is a known member of the VmPowerActionParamsSite enum.
 func (e VmPowerActionParamsSite) Valid() bool {
 	switch e {
-	case Rtp:
+	case VmPowerActionParamsSiteRtp:
 		return true
-	case Svl:
+	case VmPowerActionParamsSiteSvl:
 		return true
 	default:
 		return false
@@ -1277,12 +1406,19 @@ type ClusterCreateRequest struct {
 // ClusterDetails defines model for ClusterDetails.
 type ClusterDetails struct {
 	Cluster *struct {
-		Description *string      `json:"description,omitempty"`
-		Id          *string      `json:"id,omitempty"`
-		Name        *string      `json:"name,omitempty"`
-		Vms         *[]VMSummary `json:"vms,omitempty"`
+		// Created Cluster creation timestamp
+		Created     *string `json:"created,omitempty"`
+		Description *string `json:"description,omitempty"`
+		Id          *int    `json:"id,omitempty"`
+		Name        *string `json:"name,omitempty"`
+
+		// Updated Cluster last update timestamp
+		Updated *string `json:"updated,omitempty"`
+		UserId  *int    `json:"user_id,omitempty"`
+
+		// Vms VM details (only present when include_vms is used)
+		Vms *[]VMSummary `json:"vms,omitempty"`
 	} `json:"cluster,omitempty"`
-	Status *string `json:"status,omitempty"`
 }
 
 // ClusterList defines model for ClusterList.
@@ -1530,6 +1666,78 @@ type StencilDeployRequest struct {
 
 // StencilDeployRequestPublicNetwork Assign public IP address
 type StencilDeployRequestPublicNetwork string
+
+// StencilDetails defines model for StencilDetails.
+type StencilDetails struct {
+	// Active Whether stencil is active
+	Active *StencilDetailsActive `json:"active,omitempty"`
+
+	// Created Creation timestamp
+	Created *string `json:"created,omitempty"`
+
+	// Description Stencil description
+	Description *string `json:"description,omitempty"`
+
+	// Id Stencil ID
+	Id *string `json:"id,omitempty"`
+
+	// Name Stencil name
+	Name  *string `json:"name,omitempty"`
+	Owner *struct {
+		// Displayname Owner display name
+		Displayname *string `json:"displayname,omitempty"`
+
+		// Email Owner email
+		Email *string `json:"email,omitempty"`
+
+		// Id Owner user ID
+		Id *int `json:"id,omitempty"`
+
+		// Username Owner username
+		Username *string `json:"username,omitempty"`
+	} `json:"owner,omitempty"`
+
+	// Private Whether stencil is private
+	Private      *StencilDetailsPrivate `json:"private,omitempty"`
+	ProductGroup *struct {
+		// Id Product group ID
+		Id *int `json:"id,omitempty"`
+
+		// ProductGroup Product group name
+		ProductGroup *string `json:"product_group,omitempty"`
+	} `json:"product_group,omitempty"`
+
+	// Site Site location
+	Site *StencilDetailsSite `json:"site,omitempty"`
+
+	// Updated Last update timestamp
+	Updated *string `json:"updated,omitempty"`
+
+	// Vms VM configuration details
+	Vms *[]struct {
+		ComplianceDate *string                        `json:"compliance_date,omitempty"`
+		DiskCapacity   *string                        `json:"disk_capacity,omitempty"`
+		DiskQty        *int                           `json:"disk_qty,omitempty"`
+		Interfaces     *[]StencilDetailsVmsInterfaces `json:"interfaces,omitempty"`
+		Platform       *StencilDetailsVmsPlatform     `json:"platform,omitempty"`
+		ProductGroupId *int                           `json:"product_group_id,omitempty"`
+	} `json:"vms,omitempty"`
+}
+
+// StencilDetailsActive Whether stencil is active
+type StencilDetailsActive string
+
+// StencilDetailsPrivate Whether stencil is private
+type StencilDetailsPrivate string
+
+// StencilDetailsSite Site location
+type StencilDetailsSite string
+
+// StencilDetailsVmsInterfaces defines model for StencilDetails.Vms.Interfaces.
+type StencilDetailsVmsInterfaces string
+
+// StencilDetailsVmsPlatform defines model for StencilDetails.Vms.Platform.
+type StencilDetailsVmsPlatform string
 
 // StencilList defines model for StencilList.
 type StencilList = []StencilSummary
@@ -1866,6 +2074,8 @@ type VMStatus struct {
 
 // VMSummary defines model for VMSummary.
 type VMSummary struct {
+	// AddedToCluster Timestamp when VM was added to cluster (only present in cluster context)
+	AddedToCluster      *string             `json:"added_to_cluster,omitempty"`
 	AdditionalDisks     *[]VMAdditionalDisk `json:"additional_disks,omitempty"`
 	AllowFloatingIp     *string             `json:"allow_floating_ip,omitempty"`
 	AutoPatch           *string             `json:"auto_patch,omitempty"`
@@ -2005,6 +2215,15 @@ type AddVMsToClusterParams struct {
 // AddVMsToClusterParamsSite defines parameters for AddVMsToCluster.
 type AddVMsToClusterParamsSite string
 
+// GetClusterDetailsWithVMsParams defines parameters for GetClusterDetailsWithVMs.
+type GetClusterDetailsWithVMsParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetClusterDetailsWithVMsParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetClusterDetailsWithVMsParamsSite defines parameters for GetClusterDetailsWithVMs.
+type GetClusterDetailsWithVMsParamsSite string
+
 // RemoveVMsFromClusterParams defines parameters for RemoveVMsFromCluster.
 type RemoveVMsFromClusterParams struct {
 	// Site Site location (svl or rtp)
@@ -2031,6 +2250,15 @@ type GetQuotaParams struct {
 
 // GetQuotaParamsSite defines parameters for GetQuota.
 type GetQuotaParamsSite string
+
+// GetStencilDetailsParams defines parameters for GetStencilDetails.
+type GetStencilDetailsParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetStencilDetailsParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetStencilDetailsParamsSite defines parameters for GetStencilDetails.
+type GetStencilDetailsParamsSite string
 
 // ListStencilsParams defines parameters for ListStencils.
 type ListStencilsParams struct {
@@ -2682,6 +2910,9 @@ type ClientInterface interface {
 
 	AddVMsToCluster(ctx context.Context, clusterIdentifier ClusterIdentifier, params *AddVMsToClusterParams, body AddVMsToClusterJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetClusterDetailsWithVMs request
+	GetClusterDetailsWithVMs(ctx context.Context, clusterIdentifier ClusterIdentifier, params *GetClusterDetailsWithVMsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// RemoveVMsFromClusterWithBody request with any body
 	RemoveVMsFromClusterWithBody(ctx context.Context, clusterIdentifier ClusterIdentifier, params *RemoveVMsFromClusterParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -2694,6 +2925,9 @@ type ClientInterface interface {
 
 	// GetQuota request
 	GetQuota(ctx context.Context, params *GetQuotaParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetStencilDetails request
+	GetStencilDetails(ctx context.Context, stencilId StencilId, params *GetStencilDetailsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ListStencils request
 	ListStencils(ctx context.Context, params *ListStencilsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -2956,6 +3190,18 @@ func (c *Client) AddVMsToCluster(ctx context.Context, clusterIdentifier ClusterI
 	return c.Client.Do(req)
 }
 
+func (c *Client) GetClusterDetailsWithVMs(ctx context.Context, clusterIdentifier ClusterIdentifier, params *GetClusterDetailsWithVMsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetClusterDetailsWithVMsRequest(c.Server, clusterIdentifier, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) RemoveVMsFromClusterWithBody(ctx context.Context, clusterIdentifier ClusterIdentifier, params *RemoveVMsFromClusterParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewRemoveVMsFromClusterRequestWithBody(c.Server, clusterIdentifier, params, contentType, body)
 	if err != nil {
@@ -3006,6 +3252,18 @@ func (c *Client) AttachFloatingIP(ctx context.Context, vmIdentifier VmIdentifier
 
 func (c *Client) GetQuota(ctx context.Context, params *GetQuotaParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetQuotaRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetStencilDetails(ctx context.Context, stencilId StencilId, params *GetStencilDetailsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetStencilDetailsRequest(c.Server, stencilId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -4049,6 +4307,62 @@ func NewAddVMsToClusterRequestWithBody(server string, clusterIdentifier ClusterI
 	return req, nil
 }
 
+// NewGetClusterDetailsWithVMsRequest generates requests for GetClusterDetailsWithVMs
+func NewGetClusterDetailsWithVMsRequest(server string, clusterIdentifier ClusterIdentifier, params *GetClusterDetailsWithVMsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/clusters/%s/include_vms", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewRemoveVMsFromClusterRequest calls the generic RemoveVMsFromCluster builder with application/json body
 func NewRemoveVMsFromClusterRequest(server string, clusterIdentifier ClusterIdentifier, params *RemoveVMsFromClusterParams, body RemoveVMsFromClusterJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -4197,6 +4511,62 @@ func NewGetQuotaRequest(server string, params *GetQuotaParams) (*http.Request, e
 	}
 
 	operationPath := fmt.Sprintf("/quota")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetStencilDetailsRequest generates requests for GetStencilDetails
+func NewGetStencilDetailsRequest(server string, stencilId StencilId, params *GetStencilDetailsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "stencil_id", stencilId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/stencil/%s", pathParam0)
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -6715,6 +7085,9 @@ type ClientWithResponsesInterface interface {
 
 	AddVMsToClusterWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *AddVMsToClusterParams, body AddVMsToClusterJSONRequestBody, reqEditors ...RequestEditorFn) (*AddVMsToClusterResponse, error)
 
+	// GetClusterDetailsWithVMsWithResponse request
+	GetClusterDetailsWithVMsWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *GetClusterDetailsWithVMsParams, reqEditors ...RequestEditorFn) (*GetClusterDetailsWithVMsResponse, error)
+
 	// RemoveVMsFromClusterWithBodyWithResponse request with any body
 	RemoveVMsFromClusterWithBodyWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *RemoveVMsFromClusterParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RemoveVMsFromClusterResponse, error)
 
@@ -6727,6 +7100,9 @@ type ClientWithResponsesInterface interface {
 
 	// GetQuotaWithResponse request
 	GetQuotaWithResponse(ctx context.Context, params *GetQuotaParams, reqEditors ...RequestEditorFn) (*GetQuotaResponse, error)
+
+	// GetStencilDetailsWithResponse request
+	GetStencilDetailsWithResponse(ctx context.Context, stencilId StencilId, params *GetStencilDetailsParams, reqEditors ...RequestEditorFn) (*GetStencilDetailsResponse, error)
 
 	// ListStencilsWithResponse request
 	ListStencilsWithResponse(ctx context.Context, params *ListStencilsParams, reqEditors ...RequestEditorFn) (*ListStencilsResponse, error)
@@ -7024,6 +7400,30 @@ func (r AddVMsToClusterResponse) StatusCode() int {
 	return 0
 }
 
+type GetClusterDetailsWithVMsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ClusterDetails
+	JSON401      *Error
+	JSON404      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetClusterDetailsWithVMsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetClusterDetailsWithVMsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type RemoveVMsFromClusterResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -7089,6 +7489,30 @@ func (r GetQuotaResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetQuotaResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetStencilDetailsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *StencilDetails
+	JSON401      *Error
+	JSON404      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetStencilDetailsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetStencilDetailsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -8114,6 +8538,15 @@ func (c *ClientWithResponses) AddVMsToClusterWithResponse(ctx context.Context, c
 	return ParseAddVMsToClusterResponse(rsp)
 }
 
+// GetClusterDetailsWithVMsWithResponse request returning *GetClusterDetailsWithVMsResponse
+func (c *ClientWithResponses) GetClusterDetailsWithVMsWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *GetClusterDetailsWithVMsParams, reqEditors ...RequestEditorFn) (*GetClusterDetailsWithVMsResponse, error) {
+	rsp, err := c.GetClusterDetailsWithVMs(ctx, clusterIdentifier, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetClusterDetailsWithVMsResponse(rsp)
+}
+
 // RemoveVMsFromClusterWithBodyWithResponse request with arbitrary body returning *RemoveVMsFromClusterResponse
 func (c *ClientWithResponses) RemoveVMsFromClusterWithBodyWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *RemoveVMsFromClusterParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RemoveVMsFromClusterResponse, error) {
 	rsp, err := c.RemoveVMsFromClusterWithBody(ctx, clusterIdentifier, params, contentType, body, reqEditors...)
@@ -8155,6 +8588,15 @@ func (c *ClientWithResponses) GetQuotaWithResponse(ctx context.Context, params *
 		return nil, err
 	}
 	return ParseGetQuotaResponse(rsp)
+}
+
+// GetStencilDetailsWithResponse request returning *GetStencilDetailsResponse
+func (c *ClientWithResponses) GetStencilDetailsWithResponse(ctx context.Context, stencilId StencilId, params *GetStencilDetailsParams, reqEditors ...RequestEditorFn) (*GetStencilDetailsResponse, error) {
+	rsp, err := c.GetStencilDetails(ctx, stencilId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetStencilDetailsResponse(rsp)
 }
 
 // ListStencilsWithResponse request returning *ListStencilsResponse
@@ -8878,6 +9320,46 @@ func ParseAddVMsToClusterResponse(rsp *http.Response) (*AddVMsToClusterResponse,
 	return response, nil
 }
 
+// ParseGetClusterDetailsWithVMsResponse parses an HTTP response from a GetClusterDetailsWithVMsWithResponse call
+func ParseGetClusterDetailsWithVMsResponse(rsp *http.Response) (*GetClusterDetailsWithVMsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetClusterDetailsWithVMsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ClusterDetails
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseRemoveVMsFromClusterResponse parses an HTTP response from a RemoveVMsFromClusterWithResponse call
 func ParseRemoveVMsFromClusterResponse(rsp *http.Response) (*RemoveVMsFromClusterResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -8985,6 +9467,46 @@ func ParseGetQuotaResponse(rsp *http.Response) (*GetQuotaResponse, error) {
 			return nil, err
 		}
 		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetStencilDetailsResponse parses an HTTP response from a GetStencilDetailsWithResponse call
+func ParseGetStencilDetailsResponse(rsp *http.Response) (*GetStencilDetailsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetStencilDetailsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest StencilDetails
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
 
 	}
 

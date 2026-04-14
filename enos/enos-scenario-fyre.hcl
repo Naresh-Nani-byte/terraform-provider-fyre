@@ -14,11 +14,18 @@ scenario "fyre" {
     default     = "1-8103661"
   }
 
+  variable "cluster_id" {
+    type        = string
+    description = "Cluster ID to use for testing cluster data sources"
+    default     = "15281"
+  }
+
   step "test_datasources" {
     module = module.datasources
 
     variables {
-      vm_id = var.vm_id
+      vm_id      = var.vm_id
+      cluster_id = var.cluster_id
     }
   }
 
@@ -56,6 +63,14 @@ scenario "fyre" {
 
   output "vm_check_hostname" {
     value = step.test_datasources.vm_check_hostname
+  }
+
+  output "cluster_details" {
+    value = step.test_datasources.cluster_details
+  }
+
+  output "cluster_details_with_vms" {
+    value = step.test_datasources.cluster_details_with_vms
   }
 
   output "stencils" {

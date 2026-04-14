@@ -16,6 +16,11 @@ variable "vm_id" {
   description = "VM ID to use for testing VM data sources"
 }
 
+variable "cluster_id" {
+  type        = string
+  description = "Cluster ID to use for testing cluster data sources"
+}
+
 data "fyre_quota" "rtp" {
   site = "rtp"
 }
@@ -59,6 +64,25 @@ data "fyre_vm_check_hostname" "test" {
 data "fyre_stencils" "test" {
   product_group_id = data.fyre_user.current.development.default_product_group_id
   site             = "svl"
+}
+
+data "fyre_cluster_details" "test" {
+  cluster_id = var.cluster_id
+  site       = "svl"
+}
+
+data "fyre_cluster_details" "test_with_vms" {
+  cluster_id  = var.cluster_id
+  site        = "svl"
+  include_vms = true
+}
+
+output "cluster_details" {
+  value = data.fyre_cluster_details.test
+}
+
+output "cluster_details_with_vms" {
+  value = data.fyre_cluster_details.test_with_vms
 }
 
 output "quota_svl" {

@@ -360,6 +360,9 @@ components:
             $ref: '#/components/schemas/VMAdditionalDisk'
         allow_floating_ip:
           type: string
+        added_to_cluster:
+          type: string
+          description: Timestamp when VM was added to cluster (only present in cluster context)
 
     # Updated from actual API response on 2026-04-13
     VMDetails:
@@ -800,6 +803,84 @@ components:
             name:
               type: string
 
+    StencilDetails:
+      # Updated from actual API response on 2026-04-13
+      type: object
+      properties:
+        id:
+          type: string
+          description: Stencil ID
+        name:
+          type: string
+          description: Stencil name
+        description:
+          type: string
+          description: Stencil description
+        active:
+          type: string
+          enum: ['y', 'n']
+          description: Whether stencil is active
+        private:
+          type: string
+          enum: ['y', 'n']
+          description: Whether stencil is private
+        created:
+          type: string
+          description: Creation timestamp
+        updated:
+          type: string
+          description: Last update timestamp
+        site:
+          type: string
+          enum: [svl, rtp]
+          description: Site location
+        owner:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: Owner user ID
+            email:
+              type: string
+              description: Owner email
+            username:
+              type: string
+              description: Owner username
+            displayname:
+              type: string
+              description: Owner display name
+        product_group:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: Product group ID
+            product_group:
+              type: string
+              description: Product group name
+        vms:
+          type: array
+          description: VM configuration details
+          items:
+            type: object
+            properties:
+              product_group_id:
+                type: integer
+              platform:
+                type: string
+                enum: [x, pvm, z]
+              compliance_date:
+                type: string
+              disk_qty:
+                type: integer
+              disk_capacity:
+                type: string
+              interfaces:
+                type: array
+                items:
+                  type: string
+                  enum: [private, public]
+
     ClusterList:
       type: object
       properties:
@@ -822,22 +903,30 @@ components:
         vm_count:
           type: integer
 
+    # Updated from actual API response on 2026-04-13
     ClusterDetails:
       type: object
       properties:
-        status:
-          type: string
         cluster:
           type: object
           properties:
             id:
-              type: string
+              type: integer
+            user_id:
+              type: integer
             name:
               type: string
             description:
               type: string
+            created:
+              type: string
+              description: Cluster creation timestamp
+            updated:
+              type: string
+              description: Cluster last update timestamp
             vms:
               type: array
+              description: VM details (only present when include_vms is used)
               items:
                 $ref: '#/components/schemas/VMSummary'
 
@@ -2203,7 +2292,30 @@ paths:
       tags:
         - Stencils
       summary: List stencils
-      description: Get list of available stencils with optional filters
+      description: |
+        Get list of available stencils. This endpoint supports flexible URL-based filtering
+        where filter segments can be combined in any order after /stencils.
+
+        Available filter segments:
+        - `/product_group/{id}` - Only stencils from specified product group
+        - `/public` - Only public stencils
+        - `/private` - Only private stencils
+        - `/site/{site}` - Stencils available at provided site (svl or rtp)
+        - `/my_stencils` - Only stencils owned by authenticating user
+
+        Examples of valid combinations:
+        - `/stencils` - All accessible stencils
+        - `/stencils/public` - All public stencils
+        - `/stencils/public/site/rtp` - Public stencils at RTP site
+        - `/stencils/product_group/753/public` - Public stencils in product group 753
+        - `/stencils/site/rtp/product_group/753` - Product group 753 stencils at RTP
+        - `/stencils/private/site/svl` - Private stencils at SVL site
+
+        Note: Filters can be combined in any order. The API uses URL path segments
+        rather than query parameters for filtering. OpenAPI cannot handle
+        arbitrary path segments so we only enumarate a few.
+
+        Updated from actual API testing on 2026-04-13
       operationId: listStencils
       parameters:
         - $ref: '#/components/parameters/siteQuery'
@@ -2222,13 +2334,53 @@ paths:
                 $ref: '#/components/schemas/Error'
 
   /stencil/{stencil_id}:
+    get:
+      tags:
+        - Stencils
+      summary: Get stencil details
+      description: |
+        Get detailed information about a specific stencil by ID.
+
+        Updated from actual API response on 2026-04-13
+      operationId: getStencilDetails
+      parameters:
+        - $ref: '#/components/parameters/stencilId'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StencilDetails'
+        '404':
+          description: Stencil not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
   /stencils/product_group/{product_group_id}:
     get:
       tags:
         - Stencils
       summary: List stencils by product group
-      description: Get list of stencils filtered by product group ID
+      description: |
+        Get list of stencils filtered by product group ID.
+
+        This filter can be combined with other filters in any order:
+        - `/stencils/product_group/{id}/public` - Public stencils in product group
+        - `/stencils/product_group/{id}/private` - Private stencils in product group
+        - `/stencils/product_group/{id}/site/{site}` - Product group stencils at site
+        - `/stencils/site/{site}/product_group/{id}` - Same as above, different order
+
+        Updated from actual API testing on 2026-04-13
       operationId: listStencilsByProductGroup
       parameters:
         - $ref: '#/components/parameters/productGroupId'
@@ -2252,7 +2404,15 @@ paths:
       tags:
         - Stencils
       summary: List public stencils
-      description: Get list of public stencils available to all users
+      description: |
+        Get list of public stencils available to all users.
+
+        This filter can be combined with other filters in any order:
+        - `/stencils/public/site/{site}` - Public stencils at specific site
+        - `/stencils/public/product_group/{id}` - Public stencils in product group
+        - `/stencils/site/{site}/public` - Same as first, different order
+
+        Updated from actual API testing on 2026-04-13
       operationId: listPublicStencils
       parameters:
         - $ref: '#/components/parameters/siteQuery'
@@ -2275,7 +2435,15 @@ paths:
       tags:
         - Stencils
       summary: List private stencils
-      description: Get list of private stencils owned by the authenticated user
+      description: |
+        Get list of private stencils owned by the authenticated user.
+
+        This filter can be combined with other filters in any order:
+        - `/stencils/private/site/{site}` - Private stencils at specific site
+        - `/stencils/private/product_group/{id}` - Private stencils in product group
+        - `/stencils/site/{site}/private` - Same as first, different order
+
+        Updated from actual API testing on 2026-04-13
       operationId: listPrivateStencils
       parameters:
         - $ref: '#/components/parameters/siteQuery'
@@ -2298,7 +2466,16 @@ paths:
       tags:
         - Stencils
       summary: List stencils by site
-      description: Get list of stencils available at a specific site
+      description: |
+        Get list of stencils available at a specific site.
+
+        This filter can be combined with other filters in any order:
+        - `/stencils/site/{site}/public` - Public stencils at site
+        - `/stencils/site/{site}/private` - Private stencils at site
+        - `/stencils/site/{site}/product_group/{id}` - Product group stencils at site
+        - `/stencils/site/{site}/my_stencils` - User's stencils at site
+
+        Updated from actual API testing on 2026-04-13
       operationId: listStencilsBySite
       parameters:
         - name: site
@@ -2327,7 +2504,15 @@ paths:
       tags:
         - Stencils
       summary: List my stencils
-      description: Get list of stencils owned by the authenticated user
+      description: |
+        Get list of stencils owned by the authenticated user.
+
+        This filter can be combined with other filters in any order:
+        - `/stencils/my_stencils/site/{site}` - User's stencils at specific site
+        - `/stencils/my_stencils/product_group/{id}` - User's stencils in product group
+        - `/stencils/site/{site}/my_stencils` - Same as first, different order
+
+        Updated from actual API testing on 2026-04-13
       operationId: listMyStencils
       parameters:
         - $ref: '#/components/parameters/siteQuery'
@@ -2519,6 +2704,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Success'
+        '404':
+          description: Cluster not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /clusters/{cluster_identifier}/include_vms:
+    get:
+      tags:
+        - Clusters
+      summary: Get cluster details with VMs
+      description: Get details of a specific cluster including VM information
+      operationId: getClusterDetailsWithVMs
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterDetails'
         '404':
           description: Cluster not found
           content:

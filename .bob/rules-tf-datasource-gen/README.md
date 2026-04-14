@@ -53,8 +53,7 @@ Create a data source for cluster details using GetClusterDetails at /cluster/{cl
 export FYRE_USERNAME="your-username"
 export FYRE_API_KEY="your-api-key"
 
-# Set any specific prerequisite identifiers (optional)
-export FYRE_ACC_VM_ID=v1-8103661
+# Set any specific prerequisites
 
 # Run acceptance test
 TF_ACC=1 go test -v ./internal/provider -run TestAccDataSource<Name>
@@ -96,4 +95,4 @@ bob> Run the acceptance test for the stencils data source
 - **Style Guide**: `internal/provider/data_source_quota.go`
 - **Test Guide**: `internal/provider/data_source_quota_test.go`
 - **Example**: `.bob/rules-tf-datasource-gen/example-template.md`
-jjjjjjjjjjjjjjjkkkkkkjrules-tf-datasource-gen/workflow.md`
+- **Workflow**: `.bob/rules-tf-datasource-gen/workflow.md`

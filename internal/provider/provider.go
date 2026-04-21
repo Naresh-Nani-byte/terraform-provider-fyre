@@ -156,7 +156,9 @@ func (p *FyreProvider) Configure(ctx context.Context, req provider.ConfigureRequ
 }
 
 func (p *FyreProvider) Resources(ctx context.Context) []func() resource.Resource {
-	return []func() resource.Resource{}
+	return []func() resource.Resource{
+		NewResourceVM,
+	}
 }
 
 func (p *FyreProvider) EphemeralResources(ctx context.Context) []func() ephemeral.EphemeralResource {

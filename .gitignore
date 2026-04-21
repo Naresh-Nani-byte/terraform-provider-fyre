@@ -1,3 +1,4 @@
 enos/.enos/**
 dist/**
 .bob/.bob-errors/*
+terraform-provider-fyre

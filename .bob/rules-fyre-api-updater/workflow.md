@@ -21,6 +21,7 @@ Look for:
 - Nested structures
 - Optional fields (may not appear in all responses)
 - Enum values
+- **CRITICAL**: Check for `request_id` field in responses - if present, the operation is asynchronous and MUST be polled for completion
 
 ### 4. Update OpenAPI Spec
 In `internal/client/api.yaml`:

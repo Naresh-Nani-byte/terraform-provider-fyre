@@ -152,6 +152,24 @@ func (e StencilDetailsVmsPlatform) Valid() bool {
 	}
 }
 
+// Defines values for VIPAttachResponseIpsType.
+const (
+	VIPAttachResponseIpsTypePrivate VIPAttachResponseIpsType = "private"
+	VIPAttachResponseIpsTypePublic  VIPAttachResponseIpsType = "public"
+)
+
+// Valid indicates whether the value is a known member of the VIPAttachResponseIpsType enum.
+func (e VIPAttachResponseIpsType) Valid() bool {
+	switch e {
+	case VIPAttachResponseIpsTypePrivate:
+		return true
+	case VIPAttachResponseIpsTypePublic:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for VMCloneRequestDns.
 const (
 	VMCloneRequestDnsN VMCloneRequestDns = "n"
@@ -188,57 +206,93 @@ func (e VMCloneRequestPublicNetwork) Valid() bool {
 	}
 }
 
-// Defines values for VMCreateRequestDns.
+// Defines values for VMCreateRequestCheckConfig.
 const (
-	VMCreateRequestDnsN VMCreateRequestDns = "n"
-	VMCreateRequestDnsY VMCreateRequestDns = "y"
+	VMCreateRequestCheckConfigN VMCreateRequestCheckConfig = "n"
+	VMCreateRequestCheckConfigY VMCreateRequestCheckConfig = "y"
 )
 
-// Valid indicates whether the value is a known member of the VMCreateRequestDns enum.
-func (e VMCreateRequestDns) Valid() bool {
+// Valid indicates whether the value is a known member of the VMCreateRequestCheckConfig enum.
+func (e VMCreateRequestCheckConfig) Valid() bool {
 	switch e {
-	case VMCreateRequestDnsN:
+	case VMCreateRequestCheckConfigN:
 		return true
-	case VMCreateRequestDnsY:
+	case VMCreateRequestCheckConfigY:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for VMCreateRequestPlatform.
+// Defines values for VMCreateRequestNodeArrayDedicated.
 const (
-	VMCreateRequestPlatformPvm VMCreateRequestPlatform = "pvm"
-	VMCreateRequestPlatformX   VMCreateRequestPlatform = "x"
-	VMCreateRequestPlatformZ   VMCreateRequestPlatform = "z"
+	VMCreateRequestNodeArrayDedicatedN VMCreateRequestNodeArrayDedicated = "n"
+	VMCreateRequestNodeArrayDedicatedY VMCreateRequestNodeArrayDedicated = "y"
 )
 
-// Valid indicates whether the value is a known member of the VMCreateRequestPlatform enum.
-func (e VMCreateRequestPlatform) Valid() bool {
+// Valid indicates whether the value is a known member of the VMCreateRequestNodeArrayDedicated enum.
+func (e VMCreateRequestNodeArrayDedicated) Valid() bool {
 	switch e {
-	case VMCreateRequestPlatformPvm:
+	case VMCreateRequestNodeArrayDedicatedN:
 		return true
-	case VMCreateRequestPlatformX:
-		return true
-	case VMCreateRequestPlatformZ:
+	case VMCreateRequestNodeArrayDedicatedY:
 		return true
 	default:
 		return false
 	}
 }
 
-// Defines values for VMCreateRequestPublicNetwork.
+// Defines values for VMCreateRequestNodeArrayDns.
 const (
-	VMCreateRequestPublicNetworkN VMCreateRequestPublicNetwork = "n"
-	VMCreateRequestPublicNetworkY VMCreateRequestPublicNetwork = "y"
+	VMCreateRequestNodeArrayDnsN VMCreateRequestNodeArrayDns = "n"
+	VMCreateRequestNodeArrayDnsY VMCreateRequestNodeArrayDns = "y"
 )
 
-// Valid indicates whether the value is a known member of the VMCreateRequestPublicNetwork enum.
-func (e VMCreateRequestPublicNetwork) Valid() bool {
+// Valid indicates whether the value is a known member of the VMCreateRequestNodeArrayDns enum.
+func (e VMCreateRequestNodeArrayDns) Valid() bool {
 	switch e {
-	case VMCreateRequestPublicNetworkN:
+	case VMCreateRequestNodeArrayDnsN:
 		return true
-	case VMCreateRequestPublicNetworkY:
+	case VMCreateRequestNodeArrayDnsY:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VMCreateRequestNodeArrayPlatform.
+const (
+	VMCreateRequestNodeArrayPlatformPvm VMCreateRequestNodeArrayPlatform = "pvm"
+	VMCreateRequestNodeArrayPlatformX   VMCreateRequestNodeArrayPlatform = "x"
+	VMCreateRequestNodeArrayPlatformZ   VMCreateRequestNodeArrayPlatform = "z"
+)
+
+// Valid indicates whether the value is a known member of the VMCreateRequestNodeArrayPlatform enum.
+func (e VMCreateRequestNodeArrayPlatform) Valid() bool {
+	switch e {
+	case VMCreateRequestNodeArrayPlatformPvm:
+		return true
+	case VMCreateRequestNodeArrayPlatformX:
+		return true
+	case VMCreateRequestNodeArrayPlatformZ:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VMCreateRequestNodeArrayPublicNetwork.
+const (
+	VMCreateRequestNodeArrayPublicNetworkN VMCreateRequestNodeArrayPublicNetwork = "n"
+	VMCreateRequestNodeArrayPublicNetworkY VMCreateRequestNodeArrayPublicNetwork = "y"
+)
+
+// Valid indicates whether the value is a known member of the VMCreateRequestNodeArrayPublicNetwork enum.
+func (e VMCreateRequestNodeArrayPublicNetwork) Valid() bool {
+	switch e {
+	case VMCreateRequestNodeArrayPublicNetworkN:
+		return true
+	case VMCreateRequestNodeArrayPublicNetworkY:
 		return true
 	default:
 		return false
@@ -257,24 +311,6 @@ func (e VMCreateRequestQuotaType) Valid() bool {
 	case ProductGroup:
 		return true
 	case QuickBurn:
-		return true
-	default:
-		return false
-	}
-}
-
-// Defines values for VMCreateRequestSite.
-const (
-	VMCreateRequestSiteRtp VMCreateRequestSite = "rtp"
-	VMCreateRequestSiteSvl VMCreateRequestSite = "svl"
-)
-
-// Valid indicates whether the value is a known member of the VMCreateRequestSite enum.
-func (e VMCreateRequestSite) Valid() bool {
-	switch e {
-	case VMCreateRequestSiteRtp:
-		return true
-	case VMCreateRequestSiteSvl:
 		return true
 	default:
 		return false
@@ -1067,6 +1103,24 @@ func (e UpdateVMExpirationParamsSite) Valid() bool {
 	}
 }
 
+// Defines values for UpdateVMHostnameParamsSite.
+const (
+	UpdateVMHostnameParamsSiteRtp UpdateVMHostnameParamsSite = "rtp"
+	UpdateVMHostnameParamsSiteSvl UpdateVMHostnameParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the UpdateVMHostnameParamsSite enum.
+func (e UpdateVMHostnameParamsSite) Valid() bool {
+	switch e {
+	case UpdateVMHostnameParamsSiteRtp:
+		return true
+	case UpdateVMHostnameParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ChangeVMPasswordParamsSite.
 const (
 	ChangeVMPasswordParamsSiteRtp ChangeVMPasswordParamsSite = "rtp"
@@ -1339,16 +1393,16 @@ func (e AttachVIPParamsSite) Valid() bool {
 
 // Defines values for AttachVIPParamsVipType.
 const (
-	AttachVIPParamsVipTypePrivate AttachVIPParamsVipType = "private"
-	AttachVIPParamsVipTypePublic  AttachVIPParamsVipType = "public"
+	Private AttachVIPParamsVipType = "private"
+	Public  AttachVIPParamsVipType = "public"
 )
 
 // Valid indicates whether the value is a known member of the AttachVIPParamsVipType enum.
 func (e AttachVIPParamsVipType) Valid() bool {
 	switch e {
-	case AttachVIPParamsVipTypePrivate:
+	case Private:
 		return true
-	case AttachVIPParamsVipTypePublic:
+	case Public:
 		return true
 	default:
 		return false
@@ -1466,6 +1520,8 @@ type ClusterVMRequest struct {
 
 // Error defines model for Error.
 type Error struct {
+	// Details Human-readable details about the error
+	Details *string `json:"details,omitempty"`
 	Message *string `json:"message,omitempty"`
 	Status  *string `json:"status,omitempty"`
 }
@@ -1584,10 +1640,44 @@ type QuotaResponse struct {
 
 // RequestStatus defines model for RequestStatus.
 type RequestStatus struct {
-	Details   *map[string]interface{} `json:"details,omitempty"`
-	RequestId *string                 `json:"request_id,omitempty"`
-	State     *string                 `json:"state,omitempty"`
-	Status    *string                 `json:"status,omitempty"`
+	// Request Request details object
+	Request *struct {
+		// Complete Number of completed tasks (as string)
+		Complete *string `json:"complete,omitempty"`
+
+		// CompletionPercent Overall completion percentage
+		CompletionPercent *int `json:"completion_percent,omitempty"`
+
+		// Failed Number of failed tasks (as string)
+		Failed *string `json:"failed,omitempty"`
+
+		// InProgress Number of tasks in progress (as string)
+		InProgress *string `json:"in_progress,omitempty"`
+
+		// JobCount Total number of jobs
+		JobCount *int `json:"job_count,omitempty"`
+
+		// LastStatus Last status message from the operation
+		LastStatus *string `json:"last_status,omitempty"`
+
+		// LastStatusTime Timestamp of last status update
+		LastStatusTime *string `json:"last_status_time,omitempty"`
+
+		// Operation Type of operation (e.g., "build vm")
+		Operation *string `json:"operation,omitempty"`
+
+		// Pending Number of pending tasks (as string)
+		Pending *string `json:"pending,omitempty"`
+
+		// RequestId Unique request identifier
+		RequestId *string `json:"request_id,omitempty"`
+
+		// TaskCount Total number of tasks
+		TaskCount *int `json:"task_count,omitempty"`
+	} `json:"request,omitempty"`
+
+	// Status Status of the response (success, error, etc.)
+	Status *string `json:"status,omitempty"`
 }
 
 // Snapshot defines model for Snapshot.
@@ -1788,8 +1878,13 @@ type StencilSummary struct {
 
 // Success defines model for Success.
 type Success struct {
+	// Details Human-readable details about the operation
+	Details *string `json:"details,omitempty"`
 	Message *string `json:"message,omitempty"`
-	Status  *string `json:"status,omitempty"`
+
+	// RequestId Request identifier for tracking asynchronous operations
+	RequestId *string `json:"request_id,omitempty"`
+	Status    *string `json:"status,omitempty"`
 }
 
 // UserDetails defines model for UserDetails.
@@ -1839,8 +1934,7 @@ type UserDetails struct {
 
 // UserList defines model for UserList.
 type UserList struct {
-	Status *string        `json:"status,omitempty"`
-	Users  *[]UserSummary `json:"users,omitempty"`
+	Status *string `json:"status,omitempty"`
 }
 
 // UserSummary defines model for UserSummary.
@@ -1851,10 +1945,49 @@ type UserSummary struct {
 	Username *string `json:"username,omitempty"`
 }
 
+// VIPAttachResponse defines model for VIPAttachResponse.
+type VIPAttachResponse struct {
+	// DefaultGateway Default gateway for the network
+	DefaultGateway *string `json:"default_gateway,omitempty"`
+
+	// Details Human-readable message about the operation
+	Details *string `json:"details,omitempty"`
+	Ips     *[]struct {
+		// Ip IP address that was added
+		Ip *string `json:"ip,omitempty"`
+
+		// Type Type of IP address
+		Type *VIPAttachResponseIpsType `json:"type,omitempty"`
+	} `json:"ips,omitempty"`
+
+	// RequestId Request identifier
+	RequestId *string `json:"request_id,omitempty"`
+	Status    *string `json:"status,omitempty"`
+
+	// SubnetMask Subnet mask for the network
+	SubnetMask *string `json:"subnet_mask,omitempty"`
+}
+
+// VIPAttachResponseIpsType Type of IP address
+type VIPAttachResponseIpsType string
+
 // VIPDeleteRequest defines model for VIPDeleteRequest.
 type VIPDeleteRequest struct {
 	// IpAddress Specific IP address to delete
 	IpAddress *string `json:"ip_address,omitempty"`
+}
+
+// VIPDeleteResponse defines model for VIPDeleteResponse.
+type VIPDeleteResponse struct {
+	// Details Human-readable message about the operation
+	Details *string `json:"details,omitempty"`
+
+	// Ips List of IP addresses that were removed
+	Ips *[]string `json:"ips,omitempty"`
+
+	// RequestId Request identifier
+	RequestId *string `json:"request_id,omitempty"`
+	Status    *string `json:"status,omitempty"`
 }
 
 // VMAdditionalDisk defines model for VMAdditionalDisk.
@@ -1908,72 +2041,92 @@ type VMCloneRequest_SshKey struct {
 
 // VMCreateRequest defines model for VMCreateRequest.
 type VMCreateRequest struct {
-	// AdditionalDisk Additional disk sizes in GB (max 2)
-	AdditionalDisk *[]int `json:"additional_disk,omitempty"`
-
-	// Count Number of VMs to create (hostname will be auto-assigned)
-	Count *int `json:"count,omitempty"`
-
-	// Cpu Number of CPUs
-	Cpu *int `json:"cpu,omitempty"`
-
-	// Description VM description
-	Description *string `json:"description,omitempty"`
-
-	// Disk Disk size in GB
-	Disk *int `json:"disk,omitempty"`
-
-	// Dns Add hostname to DNS in dev.fyre.ibm.com domain
-	Dns *VMCreateRequestDns `json:"dns,omitempty"`
+	// CheckConfig If 'y', validates configuration without building
+	CheckConfig *VMCreateRequestCheckConfig `json:"check_config,omitempty"`
 
 	// Expiration Expiration time in hours or "X days X hours" format (max 90 days)
 	Expiration *string `json:"expiration,omitempty"`
 
-	// Hostname Hostname for the VM
-	Hostname *string `json:"hostname,omitempty"`
+	// NodeArray Array of VM configurations to create
+	NodeArray []struct {
+		// AdditionalDisk Additional disk sizes in GB (max 2)
+		AdditionalDisk *[]string `json:"additional_disk,omitempty"`
 
-	// Memory Memory in GB
-	Memory *int `json:"memory,omitempty"`
+		// Count Number of VMs to create with this configuration
+		Count *int `json:"count,omitempty"`
 
-	// Os Operating system
-	Os string `json:"os"`
+		// Cpu Number of CPUs
+		Cpu *int `json:"cpu,omitempty"`
 
-	// Password Custom password for the VM
-	Password *string `json:"password,omitempty"`
+		// Dedicated Use dedicated host
+		Dedicated *VMCreateRequestNodeArrayDedicated `json:"dedicated,omitempty"`
 
-	// Platform Platform type
-	Platform VMCreateRequestPlatform `json:"platform"`
+		// DedicatedHost Specific dedicated host(s) to use
+		DedicatedHost *[]string `json:"dedicated_host,omitempty"`
 
-	// ProductGroupId Product group identifier
+		// Description VM description
+		Description *string `json:"description,omitempty"`
+
+		// Dns Add hostname to DNS in dev.fyre.ibm.com domain
+		Dns *VMCreateRequestNodeArrayDns `json:"dns,omitempty"`
+
+		// Hostname Hostname(s) for the VM(s)
+		Hostname *VMCreateRequest_NodeArray_Hostname `json:"hostname,omitempty"`
+
+		// Memory Memory in GB
+		Memory *int `json:"memory,omitempty"`
+
+		// Os Operating system (required)
+		Os string `json:"os"`
+
+		// Platform Platform type
+		Platform *VMCreateRequestNodeArrayPlatform `json:"platform,omitempty"`
+
+		// PublicNetwork Provision public IP on VM
+		PublicNetwork *VMCreateRequestNodeArrayPublicNetwork `json:"public_network,omitempty"`
+	} `json:"node_array"`
+
+	// ProductGroupId Product group identifier (defaults to user's default product group)
 	ProductGroupId *string `json:"product_group_id,omitempty"`
-
-	// PublicNetwork Assign public IP address
-	PublicNetwork *VMCreateRequestPublicNetwork `json:"public_network,omitempty"`
 
 	// QuotaType Type of quota to use
 	QuotaType *VMCreateRequestQuotaType `json:"quota_type,omitempty"`
 
-	// Site Site location
-	Site *VMCreateRequestSite `json:"site,omitempty"`
-
 	// SshKey SSH key(s) - can be array or comma-separated string
 	SshKey *VMCreateRequest_SshKey `json:"ssh_key,omitempty"`
+
+	// TimeToLive Hours - required if quota_type is quick_burn
+	TimeToLive *string `json:"time_to_live,omitempty"`
 }
 
-// VMCreateRequestDns Add hostname to DNS in dev.fyre.ibm.com domain
-type VMCreateRequestDns string
+// VMCreateRequestCheckConfig If 'y', validates configuration without building
+type VMCreateRequestCheckConfig string
 
-// VMCreateRequestPlatform Platform type
-type VMCreateRequestPlatform string
+// VMCreateRequestNodeArrayDedicated Use dedicated host
+type VMCreateRequestNodeArrayDedicated string
 
-// VMCreateRequestPublicNetwork Assign public IP address
-type VMCreateRequestPublicNetwork string
+// VMCreateRequestNodeArrayDns Add hostname to DNS in dev.fyre.ibm.com domain
+type VMCreateRequestNodeArrayDns string
+
+// VMCreateRequestNodeArrayHostname0 defines model for .
+type VMCreateRequestNodeArrayHostname0 = string
+
+// VMCreateRequestNodeArrayHostname1 defines model for .
+type VMCreateRequestNodeArrayHostname1 = []string
+
+// VMCreateRequest_NodeArray_Hostname Hostname(s) for the VM(s)
+type VMCreateRequest_NodeArray_Hostname struct {
+	union json.RawMessage
+}
+
+// VMCreateRequestNodeArrayPlatform Platform type
+type VMCreateRequestNodeArrayPlatform string
+
+// VMCreateRequestNodeArrayPublicNetwork Provision public IP on VM
+type VMCreateRequestNodeArrayPublicNetwork string
 
 // VMCreateRequestQuotaType Type of quota to use
 type VMCreateRequestQuotaType string
-
-// VMCreateRequestSite Site location
-type VMCreateRequestSite string
 
 // VMCreateRequestSshKey0 defines model for .
 type VMCreateRequestSshKey0 = string
@@ -1986,6 +2139,33 @@ type VMCreateRequest_SshKey struct {
 	union json.RawMessage
 }
 
+// VMCreateResponse defines model for VMCreateResponse.
+type VMCreateResponse struct {
+	// Details Details about the operation (e.g., "build initiated")
+	Details *string `json:"details,omitempty"`
+
+	// RequestId Unique request identifier for tracking the build operation
+	RequestId *string `json:"request_id,omitempty"`
+
+	// Status Status of the response (success, error, etc.)
+	Status *string `json:"status,omitempty"`
+
+	// VmId The VM identifier assigned to the new VM
+	VmId *string `json:"vm_id,omitempty"`
+}
+
+// VMDeleteResponse defines model for VMDeleteResponse.
+type VMDeleteResponse struct {
+	// Details Details about the operation (e.g., "vm deletion initiated")
+	Details *string `json:"details,omitempty"`
+
+	// RequestId Unique request identifier for tracking the deletion operation
+	RequestId *string `json:"request_id,omitempty"`
+
+	// Status Status of the response (success, error, etc.)
+	Status *string `json:"status,omitempty"`
+}
+
 // VMDescriptionUpdate defines model for VMDescriptionUpdate.
 type VMDescriptionUpdate struct {
 	// Description VM description
@@ -1994,6 +2174,8 @@ type VMDescriptionUpdate struct {
 
 // VMDetails defines model for VMDetails.
 type VMDetails struct {
+	// AdditionalDisk Array of additional disk sizes in GB
+	AdditionalDisk  *[]int  `json:"additional_disk,omitempty"`
 	AllowFloatingIp *string `json:"allow_floating_ip,omitempty"`
 	AutoPatch       *string `json:"auto_patch,omitempty"`
 	Comment         *string `json:"comment,omitempty"`
@@ -2044,6 +2226,12 @@ type VMDetails struct {
 type VMDiskAdd struct {
 	// AdditionalDisk Additional disk sizes in GB
 	AdditionalDisk []int `json:"additional_disk"`
+}
+
+// VMHostnameUpdate defines model for VMHostnameUpdate.
+type VMHostnameUpdate struct {
+	// Name New hostname for the VM
+	Name string `json:"name"`
 }
 
 // VMIP defines model for VMIP.
@@ -2137,6 +2325,22 @@ type VMTransferAcceptOwnershipOnly string
 type VMTransferRequest struct {
 	// Comment Optional comment for the transfer
 	Comment *string `json:"comment,omitempty"`
+}
+
+// VMUpdateResponse defines model for VMUpdateResponse.
+type VMUpdateResponse struct {
+	// Details Details about the operation
+	Details *string `json:"details,omitempty"`
+
+	// FinalTask Final task identifier
+	FinalTask *string `json:"final_task,omitempty"`
+
+	// RequestId Unique request identifier for tracking the operation
+	RequestId *string `json:"request_id,omitempty"`
+
+	// Status Status of the response (success, error, etc.)
+	Status *string        `json:"status,omitempty"`
+	Users  *[]UserSummary `json:"users,omitempty"`
 }
 
 // ClusterIdentifier defines model for clusterIdentifier.
@@ -2496,6 +2700,15 @@ type UpdateVMExpirationParams struct {
 // UpdateVMExpirationParamsSite defines parameters for UpdateVMExpiration.
 type UpdateVMExpirationParamsSite string
 
+// UpdateVMHostnameParams defines parameters for UpdateVMHostname.
+type UpdateVMHostnameParams struct {
+	// Site Site location (svl or rtp)
+	Site *UpdateVMHostnameParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// UpdateVMHostnameParamsSite defines parameters for UpdateVMHostname.
+type UpdateVMHostnameParamsSite string
+
 // ChangeVMPasswordParams defines parameters for ChangeVMPassword.
 type ChangeVMPasswordParams struct {
 	// Site Site location (svl or rtp)
@@ -2676,6 +2889,9 @@ type AddVMDiskJSONRequestBody = VMDiskAdd
 // UpdateVMExpirationJSONRequestBody defines body for UpdateVMExpiration for application/json ContentType.
 type UpdateVMExpirationJSONRequestBody = ExpirationUpdate
 
+// UpdateVMHostnameJSONRequestBody defines body for UpdateVMHostname for application/json ContentType.
+type UpdateVMHostnameJSONRequestBody = VMHostnameUpdate
+
 // ChangeVMPasswordJSONRequestBody defines body for ChangeVMPassword for application/json ContentType.
 type ChangeVMPasswordJSONRequestBody = VMPasswordUpdate
 
@@ -2761,6 +2977,68 @@ func (t VMCloneRequest_SshKey) MarshalJSON() ([]byte, error) {
 }
 
 func (t *VMCloneRequest_SshKey) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsVMCreateRequestNodeArrayHostname0 returns the union data inside the VMCreateRequest_NodeArray_Hostname as a VMCreateRequestNodeArrayHostname0
+func (t VMCreateRequest_NodeArray_Hostname) AsVMCreateRequestNodeArrayHostname0() (VMCreateRequestNodeArrayHostname0, error) {
+	var body VMCreateRequestNodeArrayHostname0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVMCreateRequestNodeArrayHostname0 overwrites any union data inside the VMCreateRequest_NodeArray_Hostname as the provided VMCreateRequestNodeArrayHostname0
+func (t *VMCreateRequest_NodeArray_Hostname) FromVMCreateRequestNodeArrayHostname0(v VMCreateRequestNodeArrayHostname0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVMCreateRequestNodeArrayHostname0 performs a merge with any union data inside the VMCreateRequest_NodeArray_Hostname, using the provided VMCreateRequestNodeArrayHostname0
+func (t *VMCreateRequest_NodeArray_Hostname) MergeVMCreateRequestNodeArrayHostname0(v VMCreateRequestNodeArrayHostname0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVMCreateRequestNodeArrayHostname1 returns the union data inside the VMCreateRequest_NodeArray_Hostname as a VMCreateRequestNodeArrayHostname1
+func (t VMCreateRequest_NodeArray_Hostname) AsVMCreateRequestNodeArrayHostname1() (VMCreateRequestNodeArrayHostname1, error) {
+	var body VMCreateRequestNodeArrayHostname1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVMCreateRequestNodeArrayHostname1 overwrites any union data inside the VMCreateRequest_NodeArray_Hostname as the provided VMCreateRequestNodeArrayHostname1
+func (t *VMCreateRequest_NodeArray_Hostname) FromVMCreateRequestNodeArrayHostname1(v VMCreateRequestNodeArrayHostname1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVMCreateRequestNodeArrayHostname1 performs a merge with any union data inside the VMCreateRequest_NodeArray_Hostname, using the provided VMCreateRequestNodeArrayHostname1
+func (t *VMCreateRequest_NodeArray_Hostname) MergeVMCreateRequestNodeArrayHostname1(v VMCreateRequestNodeArrayHostname1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t VMCreateRequest_NodeArray_Hostname) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *VMCreateRequest_NodeArray_Hostname) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -3031,6 +3309,11 @@ type ClientInterface interface {
 	UpdateVMExpirationWithBody(ctx context.Context, vmIdentifier VmIdentifier, params *UpdateVMExpirationParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	UpdateVMExpiration(ctx context.Context, vmIdentifier VmIdentifier, params *UpdateVMExpirationParams, body UpdateVMExpirationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UpdateVMHostnameWithBody request with any body
+	UpdateVMHostnameWithBody(ctx context.Context, vmIdentifier VmIdentifier, params *UpdateVMHostnameParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	UpdateVMHostname(ctx context.Context, vmIdentifier VmIdentifier, params *UpdateVMHostnameParams, body UpdateVMHostnameJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ChangeVMPasswordWithBody request with any body
 	ChangeVMPasswordWithBody(ctx context.Context, vmIdentifier VmIdentifier, params *ChangeVMPasswordParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -3662,6 +3945,30 @@ func (c *Client) UpdateVMExpirationWithBody(ctx context.Context, vmIdentifier Vm
 
 func (c *Client) UpdateVMExpiration(ctx context.Context, vmIdentifier VmIdentifier, params *UpdateVMExpirationParams, body UpdateVMExpirationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUpdateVMExpirationRequest(c.Server, vmIdentifier, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateVMHostnameWithBody(ctx context.Context, vmIdentifier VmIdentifier, params *UpdateVMHostnameParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateVMHostnameRequestWithBody(c.Server, vmIdentifier, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateVMHostname(ctx context.Context, vmIdentifier VmIdentifier, params *UpdateVMHostnameParams, body UpdateVMHostnameJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateVMHostnameRequest(c.Server, vmIdentifier, params, body)
 	if err != nil {
 		return nil, err
 	}
@@ -6040,6 +6347,75 @@ func NewUpdateVMExpirationRequestWithBody(server string, vmIdentifier VmIdentifi
 	return req, nil
 }
 
+// NewUpdateVMHostnameRequest calls the generic UpdateVMHostname builder with application/json body
+func NewUpdateVMHostnameRequest(server string, vmIdentifier VmIdentifier, params *UpdateVMHostnameParams, body UpdateVMHostnameJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUpdateVMHostnameRequestWithBody(server, vmIdentifier, params, "application/json", bodyReader)
+}
+
+// NewUpdateVMHostnameRequestWithBody generates requests for UpdateVMHostname with any type of body
+func NewUpdateVMHostnameRequestWithBody(server string, vmIdentifier VmIdentifier, params *UpdateVMHostnameParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "vm_identifier", vmIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/vm/%s/hostname", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewChangeVMPasswordRequest calls the generic ChangeVMPassword builder with application/json body
 func NewChangeVMPasswordRequest(server string, vmIdentifier VmIdentifier, params *ChangeVMPasswordParams, body ChangeVMPasswordJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -7207,6 +7583,11 @@ type ClientWithResponsesInterface interface {
 
 	UpdateVMExpirationWithResponse(ctx context.Context, vmIdentifier VmIdentifier, params *UpdateVMExpirationParams, body UpdateVMExpirationJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateVMExpirationResponse, error)
 
+	// UpdateVMHostnameWithBodyWithResponse request with any body
+	UpdateVMHostnameWithBodyWithResponse(ctx context.Context, vmIdentifier VmIdentifier, params *UpdateVMHostnameParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateVMHostnameResponse, error)
+
+	UpdateVMHostnameWithResponse(ctx context.Context, vmIdentifier VmIdentifier, params *UpdateVMHostnameParams, body UpdateVMHostnameJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateVMHostnameResponse, error)
+
 	// ChangeVMPasswordWithBodyWithResponse request with any body
 	ChangeVMPasswordWithBodyWithResponse(ctx context.Context, vmIdentifier VmIdentifier, params *ChangeVMPasswordParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ChangeVMPasswordResponse, error)
 
@@ -7465,7 +7846,7 @@ func (r RemoveVMsFromClusterResponse) StatusCode() int {
 type AttachFloatingIPResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *Success
+	JSON200      *RequestStatus
 	JSON400      *Error
 	JSON401      *Error
 }
@@ -7720,7 +8101,7 @@ func (r ListVMsResponse) StatusCode() int {
 type CreateVMResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *RequestStatus
+	JSON200      *VMCreateResponse
 	JSON400      *Error
 	JSON401      *Error
 }
@@ -7885,7 +8266,8 @@ func (r DeployStencilResponse) StatusCode() int {
 type DeleteVMResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *Success
+	JSON200      *VMDeleteResponse
+	JSON400      *Error
 	JSON401      *Error
 	JSON404      *Error
 }
@@ -7981,7 +8363,6 @@ type UpdateVMDescriptionResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *Success
-	JSON401      *Error
 }
 
 // Status returns HTTPResponse.Status
@@ -8118,10 +8499,33 @@ func (r UpdateVMExpirationResponse) StatusCode() int {
 	return 0
 }
 
+type UpdateVMHostnameResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *VMUpdateResponse
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r UpdateVMHostnameResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UpdateVMHostnameResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type ChangeVMPasswordResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *Success
+	JSON200      *RequestStatus
 	JSON401      *Error
 }
 
@@ -8406,7 +8810,7 @@ func (r TransferVMToUserResponse) StatusCode() int {
 type DeleteVIPResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *Success
+	JSON200      *VIPDeleteResponse
 	JSON401      *Error
 }
 
@@ -8429,7 +8833,7 @@ func (r DeleteVIPResponse) StatusCode() int {
 type AttachVIPResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *Success
+	JSON200      *VIPAttachResponse
 	JSON400      *Error
 	JSON401      *Error
 }
@@ -8892,6 +9296,23 @@ func (c *ClientWithResponses) UpdateVMExpirationWithResponse(ctx context.Context
 		return nil, err
 	}
 	return ParseUpdateVMExpirationResponse(rsp)
+}
+
+// UpdateVMHostnameWithBodyWithResponse request with arbitrary body returning *UpdateVMHostnameResponse
+func (c *ClientWithResponses) UpdateVMHostnameWithBodyWithResponse(ctx context.Context, vmIdentifier VmIdentifier, params *UpdateVMHostnameParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateVMHostnameResponse, error) {
+	rsp, err := c.UpdateVMHostnameWithBody(ctx, vmIdentifier, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateVMHostnameResponse(rsp)
+}
+
+func (c *ClientWithResponses) UpdateVMHostnameWithResponse(ctx context.Context, vmIdentifier VmIdentifier, params *UpdateVMHostnameParams, body UpdateVMHostnameJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateVMHostnameResponse, error) {
+	rsp, err := c.UpdateVMHostname(ctx, vmIdentifier, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateVMHostnameResponse(rsp)
 }
 
 // ChangeVMPasswordWithBodyWithResponse request with arbitrary body returning *ChangeVMPasswordResponse
@@ -9429,7 +9850,7 @@ func ParseAttachFloatingIPResponse(rsp *http.Response) (*AttachFloatingIPRespons
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest Success
+		var dest RequestStatus
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -9806,7 +10227,7 @@ func ParseCreateVMResponse(rsp *http.Response) (*CreateVMResponse, error) {
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest RequestStatus
+		var dest VMCreateResponse
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -10065,11 +10486,18 @@ func ParseDeleteVMResponse(rsp *http.Response) (*DeleteVMResponse, error) {
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest Success
+		var dest VMDeleteResponse
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
 		var dest Error
@@ -10223,13 +10651,6 @@ func ParseUpdateVMDescriptionResponse(rsp *http.Response) (*UpdateVMDescriptionR
 			return nil, err
 		}
 		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
-		var dest Error
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON401 = &dest
 
 	}
 
@@ -10422,6 +10843,39 @@ func ParseUpdateVMExpirationResponse(rsp *http.Response) (*UpdateVMExpirationRes
 	return response, nil
 }
 
+// ParseUpdateVMHostnameResponse parses an HTTP response from a UpdateVMHostnameWithResponse call
+func ParseUpdateVMHostnameResponse(rsp *http.Response) (*UpdateVMHostnameResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UpdateVMHostnameResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest VMUpdateResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseChangeVMPasswordResponse parses an HTTP response from a ChangeVMPasswordWithResponse call
 func ParseChangeVMPasswordResponse(rsp *http.Response) (*ChangeVMPasswordResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -10437,7 +10891,7 @@ func ParseChangeVMPasswordResponse(rsp *http.Response) (*ChangeVMPasswordRespons
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest Success
+		var dest RequestStatus
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -10896,7 +11350,7 @@ func ParseDeleteVIPResponse(rsp *http.Response) (*DeleteVIPResponse, error) {
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest Success
+		var dest VIPDeleteResponse
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -10929,7 +11383,7 @@ func ParseAttachVIPResponse(rsp *http.Response) (*AttachVIPResponse, error) {
 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest Success
+		var dest VIPAttachResponse
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}

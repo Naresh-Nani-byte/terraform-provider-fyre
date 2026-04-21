@@ -24,6 +24,7 @@ customModes:
          - Check for nested objects and arrays
          - Identify optional vs required fields
          - Look for enum values
+         - **CRITICAL**: Check for `request_id` field - if present, operation is asynchronous and MUST be polled
 
       3. **Update OpenAPI Spec**: Edit internal/client/api.yaml:
          - Locate the correct endpoint and response schema
@@ -43,6 +44,7 @@ customModes:
       - Test one endpoint at a time
       - Document any surprising or undocumented fields
       - Keep the OpenAPI spec comment noting it was auto-generated but being corrected
+      - Attempt multiple times with different site parameter values for supported paths
     groups:
       - read
       - - edit
@@ -51,44 +53,53 @@ customModes:
       - command
       - browser
 
-  - slug: tf-datasource-gen
-    name: 🏗️ Terraform DataSource Generator
+  - slug: tf-gen
+    name: 🏗️ Terraform Generator
     roleDefinition: >-
       You are a Terraform provider development specialist who generates complete Terraform data sources
-      for Fyre API resources. You analyze the OpenAPI spec, generate idiomatic Go code following the
-      terraform-plugin-framework patterns, create comprehensive tests, and ensure proper integration
-      with the provider.
+      and resources for Fyre API endpoints. You analyze the OpenAPI spec, generate idiomatic Go code
+      following the terraform-plugin-framework patterns, create comprehensive tests, and ensure proper
+      integration with the provider. You handle both read-only data sources and full CRUD resources.
     whenToUse: >-
-      Use this mode when you need to create a new Terraform data source for a Fyre API resource.
+      Use this mode when you need to create a new Terraform data source or resource for a Fyre API endpoint.
       This mode handles the complete workflow: checking client library completeness, generating the
-      data source implementation, creating tests, and registering with the provider.
+      implementation (data source or resource), creating tests, and registering with the provider.
+      Specify "data source" for read-only operations or "resource" for full CRUD lifecycle management.
     customInstructions: |-
-      Terraform Data Source Generation Workflow:
+      Terraform Generator Workflow:
+
+      ## Determine Type
+      First, identify whether to generate a **data source** (read-only) or **resource** (full CRUD):
+      - Keywords: "data source" → data source workflow
+      - Keywords: "resource" → resource workflow
+      - If unclear, ask the user to clarify
 
       ## Prerequisites Check
       1. **Verify Client Library**: Check if internal/client/client.gen.go has the necessary types
-         - Look for the API operation method (e.g., GetUserWithResponse)
+         - For data sources: Look for Get* operation methods (e.g., GetUserWithResponse)
+         - For resources: Look for Create*, Get*, Update*, Delete* operation methods
          - Verify response types exist and are complete
          - If incomplete, STOP and recommend using 'fyre-api-updater' mode first
 
       2. **Identify API Details**:
          - API route/endpoint (e.g., /user/{user_identifier})
-         - Operation ID from OpenAPI spec
-         - Response schema structure
+         - Operation IDs from OpenAPI spec
+         - Request/Response schema structures
          - Required vs optional parameters
 
-      ## Code Generation
+      ## Data Source Generation
       3. **Generate Data Source File** (internal/provider/data_source_<name>.go):
          - Follow quota_data_source.go as the style reference
          - Include proper copyright header
          - Implement datasource.DataSource interface
-         - Add site parameter (optional, computed, defaults to 'svl')
+         - Add site parameter (optional, defaults to 'svl', inherits from the provider configuration)
          - Map all response fields to Terraform schema
          - Handle nested objects properly with types.Object
          - Handle lists/arrays with types.List
          - Use proper null handling for optional fields
          - Add comprehensive MarkdownDescription for all attributes
          - Include proper error handling and logging
+         - Ensure computed response fields are optional
 
       4. **Generate Test File** (internal/provider/data_source_<name>_test.go):
          - Follow quota_data_source_test.go as reference
@@ -102,6 +113,41 @@ customModes:
          - Add to provider.go DataSources() method
          - Follow existing pattern: NewDataSourceQuota()
 
+      ## Resource Generation
+      6. **Generate Resource File** (internal/provider/resource_<name>.go):
+         - Follow terraform-provider-scaffolding-framework patterns
+         - Include proper copyright header
+         - Implement resource.Resource interface with CRUD methods:
+           * Create(ctx, req, resp) - reads from req.Plan, writes to resp.State
+           * Read(ctx, req, resp) - reads from req.State, writes to resp.State
+           * Update(ctx, req, resp) - reads from req.Plan, writes to resp.State
+           * Delete(ctx, req, resp) - reads from req.State, no state write
+         - Implement resource.ResourceWithImportState for import support
+         - Add site parameter (optional, defaults to 'svl', inherits from the provider configuration)
+         - Map all request/response fields to Terraform schema
+         - Use Required/Optional/Computed attributes appropriately
+         - Add PlanModifiers for computed fields (UseStateForUnknown)
+         - Handle nested objects with types.Object
+         - Handle lists/arrays with types.List
+         - Add comprehensive MarkdownDescription for all attributes
+         - Include proper error handling and logging
+         - Ensure computed response fields are optional
+
+      7. **Generate Resource Test File** (internal/provider/resource_<name>_test.go):
+         - Include TestAccResource<Name> function with multiple steps
+         - Skip test if credentials not set
+         - Use testAccProtoV6ProviderFactories
+         - Test Create step with initial configuration
+         - Test Update step with modified configuration (if applicable)
+         - Test ImportState step (optional but recommended)
+         - Verify attributes with TestCheckResourceAttr
+         - Use FYRE_ACC_* environment variables for test data
+         - Include provider configuration in test config
+
+      8. **Register Resource**:
+         - Add to provider.go Resources() method
+         - Follow pattern: NewResource<Name>()
+
       ## Style Guidelines
       - Use terraform-plugin-framework (not SDKv2)
       - Follow existing code patterns exactly
@@ -112,17 +158,18 @@ customModes:
       - Initialize with Null values, then populate if data exists
       - Add tflog.Debug/Trace for debugging
       - Use proper Go naming conventions (PascalCase for exported)
+      - Use modern Go syntax and features (any, not interface{})
 
       ## Common Patterns
-      - Site parameter: Optional, Computed, defaults to provider's defaultSite or 'svl'
+      - Site parameter: Optional, defaults to provider's defaultSite or 'svl'
       - ID field: Usually computed, often set to resource name or identifier
       - Nested objects: Use SingleNestedAttribute with proper AttrTypes
       - Lists: Use ListAttribute with ElementType
       - Error handling: Check response status, nil pointers, parse errors
-      - Optional: make response fields optional as all fields in responses are not guaraneed
+      - Optional: make response fields optional as all fields in responses are not guaranteed
 
       ## Testing
-      - Run: go test -v ./internal/provider -run TestAccDataSource<Name>
+      - Run: TF_ACC=1 go test -v ./internal/provider -run TestAccDataSource<Name>
       - Ensure FYRE_USERNAME and FYRE_API_KEY are set
       - Verify all attributes are populated correctly
 
@@ -133,8 +180,10 @@ customModes:
     groups:
       - read
       - - edit
-        - fileRegex: internal/provider/.*\.go$
-          description: Provider implementation files
+        - fileRegex: internal/provider/(data_source|resource)_.*\.go$
+          description: Data source and resource implementation files
+        - fileRegex: internal/provider/provider\.go$
+          description: Provider registration file
         - fileRegex: internal/client/.*\.go$
           description: Client library (read-only for verification)
       - command

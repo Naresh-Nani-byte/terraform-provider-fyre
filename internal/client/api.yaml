@@ -199,6 +199,10 @@ components:
         message:
           type: string
           example: Error message description
+        details:
+          type: string
+          description: Human-readable details about the error
+          example: "VM password has not been changed because the vm is not running"
 
     Success:
       type: object
@@ -209,6 +213,14 @@ components:
         message:
           type: string
           example: Operation completed successfully
+        details:
+          type: string
+          description: Human-readable details about the operation
+          example: vm specification change initiated
+        request_id:
+          type: string
+          description: Request identifier for tracking asynchronous operations
+          example: "1-233609208"
 
     QuotaResponse:
       type: object
@@ -365,6 +377,7 @@ components:
           description: Timestamp when VM was added to cluster (only present in cluster context)
 
     # Updated from actual API response on 2026-04-13
+    # Updated additional_disk field from actual API response on 2026-04-20
     VMDetails:
       type: object
       properties:
@@ -445,6 +458,11 @@ components:
           type: string
         os_disk:
           type: integer
+        additional_disk:
+          type: array
+          items:
+            type: integer
+          description: Array of additional disk sizes in GB
         ips:
           type: array
           items:
@@ -608,23 +626,106 @@ components:
           description: "VM ID of the VM using this hostname (only present when status is warning)"
 
     RequestStatus:
+      # Updated from actual API response on 2026-04-14
       type: object
       properties:
         status:
           type: string
+          description: Status of the response (success, error, etc.)
+        request:
+          type: object
+          description: Request details object
+          properties:
+            request_id:
+              type: string
+              description: Unique request identifier
+            operation:
+              type: string
+              description: Type of operation (e.g., "build vm")
+            last_status:
+              type: string
+              description: Last status message from the operation
+            last_status_time:
+              type: string
+              description: Timestamp of last status update
+            job_count:
+              type: integer
+              description: Total number of jobs
+            task_count:
+              type: integer
+              description: Total number of tasks
+            complete:
+              type: string
+              description: Number of completed tasks (as string)
+            failed:
+              type: string
+              description: Number of failed tasks (as string)
+            in_progress:
+              type: string
+              description: Number of tasks in progress (as string)
+            pending:
+              type: string
+              description: Number of pending tasks (as string)
+            completion_percent:
+              type: integer
+              description: Overall completion percentage
+
+    VMCreateResponse:
+      # Updated from actual API response on 2026-04-14
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response (success, error, etc.)
+        details:
+          type: string
+          description: Details about the operation (e.g., "build initiated")
+        vm_id:
+          type: string
+          description: The VM identifier assigned to the new VM
         request_id:
           type: string
-        state:
-          type: string
-        details:
-          type: object
-          additionalProperties: true
+          description: Unique request identifier for tracking the build operation
 
     UserList:
       type: object
       properties:
         status:
           type: string
+
+    VMDeleteResponse:
+      # Updated from actual API response on 2026-04-14
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response (success, error, etc.)
+        details:
+          type: string
+          description: Details about the operation (e.g., "vm deletion initiated")
+        request_id:
+          type: string
+          description: Unique request identifier for tracking the deletion operation
+
+
+    VMUpdateResponse:
+      # Response from VM update operations (hostname, etc.)
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response (success, error, etc.)
+        details:
+          type: string
+          description: Details about the operation
+        final_task:
+          type: string
+          description: Final task identifier
+        request_id:
+          type: string
+          description: Unique request identifier for tracking the operation
+
+
         users:
           type: array
           items:
@@ -945,16 +1046,11 @@ components:
                 $ref: '#/components/schemas/VMSummary'
 
     VMCreateRequest:
+      # Updated from actual API response on 2026-04-14
       type: object
       required:
-        - platform
-        - os
+        - node_array
       properties:
-        site:
-          type: string
-          enum: [svl, rtp]
-          default: svl
-          description: Site location
         quota_type:
           type: string
           enum: [product_group, quick_burn]
@@ -962,39 +1058,13 @@ components:
           description: Type of quota to use
         product_group_id:
           type: string
-          description: Product group identifier
-        platform:
+          description: Product group identifier (defaults to user's default product group)
+        time_to_live:
           type: string
-          enum: [x, pvm, z]
-          description: Platform type
-        os:
+          description: Hours - required if quota_type is quick_burn
+        expiration:
           type: string
-          description: Operating system
-        cpu:
-          type: integer
-          description: Number of CPUs
-          example: 2
-        memory:
-          type: integer
-          description: Memory in GB
-          example: 4
-        disk:
-          type: integer
-          description: Disk size in GB
-          example: 100
-        additional_disk:
-          type: array
-          items:
-            type: integer
-          description: Additional disk sizes in GB (max 2)
-          maxItems: 2
-        hostname:
-          type: string
-          description: Hostname for the VM
-        count:
-          type: integer
-          description: Number of VMs to create (hostname will be auto-assigned)
-          minimum: 1
+          description: Expiration time in hours or "X days X hours" format (max 90 days)
         ssh_key:
           oneOf:
             - type: string
@@ -1002,24 +1072,75 @@ components:
               items:
                 type: string
           description: SSH key(s) - can be array or comma-separated string
-        password:
-          type: string
-          description: Custom password for the VM
-        public_network:
+        check_config:
           type: string
           enum: ['y', 'n']
-          description: Assign public IP address
-        expiration:
-          type: string
-          description: Expiration time in hours or "X days X hours" format (max 90 days)
-          example: "7 days"
-        dns:
-          type: string
-          enum: ['y', 'n']
-          description: Add hostname to DNS in dev.fyre.ibm.com domain
-        description:
-          type: string
-          description: VM description
+          default: 'n'
+          description: If 'y', validates configuration without building
+        node_array:
+          type: array
+          description: Array of VM configurations to create
+          items:
+            type: object
+            required:
+              - os
+            properties:
+              count:
+                type: integer
+                default: 1
+                description: Number of VMs to create with this configuration
+              hostname:
+                oneOf:
+                  - type: string
+                  - type: array
+                    items:
+                      type: string
+                description: Hostname(s) for the VM(s)
+              platform:
+                type: string
+                enum: [x, pvm, z]
+                default: x
+                description: Platform type
+              cpu:
+                type: integer
+                default: 4
+                description: Number of CPUs
+              memory:
+                type: integer
+                default: 8
+                description: Memory in GB
+              os:
+                type: string
+                description: Operating system (required)
+              description:
+                type: string
+                description: VM description
+              public_network:
+                type: string
+                enum: ['y', 'n']
+                default: 'n'
+                description: Provision public IP on VM
+              dns:
+                type: string
+                enum: ['y', 'n']
+                default: 'n'
+                description: Add hostname to DNS in dev.fyre.ibm.com domain
+              additional_disk:
+                type: array
+                items:
+                  type: string
+                description: Additional disk sizes in GB (max 2)
+                maxItems: 2
+              dedicated:
+                type: string
+                enum: ['y', 'n']
+                default: 'n'
+                description: Use dedicated host
+              dedicated_host:
+                type: array
+                items:
+                  type: string
+                description: Specific dedicated host(s) to use
 
     VMResourceUpdate:
       type: object
@@ -1060,6 +1181,16 @@ components:
         password:
           type: string
           description: New password
+
+    VMHostnameUpdate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: New hostname for the VM
+
 
     StencilCreateRequest:
       type: object
@@ -1187,6 +1318,57 @@ components:
         ip_address:
           type: string
           description: Specific IP address to delete
+
+    VIPAttachResponse:
+      # Updated from actual API response on 2026-04-14
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        details:
+          type: string
+          description: Human-readable message about the operation
+        ips:
+          type: array
+          items:
+            type: object
+            properties:
+              ip:
+                type: string
+                description: IP address that was added
+              type:
+                type: string
+                enum: [private, public]
+                description: Type of IP address
+        default_gateway:
+          type: string
+          description: Default gateway for the network
+        subnet_mask:
+          type: string
+          description: Subnet mask for the network
+        request_id:
+          type: string
+          description: Request identifier
+
+    VIPDeleteResponse:
+      # Updated from actual API response on 2026-04-14
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        details:
+          type: string
+          description: Human-readable message about the operation
+        ips:
+          type: array
+          items:
+            type: string
+          description: List of IP addresses that were removed
+        request_id:
+          type: string
+          description: Request identifier
 
     FloatingIPRequest:
       type: object
@@ -1335,7 +1517,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RequestStatus'
+                $ref: '#/components/schemas/VMCreateResponse'
         '400':
           description: Bad request
           content:
@@ -1449,7 +1631,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Success'
+                $ref: '#/components/schemas/VMDeleteResponse'
+        '400':
+          description: Bad request - unable to create deletion job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '404':
           description: VM not found
           content:
@@ -1807,6 +1995,34 @@ paths:
           content:
             application/json:
               schema:
+  /vm/{vm_identifier}/hostname:
+    patch:
+      tags:
+        - VMs
+      summary: Update VM hostname
+      description: Change the hostname of a VM
+      operationId: updateVMHostname
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VMHostnameUpdate'
+      responses:
+        '200':
+          description: Hostname change initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VMUpdateResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
                 $ref: '#/components/schemas/Error'
 
   /vm/{vm_identifier}/password:
@@ -1831,7 +2047,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Success'
+                $ref: '#/components/schemas/RequestStatus'
         '401':
           description: Unauthorized
           content:
@@ -2186,7 +2402,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Success'
+                $ref: '#/components/schemas/VIPAttachResponse'
         '400':
           description: Bad request
           content:
@@ -2221,7 +2437,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Success'
+                $ref: '#/components/schemas/VIPDeleteResponse'
         '401':
           description: Unauthorized
           content:
@@ -2287,7 +2503,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Success'
+                $ref: '#/components/schemas/RequestStatus'
         '400':
           description: Bad request
           content:

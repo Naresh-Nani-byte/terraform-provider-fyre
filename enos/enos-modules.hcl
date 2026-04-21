@@ -4,3 +4,7 @@
 module "datasources" {
   source = "./modules/datasources"
 }
+
+module "resources" {
+  source = "./modules/resources"
+}

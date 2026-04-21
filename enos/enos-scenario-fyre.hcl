@@ -29,6 +29,14 @@ scenario "fyre" {
     }
   }
 
+  step "test_resources" {
+    module = module.resources
+  }
+
+  output "vm_resource" {
+    value = step.test_resources.vm
+  }
+
   output "user" {
     value = step.test_datasources.user
   }

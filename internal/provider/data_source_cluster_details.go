@@ -44,26 +44,26 @@ type ClusterDetailsModel struct {
 
 // ClusterVMModel describes a VM in the cluster.
 type ClusterVMModel struct {
-	Location            types.String `tfsdk:"location"`
-	ProductGroupID      types.Int64  `tfsdk:"product_group_id"`
-	VMID                types.String `tfsdk:"vm_id"`
-	Hostname            types.String `tfsdk:"hostname"`
-	FQDN                types.String `tfsdk:"fqdn"`
-	Platform            types.String `tfsdk:"platform"`
-	State               types.String `tfsdk:"state"`
-	CPU                 types.Int64  `tfsdk:"cpu"`
-	Memory              types.Int64  `tfsdk:"memory"`
-	Compliance          types.String `tfsdk:"compliance"`
-	AutoPatch           types.String `tfsdk:"auto_patch"`
-	Created             types.String `tfsdk:"created"`
-	CreatedISO8601      types.String `tfsdk:"created_iso8601"`
-	AllowFloatingIP     types.String `tfsdk:"allow_floating_ip"`
-	OS                  types.String `tfsdk:"os"`
-	OSDisk              types.Int64  `tfsdk:"os_disk"`
-	IPs                 types.List   `tfsdk:"ips"`
-	HostDown            types.String `tfsdk:"host_down"`
-	CurrentOwner        types.Object `tfsdk:"current_owner"`
-	AddedToCluster      types.String `tfsdk:"added_to_cluster"`
+	Location        types.String `tfsdk:"location"`
+	ProductGroupID  types.Int64  `tfsdk:"product_group_id"`
+	VMID            types.String `tfsdk:"vm_id"`
+	Hostname        types.String `tfsdk:"hostname"`
+	FQDN            types.String `tfsdk:"fqdn"`
+	Platform        types.String `tfsdk:"platform"`
+	State           types.String `tfsdk:"state"`
+	CPU             types.Int64  `tfsdk:"cpu"`
+	Memory          types.Int64  `tfsdk:"memory"`
+	Compliance      types.String `tfsdk:"compliance"`
+	AutoPatch       types.String `tfsdk:"auto_patch"`
+	Created         types.String `tfsdk:"created"`
+	CreatedISO8601  types.String `tfsdk:"created_iso8601"`
+	AllowFloatingIP types.String `tfsdk:"allow_floating_ip"`
+	OS              types.String `tfsdk:"os"`
+	OSDisk          types.Int64  `tfsdk:"os_disk"`
+	IPs             types.List   `tfsdk:"ips"`
+	HostDown        types.String `tfsdk:"host_down"`
+	CurrentOwner    types.Object `tfsdk:"current_owner"`
+	AddedToCluster  types.String `tfsdk:"added_to_cluster"`
 }
 
 // ClusterVMIPModel describes an IP address.
@@ -361,13 +361,13 @@ func (d *DataSourceClusterDetails) Read(ctx context.Context, req datasource.Read
 
 	// Map response to model
 	var cluster *struct {
-		Created     *string              `json:"created,omitempty"`
-		Description *string              `json:"description,omitempty"`
-		Id          *int                 `json:"id,omitempty"`
-		Name        *string              `json:"name,omitempty"`
-		Updated     *string              `json:"updated,omitempty"`
-		UserId      *int                 `json:"user_id,omitempty"`
-		Vms         *[]client.VMSummary  `json:"vms,omitempty"`
+		Created     *string             `json:"created,omitempty"`
+		Description *string             `json:"description,omitempty"`
+		Id          *int                `json:"id,omitempty"`
+		Name        *string             `json:"name,omitempty"`
+		Updated     *string             `json:"updated,omitempty"`
+		UserId      *int                `json:"user_id,omitempty"`
+		Vms         *[]client.VMSummary `json:"vms,omitempty"`
 	}
 
 	if includeVMs {
@@ -565,26 +565,26 @@ func (d *DataSourceClusterDetails) Read(ctx context.Context, req datasource.Read
 
 		vmsListValue, diags := types.ListValueFrom(ctx, types.ObjectType{
 			AttrTypes: map[string]attr.Type{
-				"location":           types.StringType,
-				"product_group_id":   types.Int64Type,
-				"vm_id":              types.StringType,
-				"hostname":           types.StringType,
-				"fqdn":               types.StringType,
-				"platform":           types.StringType,
-				"state":              types.StringType,
-				"cpu":                types.Int64Type,
-				"memory":             types.Int64Type,
-				"compliance":         types.StringType,
-				"auto_patch":         types.StringType,
-				"created":            types.StringType,
-				"created_iso8601":    types.StringType,
-				"allow_floating_ip":  types.StringType,
-				"os":                 types.StringType,
-				"os_disk":            types.Int64Type,
-				"ips":                types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"ip_address": types.StringType}}},
-				"host_down":          types.StringType,
-				"current_owner":      types.ObjectType{AttrTypes: map[string]attr.Type{"user_id": types.Int64Type, "email": types.StringType, "username": types.StringType, "displayname": types.StringType}},
-				"added_to_cluster":   types.StringType,
+				"location":          types.StringType,
+				"product_group_id":  types.Int64Type,
+				"vm_id":             types.StringType,
+				"hostname":          types.StringType,
+				"fqdn":              types.StringType,
+				"platform":          types.StringType,
+				"state":             types.StringType,
+				"cpu":               types.Int64Type,
+				"memory":            types.Int64Type,
+				"compliance":        types.StringType,
+				"auto_patch":        types.StringType,
+				"created":           types.StringType,
+				"created_iso8601":   types.StringType,
+				"allow_floating_ip": types.StringType,
+				"os":                types.StringType,
+				"os_disk":           types.Int64Type,
+				"ips":               types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"ip_address": types.StringType}}},
+				"host_down":         types.StringType,
+				"current_owner":     types.ObjectType{AttrTypes: map[string]attr.Type{"user_id": types.Int64Type, "email": types.StringType, "username": types.StringType, "displayname": types.StringType}},
+				"added_to_cluster":  types.StringType,
 			},
 		}, vmsList)
 		resp.Diagnostics.Append(diags...)
@@ -594,26 +594,26 @@ func (d *DataSourceClusterDetails) Read(ctx context.Context, req datasource.Read
 	} else {
 		data.VMs = types.ListNull(types.ObjectType{
 			AttrTypes: map[string]attr.Type{
-				"location":           types.StringType,
-				"product_group_id":   types.Int64Type,
-				"vm_id":              types.StringType,
-				"hostname":           types.StringType,
-				"fqdn":               types.StringType,
-				"platform":           types.StringType,
-				"state":              types.StringType,
-				"cpu":                types.Int64Type,
-				"memory":             types.Int64Type,
-				"compliance":         types.StringType,
-				"auto_patch":         types.StringType,
-				"created":            types.StringType,
-				"created_iso8601":    types.StringType,
-				"allow_floating_ip":  types.StringType,
-				"os":                 types.StringType,
-				"os_disk":            types.Int64Type,
-				"ips":                types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"ip_address": types.StringType}}},
-				"host_down":          types.StringType,
-				"current_owner":      types.ObjectType{AttrTypes: map[string]attr.Type{"user_id": types.Int64Type, "email": types.StringType, "username": types.StringType, "displayname": types.StringType}},
-				"added_to_cluster":   types.StringType,
+				"location":          types.StringType,
+				"product_group_id":  types.Int64Type,
+				"vm_id":             types.StringType,
+				"hostname":          types.StringType,
+				"fqdn":              types.StringType,
+				"platform":          types.StringType,
+				"state":             types.StringType,
+				"cpu":               types.Int64Type,
+				"memory":            types.Int64Type,
+				"compliance":        types.StringType,
+				"auto_patch":        types.StringType,
+				"created":           types.StringType,
+				"created_iso8601":   types.StringType,
+				"allow_floating_ip": types.StringType,
+				"os":                types.StringType,
+				"os_disk":           types.Int64Type,
+				"ips":               types.ListType{ElemType: types.ObjectType{AttrTypes: map[string]attr.Type{"ip_address": types.StringType}}},
+				"host_down":         types.StringType,
+				"current_owner":     types.ObjectType{AttrTypes: map[string]attr.Type{"user_id": types.Int64Type, "email": types.StringType, "username": types.StringType, "displayname": types.StringType}},
+				"added_to_cluster":  types.StringType,
 			},
 		})
 	}

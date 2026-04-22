@@ -10,11 +10,14 @@ terraform {
 }
 
 provider "fyre" {
+  # Site can be set via FYRE_SITE environment variable or explicitly here
   site = "svl"
 }
 
+# Product group ID can be set at provider level via FYRE_PRODUCT_GROUP_ID environment variable
+# or passed directly to the data source
 data "fyre_stencils" "example" {
-  product_group_id = 753
+  product_group_id = 1
 }
 
 output "stencils" {

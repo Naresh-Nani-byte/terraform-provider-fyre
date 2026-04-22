@@ -17,5 +17,6 @@ The Fyre provider is used to interact with IBM Fyre cloud resources.
 ### Optional
 
 - `api_key` (String, Sensitive) Fyre API key for authentication. Can also be set via FYRE_API_KEY environment variable.
-- `site` (String) Default Fyre site location. Can be either 'svl' or 'rtp'. Default is 'svl'.
+- `product_group_id` (Number) Default product group ID for resources and data sources. Can be overridden at the resource/data source level. Can also be set via FYRE_PRODUCT_GROUP_ID environment variable.
+- `site` (String) Default Fyre site location. Can be either 'svl' or 'rtp'. Default is 'svl'. Can also be set via FYRE_SITE environment variable.
 - `username` (String) Fyre username for authentication. Can also be set via FYRE_USERNAME environment variable.

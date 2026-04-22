@@ -2,3 +2,10 @@ enos/.enos/**
 dist/**
 .bob/.bob-errors/*
 terraform-provider-fyre
+.terraform.lock.hcl
+.terraform.tfstate.lock.info
+.terraform/
+terraform.tfplan
+terraform.tfstate
+terraform.tfstate.backup
+*.rc

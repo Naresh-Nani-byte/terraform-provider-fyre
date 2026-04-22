@@ -30,7 +30,7 @@ type DataSourceVMDetails struct {
 
 type VMDetailsModel struct {
 	ID                  types.String `tfsdk:"id"`
-	VmID                types.String `tfsdk:"vm_id"`
+	VMID                types.String `tfsdk:"vm_id"`
 	IP                  types.String `tfsdk:"ip"`
 	FQDN                types.String `tfsdk:"fqdn"`
 	Site                types.String `tfsdk:"site"`
@@ -307,7 +307,7 @@ func (d *DataSourceVMDetails) Read(ctx context.Context, req datasource.ReadReque
 	}
 
 	// Validate that at least one identifier is provided
-	if data.VmID.IsNull() && data.IP.IsNull() && data.FQDN.IsNull() {
+	if data.VMID.IsNull() && data.IP.IsNull() && data.FQDN.IsNull() {
 		resp.Diagnostics.AddError(
 			"Missing Required Attribute",
 			"At least one of vm_id, ip, or fqdn must be provided",
@@ -326,7 +326,7 @@ func (d *DataSourceVMDetails) Read(ctx context.Context, req datasource.ReadReque
 		value string
 		name  string
 	}{
-		{data.VmID.ValueString(), "vm_id"},
+		{data.VMID.ValueString(), "vm_id"},
 		{data.IP.ValueString(), "ip"},
 		{data.FQDN.ValueString(), "fqdn"},
 	}
@@ -383,7 +383,7 @@ func (d *DataSourceVMDetails) Read(ctx context.Context, req datasource.ReadReque
 
 	// Map all fields from VMDetails
 	if vmDetails.VmId != nil {
-		data.VmID = types.StringValue(*vmDetails.VmId)
+		data.VMID = types.StringValue(*vmDetails.VmId)
 	}
 
 	if vmDetails.Location != nil {

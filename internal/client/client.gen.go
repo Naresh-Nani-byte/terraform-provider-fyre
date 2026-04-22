@@ -1520,10 +1520,24 @@ type ClusterVMRequest struct {
 
 // Error defines model for Error.
 type Error struct {
-	// Details Human-readable details about the error
-	Details *string `json:"details,omitempty"`
-	Message *string `json:"message,omitempty"`
-	Status  *string `json:"status,omitempty"`
+	// Details Human-readable details about the error. Live create-VM validation errors may return either a plain string or an object containing an errors array.
+	Details *Error_Details `json:"details,omitempty"`
+	Message *string        `json:"message,omitempty"`
+	Status  *string        `json:"status,omitempty"`
+}
+
+// ErrorDetails0 defines model for .
+type ErrorDetails0 = string
+
+// ErrorDetails1 defines model for .
+type ErrorDetails1 struct {
+	Errors               *[]string              `json:"errors,omitempty"`
+	AdditionalProperties map[string]interface{} `json:"-"`
+}
+
+// Error_Details Human-readable details about the error. Live create-VM validation errors may return either a plain string or an object containing an errors array.
+type Error_Details struct {
+	union json.RawMessage
 }
 
 // ExpirationUpdate defines model for ExpirationUpdate.
@@ -1606,9 +1620,27 @@ type OSList struct {
 		} `json:"vm,omitempty"`
 	} `json:"default_size,omitempty"`
 
-	// OperatingSystems Map of OS families to available versions
-	OperatingSystems *map[string][]string `json:"operating_systems,omitempty"`
-	Status           *string              `json:"status,omitempty"`
+	// OperatingSystems Available operating systems organized by distribution
+	OperatingSystems *struct {
+		// CentOS Available CentOS versions
+		CentOS *[]string `json:"CentOS,omitempty"`
+
+		// RedHat Available RedHat versions
+		RedHat *[]string `json:"RedHat,omitempty"`
+
+		// Rocky Available Rocky Linux versions
+		Rocky *[]string `json:"Rocky,omitempty"`
+
+		// SLES Available SUSE Linux Enterprise Server versions
+		SLES *[]string `json:"SLES,omitempty"`
+
+		// Ubuntu Available Ubuntu versions
+		Ubuntu *[]string `json:"Ubuntu,omitempty"`
+
+		// Windows Available Windows versions
+		Windows *[]string `json:"Windows,omitempty"`
+	} `json:"operating_systems,omitempty"`
+	Status *string `json:"status,omitempty"`
 }
 
 // QuotaResponse defines model for QuotaResponse.
@@ -1623,7 +1655,18 @@ type QuotaResponse struct {
 		Platforms        *[]string `json:"platforms,omitempty"`
 		ProductGroupId   *int      `json:"product_group_id,omitempty"`
 		ProductGroupName *string   `json:"product_group_name,omitempty"`
-		X                *struct {
+		Pvm              *struct {
+			Cpu           *int `json:"cpu,omitempty"`
+			CpuPercent    *int `json:"cpu_percent,omitempty"`
+			CpuUsed       *int `json:"cpu_used,omitempty"`
+			Disk          *int `json:"disk,omitempty"`
+			DiskPercent   *int `json:"disk_percent,omitempty"`
+			DiskUsed      *int `json:"disk_used,omitempty"`
+			Memory        *int `json:"memory,omitempty"`
+			MemoryPercent *int `json:"memory_percent,omitempty"`
+			MemoryUsed    *int `json:"memory_used,omitempty"`
+		} `json:"pvm,omitempty"`
+		X *struct {
 			Cpu           *int `json:"cpu,omitempty"`
 			CpuPercent    *int `json:"cpu_percent,omitempty"`
 			CpuUsed       *int `json:"cpu_used,omitempty"`
@@ -1634,6 +1677,17 @@ type QuotaResponse struct {
 			MemoryPercent *int `json:"memory_percent,omitempty"`
 			MemoryUsed    *int `json:"memory_used,omitempty"`
 		} `json:"x,omitempty"`
+		Z *struct {
+			Cpu           *int `json:"cpu,omitempty"`
+			CpuPercent    *int `json:"cpu_percent,omitempty"`
+			CpuUsed       *int `json:"cpu_used,omitempty"`
+			Disk          *int `json:"disk,omitempty"`
+			DiskPercent   *int `json:"disk_percent,omitempty"`
+			DiskUsed      *int `json:"disk_used,omitempty"`
+			Memory        *int `json:"memory,omitempty"`
+			MemoryPercent *int `json:"memory_percent,omitempty"`
+			MemoryUsed    *int `json:"memory_used,omitempty"`
+		} `json:"z,omitempty"`
 	} `json:"details,omitempty"`
 	Status *string `json:"status,omitempty"`
 }
@@ -2918,6 +2972,136 @@ type TransferVMToUserJSONRequestBody = VMTransferRequest
 
 // DeleteVIPJSONRequestBody defines body for DeleteVIP for application/json ContentType.
 type DeleteVIPJSONRequestBody = VIPDeleteRequest
+
+// Getter for additional properties for ErrorDetails1. Returns the specified
+// element and whether it was found
+func (a ErrorDetails1) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for ErrorDetails1
+func (a *ErrorDetails1) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]interface{})
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for ErrorDetails1 to handle AdditionalProperties
+func (a *ErrorDetails1) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["errors"]; found {
+		err = json.Unmarshal(raw, &a.Errors)
+		if err != nil {
+			return fmt.Errorf("error reading 'errors': %w", err)
+		}
+		delete(object, "errors")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]interface{})
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return fmt.Errorf("error unmarshaling field %s: %w", fieldName, err)
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for ErrorDetails1 to handle AdditionalProperties
+func (a ErrorDetails1) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.Errors != nil {
+		object["errors"], err = json.Marshal(a.Errors)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling 'errors': %w", err)
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, fmt.Errorf("error marshaling '%s': %w", fieldName, err)
+		}
+	}
+	return json.Marshal(object)
+}
+
+// AsErrorDetails0 returns the union data inside the Error_Details as a ErrorDetails0
+func (t Error_Details) AsErrorDetails0() (ErrorDetails0, error) {
+	var body ErrorDetails0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromErrorDetails0 overwrites any union data inside the Error_Details as the provided ErrorDetails0
+func (t *Error_Details) FromErrorDetails0(v ErrorDetails0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeErrorDetails0 performs a merge with any union data inside the Error_Details, using the provided ErrorDetails0
+func (t *Error_Details) MergeErrorDetails0(v ErrorDetails0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsErrorDetails1 returns the union data inside the Error_Details as a ErrorDetails1
+func (t Error_Details) AsErrorDetails1() (ErrorDetails1, error) {
+	var body ErrorDetails1
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromErrorDetails1 overwrites any union data inside the Error_Details as the provided ErrorDetails1
+func (t *Error_Details) FromErrorDetails1(v ErrorDetails1) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeErrorDetails1 performs a merge with any union data inside the Error_Details, using the provided ErrorDetails1
+func (t *Error_Details) MergeErrorDetails1(v ErrorDetails1) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t Error_Details) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *Error_Details) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
 
 // AsVMCloneRequestSshKey0 returns the union data inside the VMCloneRequest_SshKey as a VMCloneRequestSshKey0
 func (t VMCloneRequest_SshKey) AsVMCloneRequestSshKey0() (VMCloneRequestSshKey0, error) {

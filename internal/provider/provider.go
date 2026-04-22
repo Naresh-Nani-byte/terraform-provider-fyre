@@ -40,15 +40,17 @@ type FyreProvider struct {
 
 // FyreProviderModel describes the provider data model.
 type FyreProviderModel struct {
-	Username    types.String `tfsdk:"username"`
-	APIKey      types.String `tfsdk:"api_key"`
-	DefaultSite types.String `tfsdk:"site"`
+	Username            types.String `tfsdk:"username"`
+	APIKey              types.String `tfsdk:"api_key"`
+	DefaultSite         types.String `tfsdk:"site"`
+	DefaultProductGroup types.Int64  `tfsdk:"product_group_id"`
 }
 
 // FyreProviderData is the data passed to data sources and resources.
 type FyreProviderData struct {
-	Client      *client.ClientWithResponses
-	DefaultSite string
+	Client                 *client.ClientWithResponses
+	DefaultSite            string
+	DefaultProductGroupID  *int64
 }
 
 func (p *FyreProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
@@ -70,11 +72,15 @@ func (p *FyreProvider) Schema(ctx context.Context, req provider.SchemaRequest, r
 				Sensitive:           true,
 			},
 			"site": schema.StringAttribute{
-				MarkdownDescription: "Default Fyre site location. Can be either 'svl' or 'rtp'. Default is 'svl'.",
+				MarkdownDescription: "Default Fyre site location. Can be either 'svl' or 'rtp'. Default is 'svl'. Can also be set via FYRE_SITE environment variable.",
 				Optional:            true,
 				Validators: []validator.String{
 					stringvalidator.OneOf([]string{"rtp", "svl"}...),
 				},
+			},
+			"product_group_id": schema.Int64Attribute{
+				MarkdownDescription: "Default product group ID for resources and data sources. Can be overridden at the resource/data source level. Can also be set via FYRE_PRODUCT_GROUP_ID environment variable.",
+				Optional:            true,
 			},
 		},
 	}
@@ -119,10 +125,28 @@ func (p *FyreProvider) Configure(ctx context.Context, req provider.ConfigureRequ
 		return
 	}
 
-	// Get site from config, default to rtp
+	// Get site from config or environment variable, default to svl
 	site := data.DefaultSite.ValueString()
 	if site == "" {
+		site = os.Getenv("FYRE_SITE")
+	}
+	if site == "" {
 		site = "svl"
+	}
+
+	// Get product_group_id from config or environment variable (optional, no default)
+	var productGroupID *int64
+	if !data.DefaultProductGroup.IsNull() && !data.DefaultProductGroup.IsUnknown() {
+		pgID := data.DefaultProductGroup.ValueInt64()
+		productGroupID = &pgID
+	} else {
+		// Check environment variable if not in config
+		if envPGID := os.Getenv("FYRE_PRODUCT_GROUP_ID"); envPGID != "" {
+			var pgID int64
+			if _, err := fmt.Sscanf(envPGID, "%d", &pgID); err == nil {
+				productGroupID = &pgID
+			}
+		}
 	}
 
 	// Create basic auth request editor
@@ -146,8 +170,9 @@ func (p *FyreProvider) Configure(ctx context.Context, req provider.ConfigureRequ
 
 	// Create provider data
 	providerData := &FyreProviderData{
-		Client:      fyreClient,
-		DefaultSite: site,
+		Client:                fyreClient,
+		DefaultSite:           site,
+		DefaultProductGroupID: productGroupID,
 	}
 
 	// Make the client available to data sources and resources

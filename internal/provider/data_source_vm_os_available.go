@@ -29,11 +29,16 @@ type DataSourceVMOSAvailable struct {
 }
 
 type VMOSAvailableModel struct {
-	ID               types.String `tfsdk:"id"`
-	Platform         types.String `tfsdk:"platform"`
-	Site             types.String `tfsdk:"site"`
-	OperatingSystems types.Map    `tfsdk:"operating_systems"`
-	DefaultSize      types.Object `tfsdk:"default_size"`
+	ID          types.String `tfsdk:"id"`
+	Platform    types.String `tfsdk:"platform"`
+	Site        types.String `tfsdk:"site"`
+	CentOS      types.List   `tfsdk:"centos"`
+	RedHat      types.List   `tfsdk:"redhat"`
+	Rocky       types.List   `tfsdk:"rocky"`
+	SLES        types.List   `tfsdk:"sles"`
+	Ubuntu      types.List   `tfsdk:"ubuntu"`
+	Windows     types.List   `tfsdk:"windows"`
+	DefaultSize types.Object `tfsdk:"default_size"`
 }
 
 type DefaultSizeModel struct {
@@ -58,10 +63,10 @@ func (d *DataSourceVMOSAvailable) Metadata(ctx context.Context, req datasource.M
 
 // Schema defines the structure and attributes of the VM OS available data source.
 // It specifies the required platform parameter, optional site parameter, and computed
-// attributes including the map of available operating systems and default VM sizing constraints.
+// attributes for each OS distribution family along with default VM sizing constraints.
 func (d *DataSourceVMOSAvailable) Schema(ctx context.Context, req datasource.SchemaRequest, resp *datasource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		MarkdownDescription: "Fetches the list of available operating systems for a specific platform and site, along with default VM sizing constraints.",
+		MarkdownDescription: "Fetches the list of available operating systems for a specific platform and site, organized by distribution family, along with default VM sizing constraints.",
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				MarkdownDescription: "Data source identifier (format: platform-site)",
@@ -76,12 +81,35 @@ func (d *DataSourceVMOSAvailable) Schema(ctx context.Context, req datasource.Sch
 				Optional:            true,
 				Computed:            true,
 			},
-			"operating_systems": schema.MapAttribute{
-				MarkdownDescription: "Map of OS families to available versions. Keys are OS families (e.g., 'RedHat', 'Ubuntu'), values are lists of available versions.",
+			"centos": schema.ListAttribute{
+				MarkdownDescription: "List of available CentOS versions",
 				Computed:            true,
-				ElementType: types.ListType{
-					ElemType: types.StringType,
-				},
+				ElementType:         types.StringType,
+			},
+			"redhat": schema.ListAttribute{
+				MarkdownDescription: "List of available RedHat versions",
+				Computed:            true,
+				ElementType:         types.StringType,
+			},
+			"rocky": schema.ListAttribute{
+				MarkdownDescription: "List of available Rocky Linux versions",
+				Computed:            true,
+				ElementType:         types.StringType,
+			},
+			"sles": schema.ListAttribute{
+				MarkdownDescription: "List of available SUSE Linux Enterprise Server versions",
+				Computed:            true,
+				ElementType:         types.StringType,
+			},
+			"ubuntu": schema.ListAttribute{
+				MarkdownDescription: "List of available Ubuntu versions",
+				Computed:            true,
+				ElementType:         types.StringType,
+			},
+			"windows": schema.ListAttribute{
+				MarkdownDescription: "List of available Windows versions",
+				Computed:            true,
+				ElementType:         types.StringType,
 			},
 			"default_size": schema.SingleNestedAttribute{
 				MarkdownDescription: "Default and maximum VM sizing constraints for this platform and site",
@@ -160,7 +188,7 @@ func (d *DataSourceVMOSAvailable) Configure(ctx context.Context, req datasource.
 
 // Read retrieves the list of available operating systems and default VM sizing
 // constraints from the Fyre API for a specified platform (x, pvm, or z) and site.
-// It returns a map of OS families to available versions along with default and
+// It returns separate lists for each OS distribution family along with default and
 // maximum VM resource limits.
 func (d *DataSourceVMOSAvailable) Read(ctx context.Context, req datasource.ReadRequest, resp *datasource.ReadResponse) {
 	var data VMOSAvailableModel
@@ -221,29 +249,41 @@ func (d *DataSourceVMOSAvailable) Read(ctx context.Context, req datasource.ReadR
 	data.Site = types.StringValue(site)
 	data.Platform = types.StringValue(platform)
 
-	// Map operating_systems
-	if osResp.JSON200.OperatingSystems != nil && len(*osResp.JSON200.OperatingSystems) > 0 {
-		osMap := make(map[string]attr.Value)
-		for family, versions := range *osResp.JSON200.OperatingSystems {
-			versionList := make([]attr.Value, 0, len(versions))
-			for _, version := range versions {
-				versionList = append(versionList, types.StringValue(version))
-			}
-			listValue, diags := types.ListValue(types.StringType, versionList)
-			resp.Diagnostics.Append(diags...)
-			if resp.Diagnostics.HasError() {
-				return
-			}
-			osMap[family] = listValue
+	// Helper function to convert string slice to List
+	asTFList := func(versions *[]string) types.List {
+		if versions == nil || len(*versions) < 1 {
+			return types.ListNull(types.StringType)
 		}
-		mapValue, diags := types.MapValue(types.ListType{ElemType: types.StringType}, osMap)
+
+		versionList := make([]attr.Value, 0, len(*versions))
+		for _, version := range *versions {
+			versionList = append(versionList, types.StringValue(version))
+		}
+		listValue, diags := types.ListValue(types.StringType, versionList)
 		resp.Diagnostics.Append(diags...)
-		if resp.Diagnostics.HasError() {
-			return
-		}
-		data.OperatingSystems = mapValue
+
+		return listValue
+	}
+
+	// Map each OS distribution
+	if osResp.JSON200.OperatingSystems != nil {
+		data.CentOS = asTFList(osResp.JSON200.OperatingSystems.CentOS)
+		data.RedHat = asTFList(osResp.JSON200.OperatingSystems.RedHat)
+		data.Rocky = asTFList(osResp.JSON200.OperatingSystems.Rocky)
+		data.SLES = asTFList(osResp.JSON200.OperatingSystems.SLES)
+		data.Ubuntu = asTFList(osResp.JSON200.OperatingSystems.Ubuntu)
+		data.Windows = asTFList(osResp.JSON200.OperatingSystems.Windows)
 	} else {
-		data.OperatingSystems = types.MapNull(types.ListType{ElemType: types.StringType})
+		data.CentOS = types.ListNull(types.StringType)
+		data.RedHat = types.ListNull(types.StringType)
+		data.Rocky = types.ListNull(types.StringType)
+		data.SLES = types.ListNull(types.StringType)
+		data.Ubuntu = types.ListNull(types.StringType)
+		data.Windows = types.ListNull(types.StringType)
+	}
+
+	if resp.Diagnostics.HasError() {
+		return
 	}
 
 	// Map default_size

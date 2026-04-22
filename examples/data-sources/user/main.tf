@@ -10,7 +10,9 @@ terraform {
 }
 
 provider "fyre" {
-  # Configuration options
+  # Username and API key can be set via FYRE_USERNAME and FYRE_API_KEY environment variables
+  # Site can be set via FYRE_SITE environment variable (defaults to 'svl')
+  # Product group ID can be set via FYRE_PRODUCT_GROUP_ID environment variable
 }
 
 # Fetch current authenticated user details

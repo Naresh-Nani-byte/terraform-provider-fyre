@@ -25,8 +25,9 @@ func NewDataSourceStencils() datasource.DataSource {
 
 // DataSourceStencils defines the stencils data source implementation.
 type DataSourceStencils struct {
-	client      *client.ClientWithResponses
-	defaultSite string
+	client                *client.ClientWithResponses
+	defaultSite           string
+	defaultProductGroupID *int64
 }
 
 // StencilsModel describes the stencils data source data model.
@@ -79,8 +80,9 @@ func (d *DataSourceStencils) Schema(ctx context.Context, req datasource.SchemaRe
 				Computed:            true,
 			},
 			"product_group_id": schema.Int64Attribute{
-				MarkdownDescription: "Product group ID to filter stencils",
-				Required:            true,
+				MarkdownDescription: "Product group ID to filter stencils. Defaults to provider's product_group_id if not specified.",
+				Optional:            true,
+				Computed:            true,
 			},
 			"stencils": schema.ListNestedAttribute{
 				MarkdownDescription: "List of stencils in the product group",
@@ -170,6 +172,7 @@ func (d *DataSourceStencils) Configure(ctx context.Context, req datasource.Confi
 
 	d.client = providerData.Client
 	d.defaultSite = providerData.DefaultSite
+	d.defaultProductGroupID = providerData.DefaultProductGroupID
 }
 
 // Read refreshes the Terraform state with the latest data.
@@ -187,8 +190,19 @@ func (d *DataSourceStencils) Read(ctx context.Context, req datasource.ReadReques
 		site = d.defaultSite
 	}
 
+	// Determine product_group_id - use from config or inherit from provider (optional)
+	var productGroupID client.ProductGroupId
+	if !data.ProductGroupID.IsNull() && !data.ProductGroupID.IsUnknown() {
+		productGroupID = client.ProductGroupId(strconv.FormatInt(data.ProductGroupID.ValueInt64(), 10))
+	} else if d.defaultProductGroupID != nil {
+		productGroupID = client.ProductGroupId(strconv.FormatInt(*d.defaultProductGroupID, 10))
+		data.ProductGroupID = types.Int64Value(*d.defaultProductGroupID)
+	} else {
+		// Product group ID is optional for stencils - if not provided, API will return all stencils
+		data.ProductGroupID = types.Int64Null()
+	}
+
 	// Call API
-	productGroupID := client.ProductGroupId(strconv.FormatInt(data.ProductGroupID.ValueInt64(), 10))
 	stencilsResp, err := d.client.ListStencilsByProductGroupWithResponse(ctx, productGroupID, &client.ListStencilsByProductGroupParams{
 		Site: (*client.ListStencilsByProductGroupParamsSite)(&site),
 	})

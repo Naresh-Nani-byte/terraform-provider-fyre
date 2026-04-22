@@ -16,6 +16,7 @@ import (
 // FYRE_USERNAME, FYRE_API_KEY, and FYRE_ACC_PROD_GID environment variables to be set.
 // The test validates that the data source returns expected attributes including stencil
 // configurations, resource specifications, and owner information.
+// Tests both explicit product_group_id and provider-level inheritance.
 func TestAccDataSourceStencils(t *testing.T) {
 	if os.Getenv("FYRE_USERNAME") == "" || os.Getenv("FYRE_API_KEY") == "" {
 		t.Skip("FYRE_USERNAME and FYRE_API_KEY must be set for acceptance tests")
@@ -30,20 +31,31 @@ func TestAccDataSourceStencils(t *testing.T) {
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
+			// Test with explicit product_group_id
 			{
-				Config: testAccDataSourceStencilsConfig(productGroupID),
+				Config: testAccDataSourceStencilsConfigExplicit(productGroupID),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.fyre_stencils.test", "id"),
 					resource.TestCheckResourceAttrSet("data.fyre_stencils.test", "site"),
-					resource.TestCheckResourceAttrSet("data.fyre_stencils.test", "product_group_id"),
+					resource.TestCheckResourceAttr("data.fyre_stencils.test", "product_group_id", productGroupID),
 					resource.TestCheckResourceAttrSet("data.fyre_stencils.test", "stencils.#"),
+				),
+			},
+			// Test with provider-level product_group_id inheritance
+			{
+				Config: testAccDataSourceStencilsConfigInherited(productGroupID),
+				Check: resource.ComposeAggregateTestCheckFunc(
+					resource.TestCheckResourceAttrSet("data.fyre_stencils.test_inherited", "id"),
+					resource.TestCheckResourceAttrSet("data.fyre_stencils.test_inherited", "site"),
+					resource.TestCheckResourceAttr("data.fyre_stencils.test_inherited", "product_group_id", productGroupID),
+					resource.TestCheckResourceAttrSet("data.fyre_stencils.test_inherited", "stencils.#"),
 				),
 			},
 		},
 	})
 }
 
-func testAccDataSourceStencilsConfig(productGroupID string) string {
+func testAccDataSourceStencilsConfigExplicit(productGroupID string) string {
 	return fmt.Sprintf(`
 provider "fyre" {
   site = "svl"
@@ -51,6 +63,19 @@ provider "fyre" {
 
 data "fyre_stencils" "test" {
   product_group_id = %s
+}
+`, productGroupID)
+}
+
+func testAccDataSourceStencilsConfigInherited(productGroupID string) string {
+	return fmt.Sprintf(`
+provider "fyre" {
+  site = "svl"
+  product_group_id = %s
+}
+
+data "fyre_stencils" "test_inherited" {
+  # product_group_id inherited from provider
 }
 `, productGroupID)
 }

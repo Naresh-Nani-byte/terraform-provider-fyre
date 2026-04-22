@@ -3,12 +3,12 @@
 page_title: "fyre_vm_os_available Data Source - fyre"
 subcategory: ""
 description: |-
-  Fetches the list of available operating systems for a specific platform and site, along with default VM sizing constraints.
+  Fetches the list of available operating systems for a specific platform and site, organized by distribution family, along with default VM sizing constraints.
 ---
 
 # fyre_vm_os_available (Data Source)
 
-Fetches the list of available operating systems for a specific platform and site, along with default VM sizing constraints.
+Fetches the list of available operating systems for a specific platform and site, organized by distribution family, along with default VM sizing constraints.
 
 
 
@@ -25,9 +25,14 @@ Fetches the list of available operating systems for a specific platform and site
 
 ### Read-Only
 
+- `centos` (List of String) List of available CentOS versions
 - `default_size` (Attributes) Default and maximum VM sizing constraints for this platform and site (see [below for nested schema](#nestedatt--default_size))
 - `id` (String) Data source identifier (format: platform-site)
-- `operating_systems` (Map of List of String) Map of OS families to available versions. Keys are OS families (e.g., 'RedHat', 'Ubuntu'), values are lists of available versions.
+- `redhat` (List of String) List of available RedHat versions
+- `rocky` (List of String) List of available Rocky Linux versions
+- `sles` (List of String) List of available SUSE Linux Enterprise Server versions
+- `ubuntu` (List of String) List of available Ubuntu versions
+- `windows` (List of String) List of available Windows versions
 
 <a id="nestedatt--default_size"></a>
 ### Nested Schema for `default_size`

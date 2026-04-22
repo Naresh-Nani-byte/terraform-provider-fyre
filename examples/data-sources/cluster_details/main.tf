@@ -10,6 +10,7 @@ terraform {
 }
 
 provider "fyre" {
+  # Site can be set via FYRE_SITE environment variable or explicitly here
   site = "svl"
 }
 

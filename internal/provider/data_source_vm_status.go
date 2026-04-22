@@ -29,7 +29,7 @@ type DataSourceVMStatus struct {
 
 type VMStatusModel struct {
 	ID          types.String `tfsdk:"id"`
-	VmID        types.String `tfsdk:"vm_id"`
+	VMID        types.String `tfsdk:"vm_id"`
 	IP          types.String `tfsdk:"ip"`
 	FQDN        types.String `tfsdk:"fqdn"`
 	Site        types.String `tfsdk:"site"`
@@ -117,7 +117,7 @@ func (d *DataSourceVMStatus) Read(ctx context.Context, req datasource.ReadReques
 	}
 
 	// Validate that at least one identifier is provided
-	if data.VmID.IsNull() && data.IP.IsNull() && data.FQDN.IsNull() {
+	if data.VMID.IsNull() && data.IP.IsNull() && data.FQDN.IsNull() {
 		resp.Diagnostics.AddError(
 			"Missing Required Attribute",
 			"At least one of vm_id, ip, or fqdn must be provided",
@@ -136,7 +136,7 @@ func (d *DataSourceVMStatus) Read(ctx context.Context, req datasource.ReadReques
 		value string
 		name  string
 	}{
-		{data.VmID.ValueString(), "vm_id"},
+		{data.VMID.ValueString(), "vm_id"},
 		{data.IP.ValueString(), "ip"},
 		{data.FQDN.ValueString(), "fqdn"},
 	}
@@ -192,8 +192,8 @@ func (d *DataSourceVMStatus) Read(ctx context.Context, req datasource.ReadReques
 	data.Site = types.StringValue(string(site))
 
 	// Set the identifier fields based on what was used
-	if data.VmID.ValueString() == successfulIdentifier {
-		data.VmID = types.StringValue(successfulIdentifier)
+	if data.VMID.ValueString() == successfulIdentifier {
+		data.VMID = types.StringValue(successfulIdentifier)
 	} else if data.IP.ValueString() == successfulIdentifier {
 		data.IP = types.StringValue(successfulIdentifier)
 	} else if data.FQDN.ValueString() == successfulIdentifier {

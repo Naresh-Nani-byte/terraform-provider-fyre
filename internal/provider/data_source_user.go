@@ -35,7 +35,7 @@ type UserModel struct {
 	ID                      types.String `tfsdk:"id"`
 	Site                    types.String `tfsdk:"site"`
 	Authenticated           types.Bool   `tfsdk:"authenticated"`
-	ClientIp                types.String `tfsdk:"client_ip"`
+	ClientIP                types.String `tfsdk:"client_ip"`
 	Email                   types.String `tfsdk:"email"`
 	FullName                types.String `tfsdk:"full_name"`
 	Login                   types.String `tfsdk:"login"`
@@ -52,10 +52,10 @@ type DevelopmentModel struct {
 	Authorizations            types.List   `tfsdk:"authorizations"`
 	DefaultLocation           types.String `tfsdk:"default_location"`
 	DefaultPasswordExpiration types.String `tfsdk:"default_password_expiration"`
-	DefaultProductGroupId     types.Int64  `tfsdk:"default_product_group_id"`
+	DefaultProductGroupID     types.Int64  `tfsdk:"default_product_group_id"`
 	DisplayName               types.String `tfsdk:"display_name"`
 	Email                     types.String `tfsdk:"email"`
-	Id                        types.Int64  `tfsdk:"id"`
+	ID                        types.Int64  `tfsdk:"id"`
 	Login                     types.String `tfsdk:"login"`
 	LoginExpiration           types.Int64  `tfsdk:"login_expiration"`
 	PasswordSet               types.String `tfsdk:"password_set"`
@@ -65,7 +65,7 @@ type DevelopmentModel struct {
 	Roles                     types.List   `tfsdk:"roles"`
 	Settings                  types.List   `tfsdk:"settings"`
 	Username                  types.String `tfsdk:"username"`
-	ValidApiKey               types.String `tfsdk:"valid_api_key"`
+	ValidAPIKey               types.String `tfsdk:"valid_api_key"`
 }
 
 // SentryModel describes the sentry nested object.
@@ -383,7 +383,7 @@ func (d *DataSourceUser) Read(ctx context.Context, req datasource.ReadRequest, r
 
 	// Initialize all fields with null/empty values
 	data.Authenticated = types.BoolNull()
-	data.ClientIp = types.StringNull()
+	data.ClientIP = types.StringNull()
 	data.Email = types.StringNull()
 	data.FullName = types.StringNull()
 	data.Login = types.StringNull()
@@ -436,7 +436,7 @@ func (d *DataSourceUser) Read(ctx context.Context, req datasource.ReadRequest, r
 			data.Authenticated = types.BoolValue(*uRes.Authenticated)
 		}
 		if uRes.ClientIp != nil {
-			data.ClientIp = types.StringValue(*uRes.ClientIp)
+			data.ClientIP = types.StringValue(*uRes.ClientIp)
 		}
 		if uRes.Email != nil {
 			data.Email = types.StringValue(*uRes.Email)
@@ -474,10 +474,10 @@ func (d *DataSourceUser) Read(ctx context.Context, req datasource.ReadRequest, r
 				Authorizations:            emptyList,
 				DefaultLocation:           types.StringNull(),
 				DefaultPasswordExpiration: types.StringNull(),
-				DefaultProductGroupId:     types.Int64Null(),
+				DefaultProductGroupID:     types.Int64Null(),
 				DisplayName:               types.StringNull(),
 				Email:                     types.StringNull(),
-				Id:                        types.Int64Null(),
+				ID:                        types.Int64Null(),
 				Login:                     types.StringNull(),
 				LoginExpiration:           types.Int64Null(),
 				PasswordSet:               types.StringNull(),
@@ -491,7 +491,7 @@ func (d *DataSourceUser) Read(ctx context.Context, req datasource.ReadRequest, r
 				Roles:             emptyList,
 				Settings:          emptyList,
 				Username:          types.StringNull(),
-				ValidApiKey:       types.StringNull(),
+				ValidAPIKey:       types.StringNull(),
 			}
 
 			if dev.Authenticated != nil {
@@ -504,7 +504,7 @@ func (d *DataSourceUser) Read(ctx context.Context, req datasource.ReadRequest, r
 				devModel.DefaultPasswordExpiration = types.StringValue(*dev.DefaultPasswordExpiration)
 			}
 			if dev.DefaultProductGroupId != nil {
-				devModel.DefaultProductGroupId = types.Int64Value(int64(*dev.DefaultProductGroupId))
+				devModel.DefaultProductGroupID = types.Int64Value(int64(*dev.DefaultProductGroupId))
 			}
 			if dev.DisplayName != nil {
 				devModel.DisplayName = types.StringValue(*dev.DisplayName)
@@ -513,7 +513,7 @@ func (d *DataSourceUser) Read(ctx context.Context, req datasource.ReadRequest, r
 				devModel.Email = types.StringValue(*dev.Email)
 			}
 			if dev.Id != nil {
-				devModel.Id = types.Int64Value(int64(*dev.Id))
+				devModel.ID = types.Int64Value(int64(*dev.Id))
 				data.ID = types.StringValue(fmt.Sprintf("%d", *dev.Id))
 			}
 			if dev.Login != nil {
@@ -577,7 +577,7 @@ func (d *DataSourceUser) Read(ctx context.Context, req datasource.ReadRequest, r
 				devModel.Username = types.StringValue(*dev.Username)
 			}
 			if dev.ValidApiKey != nil {
-				devModel.ValidApiKey = types.StringValue(*dev.ValidApiKey)
+				devModel.ValidAPIKey = types.StringValue(*dev.ValidApiKey)
 			}
 
 			// Development list fields

@@ -34,10 +34,10 @@ type VMCheckHostnameModel struct {
 	Site        types.String `tfsdk:"site"`
 	Status      types.String `tfsdk:"status"`
 	Details     types.String `tfsdk:"details"`
-	Fqdn        types.String `tfsdk:"fqdn"`
+	FQDN        types.String `tfsdk:"fqdn"`
 	OwningUser  types.Int64  `tfsdk:"owning_user"`
 	Owner       types.Object `tfsdk:"owner"`
-	VmID        types.String `tfsdk:"vm_id"`
+	VMID        types.String `tfsdk:"vm_id"`
 	IsAvailable types.Bool   `tfsdk:"is_available"`
 }
 
@@ -220,9 +220,9 @@ func (d *DataSourceVMCheckHostname) Read(ctx context.Context, req datasource.Rea
 
 	// FQDN is only present when hostname is available (status: success)
 	if checkResp.JSON200.Fqdn != nil {
-		data.Fqdn = types.StringValue(*checkResp.JSON200.Fqdn)
+		data.FQDN = types.StringValue(*checkResp.JSON200.Fqdn)
 	} else {
-		data.Fqdn = types.StringNull()
+		data.FQDN = types.StringNull()
 	}
 
 	// Owner information is only present when hostname is in use (status: warning)
@@ -233,9 +233,9 @@ func (d *DataSourceVMCheckHostname) Read(ctx context.Context, req datasource.Rea
 	}
 
 	if checkResp.JSON200.VmId != nil {
-		data.VmID = types.StringValue(*checkResp.JSON200.VmId)
+		data.VMID = types.StringValue(*checkResp.JSON200.VmId)
 	} else {
-		data.VmID = types.StringNull()
+		data.VMID = types.StringNull()
 	}
 
 	// Handle owner nested object

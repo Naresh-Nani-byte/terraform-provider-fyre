@@ -6,10 +6,7 @@ package provider
 import (
 	"context"
 	"fmt"
-	"strings"
 	"time"
-
-	"github.com/davecgh/go-spew/spew"
 
 	"github.com/hashicorp-forge/terraform-provider-fyre/internal/client"
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -21,194 +18,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
-
-// retryWithBackoff executes a function with exponential backoff retry logic.
-// It retries up to maxRetries times for transient errors (5xx, network issues).
-// Does NOT retry on 4xx client errors as these indicate permanent request problems.
-// Uses exponential backoff: 1s, 2s, 4s between retries.
-// The function fn should return an error if the operation failed.
-func retryWithBackoff(ctx context.Context, operation string, maxRetries int, fn func() error) error {
-	var lastErr error
-	var actualAttempts int
-
-	for attempt := 0; attempt <= maxRetries; attempt++ {
-		actualAttempts = attempt + 1
-		err := fn()
-
-		// Success case
-		if err == nil {
-			return nil
-		}
-
-		// Store error for final error message
-		lastErr = err
-
-		// Don't retry on 4xx client errors - these are permanent request problems
-		// Check if error message contains "status 4" which indicates a 400-level error
-		if err != nil && strings.Contains(err.Error(), "status 4") {
-			tflog.Debug(ctx, "Not retrying 4xx client error", map[string]any{
-				"operation": operation,
-				"error":     err.Error(),
-				"attempts":  actualAttempts,
-			})
-			return fmt.Errorf("%s: %w", operation, lastErr)
-		}
-
-		// Don't retry on last attempt
-		if attempt == maxRetries {
-			break
-		}
-
-		// Exponential backoff: 1s, 2s, 4s
-		backoffDuration := time.Duration(1<<uint(attempt)) * time.Second
-		tflog.Debug(ctx, "Retrying operation after error", map[string]any{
-			"operation":   operation,
-			"attempt":     attempt + 1,
-			"max_retries": maxRetries,
-			"backoff":     backoffDuration.String(),
-			"error":       err.Error(),
-		})
-
-		select {
-		case <-ctx.Done():
-			return fmt.Errorf("%s failed: context cancelled during retry backoff", operation)
-		case <-time.After(backoffDuration):
-			// Continue to next retry
-		}
-	}
-
-	// All retries exhausted, return wrapped error
-	return fmt.Errorf("%s failed after %d attempts: %w", operation, actualAttempts, lastErr)
-}
-
-// pollRequestStatus polls a Fyre API request until completion, failure, or timeout.
-// It uses a context with deadline and ticker to avoid hard sleeps.
-func (r *ResourceVM) pollRequestStatus(ctx context.Context, requestID, site, operation string, timeout, pollInterval time.Duration) error {
-	if requestID == "" {
-		return fmt.Errorf("no request_id was provided")
-	}
-
-	// Create context with deadline
-	pollCtx, cancel := context.WithTimeout(ctx, timeout)
-	defer cancel()
-
-	ticker := time.NewTicker(pollInterval)
-	defer ticker.Stop()
-
-	statusSiteParam := client.GetRequestStatusParamsSite(site)
-	var statusResp *client.GetRequestStatusResponse
-
-	checkRequestCompleted := func() error {
-		var err error
-
-		checkCtx, checkCancel := context.WithDeadline(pollCtx, time.Now().Add(2*time.Second))
-		defer checkCancel()
-		statusResp, err = r.client.GetRequestStatusWithResponse(checkCtx, requestID, &client.GetRequestStatusParams{
-			Site: &statusSiteParam,
-		})
-		if err != nil {
-			return err
-		}
-
-		if statusResp == nil {
-			return fmt.Errorf("no status response returned")
-		}
-
-		if statusResp.StatusCode() != 200 {
-			return fmt.Errorf("waiting for 200, got %d", statusResp.StatusCode())
-		}
-
-		if statusResp.JSON200 == nil {
-			return fmt.Errorf("no status response payload returned")
-		}
-
-		// Handle near-synchronous operations that complete without a completion
-		// percentage. If status is "success" but no Request object is returned
-		// then we can assume we don't need to wait for 100% completion.
-		if statusResp.JSON200.Request == nil {
-			if statusResp.JSON200.Status == nil {
-				return fmt.Errorf("response missing status field")
-			}
-
-			rs := *statusResp.JSON200.Status
-			if rs != "success" {
-				return fmt.Errorf("request status was not yet successful, got %s", rs)
-			}
-
-			tflog.Debug(ctx, "Operation was successful with no job to track to 100%", map[string]any{
-				"request_id": requestID,
-				"operation":  operation,
-				"status":     "success",
-			})
-
-			return nil
-		}
-
-		if err := r.checkRequestCompletion(statusResp.JSON200, operation, requestID); err != nil {
-			return err
-		}
-
-		if statusResp.JSON200.Request.CompletionPercent == nil {
-			return fmt.Errorf("no status response completion percentage reported")
-		}
-
-		if pct := *statusResp.JSON200.Request.CompletionPercent; pct != 100 {
-			return fmt.Errorf("waiting for request completion percentage to be 100, got %d", pct)
-		}
-
-		return nil
-	}
-
-	// Poll until completion, failure, or timeout
-	var err error
-	for {
-		select {
-		case <-pollCtx.Done():
-			return fmt.Errorf("%s: timed out after %v waiting for request to complete: %w, %v", operation, timeout, err, spew.Sdump(statusResp))
-		case <-ticker.C:
-			err = checkRequestCompleted()
-			if err == nil {
-				return nil
-			}
-
-			tflog.Debug(ctx, "poll check for request completion failed", map[string]any{
-				"request_id": requestID,
-				"error":      err.Error(),
-				"response":   statusResp,
-			})
-			continue
-		}
-	}
-}
-
-// checkRequestCompletion checks if a request has completed or failed.
-func (r *ResourceVM) checkRequestCompletion(status *client.RequestStatus, operation, requestID string) error {
-	if status.Request == nil {
-		return nil
-	}
-
-	request := status.Request
-
-	// Check if any tasks failed
-	if request.Failed != nil && *request.Failed != "0" {
-		errorMsg := fmt.Sprintf("%s: request failed with %s failed tasks (request_id: %s)", operation, *request.Failed, requestID)
-		if request.LastStatus != nil {
-			errorMsg = fmt.Sprintf("%s: %s", errorMsg, *request.LastStatus)
-		}
-		return fmt.Errorf("%s", errorMsg)
-	}
-
-	// Check for overall error status
-	if status.Status != nil && *status.Status == "error" {
-		errorMsg := fmt.Sprintf("%s: request failed (request_id: %s)", operation, requestID)
-		if request.LastStatus != nil {
-			errorMsg = fmt.Sprintf("%s: %s", errorMsg, *request.LastStatus)
-		}
-		return fmt.Errorf("%s", errorMsg)
-	}
-
-	return nil
-}
 
 // Ensure provider defined types fully satisfy framework interfaces.
 var (
@@ -223,8 +32,9 @@ func NewResourceVM() resource.Resource {
 
 // ResourceVM defines the resource implementation.
 type ResourceVM struct {
-	client      *client.ClientWithResponses
-	defaultSite string
+	client                *client.ClientWithResponses
+	defaultSite           string
+	defaultProductGroupID *int64
 }
 
 // VMModel describes the resource data model.
@@ -429,6 +239,7 @@ func (r *ResourceVM) Configure(ctx context.Context, req resource.ConfigureReques
 
 	r.client = providerData.Client
 	r.defaultSite = providerData.DefaultSite
+	r.defaultProductGroupID = providerData.DefaultProductGroupID
 }
 
 // Create creates the resource and sets the initial Terraform state.
@@ -540,8 +351,12 @@ func (r *ResourceVM) Create(ctx context.Context, req resource.CreateRequest, res
 		createReq.QuotaType = &quotaType
 	}
 
-	if !data.ProductGroupID.IsNull() {
+	// Use product_group_id from config, or inherit from provider
+	if !data.ProductGroupID.IsNull() && !data.ProductGroupID.IsUnknown() {
 		pgID := data.ProductGroupID.ValueString()
+		createReq.ProductGroupId = &pgID
+	} else if r.defaultProductGroupID != nil {
+		pgID := fmt.Sprintf("%d", *r.defaultProductGroupID)
 		createReq.ProductGroupId = &pgID
 	}
 
@@ -619,7 +434,7 @@ func (r *ResourceVM) Create(ctx context.Context, req resource.CreateRequest, res
 	})
 
 	// Poll for request completion (max 10 minutes, check every 10 seconds)
-	if err := r.pollRequestStatus(ctx, requestID, site, "VM Build", 10*time.Minute, 10*time.Second); err != nil {
+	if err := pollRequestStatus(ctx, r.client, requestID, site, "VM Build", 10*time.Minute, 10*time.Second); err != nil {
 		resp.Diagnostics.AddError("VM Build Failed", err.Error())
 		return
 	}
@@ -1008,7 +823,7 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 			requestID := *updateResp.JSON200.RequestId
 			tflog.Debug(ctx, "Polling resource update request", map[string]any{"request_id": requestID})
 
-			if err := r.pollRequestStatus(ctx, requestID, siteStr, "Modify VM Resources", 3*time.Minute, 5*time.Second); err != nil {
+			if err := pollRequestStatus(ctx, r.client, requestID, siteStr, "Modify VM Resources", 3*time.Minute, 5*time.Second); err != nil {
 				resp.Diagnostics.AddError("Modify VM Resources Failed", err.Error())
 				return
 			}
@@ -1054,7 +869,7 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 			requestID := *hostnameResp.JSON200.RequestId
 			tflog.Debug(ctx, "Polling change hostname request", map[string]any{"request_id": requestID})
 
-			if err := r.pollRequestStatus(ctx, requestID, siteStr, "Change Hostname", 1*time.Minute, 5*time.Second); err != nil {
+			if err := pollRequestStatus(ctx, r.client, requestID, siteStr, "Change Hostname", 1*time.Minute, 5*time.Second); err != nil {
 				resp.Diagnostics.AddError("Change Hostname Failed", err.Error())
 				return
 			}
@@ -1097,7 +912,7 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 			rid := *descResp.JSON200.RequestId
 			tflog.Debug(ctx, "Polling description update request", map[string]any{"request_id": rid})
 
-			if err := r.pollRequestStatus(ctx, rid, siteStr, "Update VM Description", 1*time.Minute, 5*time.Second); err != nil {
+			if err := pollRequestStatus(ctx, r.client, rid, siteStr, "Update VM Description", 1*time.Minute, 5*time.Second); err != nil {
 				resp.Diagnostics.AddError("Update VM Description Failed", err.Error())
 				return
 			}
@@ -1140,7 +955,7 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 			requestID := *expResp.JSON200.RequestId
 			tflog.Debug(ctx, "Polling expiration update request", map[string]any{"request_id": requestID})
 
-			if err := r.pollRequestStatus(ctx, requestID, siteStr, "Change VM Expiration", 1*time.Minute, 5*time.Second); err != nil {
+			if err := pollRequestStatus(ctx, r.client, requestID, siteStr, "Change VM Expiration", 1*time.Minute, 5*time.Second); err != nil {
 				resp.Diagnostics.AddError("Change VM Expiration Failed", err.Error())
 				return
 			}
@@ -1203,7 +1018,7 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 				requestID := *disableResp.JSON200.RequestId
 				tflog.Debug(ctx, "Polling disable delete request", map[string]any{"request_id": requestID})
 
-				if err := r.pollRequestStatus(ctx, requestID, siteStr, "Disable Delete Update", 1*time.Minute, 5*time.Second); err != nil {
+				if err := pollRequestStatus(ctx, r.client, requestID, siteStr, "Disable Delete Update", 1*time.Minute, 5*time.Second); err != nil {
 					resp.Diagnostics.AddError("Disable Delete Failed", err.Error())
 					return
 				}
@@ -1235,7 +1050,7 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 				requestID := *enableResp.JSON200.RequestId
 				tflog.Debug(ctx, "Polling enable delete request", map[string]any{"request_id": requestID})
 
-				if err := r.pollRequestStatus(ctx, requestID, siteStr, "Enable Delete Update", 2*time.Minute, 5*time.Second); err != nil {
+				if err := pollRequestStatus(ctx, r.client, requestID, siteStr, "Enable Delete Update", 2*time.Minute, 5*time.Second); err != nil {
 					resp.Diagnostics.AddError("Enable Delete Failed", err.Error())
 					return
 				}
@@ -1494,7 +1309,7 @@ func (r *ResourceVM) Delete(ctx context.Context, req resource.DeleteRequest, res
 	})
 
 	// Poll for deletion completion (max 5 minutes, check every 5 seconds)
-	if err := r.pollRequestStatus(ctx, requestID, siteStr, "VM Deletion", 5*time.Minute, 5*time.Second); err != nil {
+	if err := pollRequestStatus(ctx, r.client, requestID, siteStr, "VM Deletion", 5*time.Minute, 5*time.Second); err != nil {
 		resp.Diagnostics.AddError("VM Deletion Failed", err.Error())
 		return
 	}

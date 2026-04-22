@@ -31,7 +31,10 @@ func TestAccDataSourceVMOSAvailable(t *testing.T) {
 					resource.TestCheckResourceAttr("data.fyre_vm_os_available.test", "platform", "x"),
 					resource.TestCheckResourceAttrSet("data.fyre_vm_os_available.test", "id"),
 					resource.TestCheckResourceAttrSet("data.fyre_vm_os_available.test", "site"),
-					resource.TestCheckResourceAttrSet("data.fyre_vm_os_available.test", "operating_systems.%"),
+					// Check that at least some OS distributions are present
+					resource.TestCheckResourceAttrSet("data.fyre_vm_os_available.test", "redhat.#"),
+					resource.TestCheckResourceAttrSet("data.fyre_vm_os_available.test", "ubuntu.#"),
+					// Check default_size attributes
 					resource.TestCheckResourceAttrSet("data.fyre_vm_os_available.test", "default_size.count"),
 					resource.TestCheckResourceAttrSet("data.fyre_vm_os_available.test", "default_size.cpu"),
 					resource.TestCheckResourceAttrSet("data.fyre_vm_os_available.test", "default_size.memory"),
@@ -50,7 +53,6 @@ func TestAccDataSourceVMOSAvailable(t *testing.T) {
 					resource.TestCheckResourceAttr("data.fyre_vm_os_available.test", "platform", "z"),
 					resource.TestCheckResourceAttrSet("data.fyre_vm_os_available.test", "id"),
 					resource.TestCheckResourceAttrSet("data.fyre_vm_os_available.test", "site"),
-					resource.TestCheckResourceAttrSet("data.fyre_vm_os_available.test", "operating_systems.%"),
 					resource.TestCheckResourceAttrSet("data.fyre_vm_os_available.test", "default_size.count"),
 				),
 			},
@@ -61,7 +63,8 @@ func TestAccDataSourceVMOSAvailable(t *testing.T) {
 					resource.TestCheckResourceAttr("data.fyre_vm_os_available.test", "platform", "x"),
 					resource.TestCheckResourceAttr("data.fyre_vm_os_available.test", "site", "rtp"),
 					resource.TestCheckResourceAttrSet("data.fyre_vm_os_available.test", "id"),
-					resource.TestCheckResourceAttrSet("data.fyre_vm_os_available.test", "operating_systems.%"),
+					// Verify OS distributions are available
+					resource.TestCheckResourceAttrSet("data.fyre_vm_os_available.test", "redhat.#"),
 				),
 			},
 		},

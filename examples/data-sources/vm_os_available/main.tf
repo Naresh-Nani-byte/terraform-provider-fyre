@@ -10,6 +10,7 @@ terraform {
 }
 
 provider "fyre" {
+  # Site can be set via FYRE_SITE environment variable or explicitly here
   site = "svl"
 }
 
@@ -29,10 +30,40 @@ data "fyre_vm_os_available" "x_platform_rtp" {
   site     = "rtp"
 }
 
-# Output the available operating systems for x platform
-output "x_operating_systems" {
-  description = "Available operating systems for x86 platform"
-  value       = data.fyre_vm_os_available.x_platform.operating_systems
+# Output RedHat versions for x platform
+output "x_redhat_versions" {
+  description = "Available RedHat versions for x86 platform"
+  value       = data.fyre_vm_os_available.x_platform.redhat
+}
+
+# Output Ubuntu versions for x platform
+output "x_ubuntu_versions" {
+  description = "Available Ubuntu versions for x86 platform"
+  value       = data.fyre_vm_os_available.x_platform.ubuntu
+}
+
+# Output CentOS versions for x platform
+output "x_centos_versions" {
+  description = "Available CentOS versions for x86 platform"
+  value       = data.fyre_vm_os_available.x_platform.centos
+}
+
+# Output Rocky Linux versions for x platform
+output "x_rocky_versions" {
+  description = "Available Rocky Linux versions for x86 platform"
+  value       = data.fyre_vm_os_available.x_platform.rocky
+}
+
+# Output SLES versions for x platform
+output "x_sles_versions" {
+  description = "Available SLES versions for x86 platform"
+  value       = data.fyre_vm_os_available.x_platform.sles
+}
+
+# Output Windows versions for x platform
+output "x_windows_versions" {
+  description = "Available Windows versions for x86 platform"
+  value       = data.fyre_vm_os_available.x_platform.windows
 }
 
 # Output the default VM sizing for x platform
@@ -41,14 +72,8 @@ output "x_default_size" {
   value       = data.fyre_vm_os_available.x_platform.default_size
 }
 
-# Output all RedHat versions available for x platform
-output "x_redhat_versions" {
-  description = "Available RedHat versions for x86 platform"
-  value       = lookup(data.fyre_vm_os_available.x_platform.operating_systems, "RedHat", [])
-}
-
-# Output the available operating systems for z platform
-output "z_operating_systems" {
-  description = "Available operating systems for z platform"
-  value       = data.fyre_vm_os_available.z_platform.operating_systems
+# Output RedHat versions for z platform
+output "z_redhat_versions" {
+  description = "Available RedHat versions for z platform"
+  value       = data.fyre_vm_os_available.z_platform.redhat
 }

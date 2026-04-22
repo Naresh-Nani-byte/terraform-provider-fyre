@@ -40,29 +40,29 @@ type QuotaModel struct {
 
 // QuotaDetailsModel describes the details nested object.
 type QuotaDetailsModel struct {
-	Ip               types.Object `tfsdk:"ip"`
+	IP               types.Object `tfsdk:"ip"`
 	Platforms        types.List   `tfsdk:"platforms"`
-	ProductGroupId   types.Int64  `tfsdk:"product_group_id"`
+	ProductGroupID   types.Int64  `tfsdk:"product_group_id"`
 	ProductGroupName types.String `tfsdk:"product_group_name"`
 	X                types.Object `tfsdk:"x"`
 }
 
-// IpQuotaModel describes the IP quota nested object.
-type IpQuotaModel struct {
+// IPQuotaModel describes the IP quota nested object.
+type IPQuotaModel struct {
 	Public types.Object `tfsdk:"public"`
 }
 
-// PublicIpQuotaModel describes the public IP quota nested object.
-type PublicIpQuotaModel struct {
+// PublicIPQuotaModel describes the public IP quota nested object.
+type PublicIPQuotaModel struct {
 	Quota types.Int64 `tfsdk:"quota"`
 	Used  types.Int64 `tfsdk:"used"`
 }
 
 // PlatformQuotaModel describes the platform (X) quota nested object.
 type PlatformQuotaModel struct {
-	Cpu           types.Int64 `tfsdk:"cpu"`
-	CpuPercent    types.Int64 `tfsdk:"cpu_percent"`
-	CpuUsed       types.Int64 `tfsdk:"cpu_used"`
+	CPU           types.Int64 `tfsdk:"cpu"`
+	CPUPercent    types.Int64 `tfsdk:"cpu_percent"`
+	CPUUsed       types.Int64 `tfsdk:"cpu_used"`
 	Disk          types.Int64 `tfsdk:"disk"`
 	DiskPercent   types.Int64 `tfsdk:"disk_percent"`
 	DiskUsed      types.Int64 `tfsdk:"disk_used"`
@@ -276,14 +276,14 @@ func (d *DataSourceQuota) Read(ctx context.Context, req datasource.ReadRequest, 
 
 	// Initialize details with null values
 	detailsModel := QuotaDetailsModel{
-		Ip: types.ObjectNull(map[string]attr.Type{
+		IP: types.ObjectNull(map[string]attr.Type{
 			"public": types.ObjectType{AttrTypes: map[string]attr.Type{
 				"quota": types.Int64Type,
 				"used":  types.Int64Type,
 			}},
 		}),
 		Platforms:        types.ListNull(types.StringType),
-		ProductGroupId:   types.Int64Null(),
+		ProductGroupID:   types.Int64Null(),
 		ProductGroupName: types.StringNull(),
 		X: types.ObjectNull(map[string]attr.Type{
 			"cpu":            types.Int64Type,
@@ -304,7 +304,7 @@ func (d *DataSourceQuota) Read(ctx context.Context, req datasource.ReadRequest, 
 
 		// Map IP quotas
 		if details.Ip != nil && details.Ip.Public != nil {
-			publicModel := PublicIpQuotaModel{
+			publicModel := PublicIPQuotaModel{
 				Quota: types.Int64Null(),
 				Used:  types.Int64Null(),
 			}
@@ -322,7 +322,7 @@ func (d *DataSourceQuota) Read(ctx context.Context, req datasource.ReadRequest, 
 			}, publicModel)
 			resp.Diagnostics.Append(diags...)
 			if !resp.Diagnostics.HasError() {
-				ipModel := IpQuotaModel{Public: publicObj}
+				ipModel := IPQuotaModel{Public: publicObj}
 				ipObj, diags := types.ObjectValueFrom(ctx, map[string]attr.Type{
 					"public": types.ObjectType{AttrTypes: map[string]attr.Type{
 						"quota": types.Int64Type,
@@ -331,7 +331,7 @@ func (d *DataSourceQuota) Read(ctx context.Context, req datasource.ReadRequest, 
 				}, ipModel)
 				resp.Diagnostics.Append(diags...)
 				if !resp.Diagnostics.HasError() {
-					detailsModel.Ip = ipObj
+					detailsModel.IP = ipObj
 				}
 			}
 		}
@@ -351,7 +351,7 @@ func (d *DataSourceQuota) Read(ctx context.Context, req datasource.ReadRequest, 
 
 		// Map product group info
 		if details.ProductGroupId != nil {
-			detailsModel.ProductGroupId = types.Int64Value(int64(*details.ProductGroupId))
+			detailsModel.ProductGroupID = types.Int64Value(int64(*details.ProductGroupId))
 		}
 		if details.ProductGroupName != nil {
 			detailsModel.ProductGroupName = types.StringValue(*details.ProductGroupName)
@@ -360,9 +360,9 @@ func (d *DataSourceQuota) Read(ctx context.Context, req datasource.ReadRequest, 
 		// Map X platform quotas
 		if details.X != nil {
 			xModel := PlatformQuotaModel{
-				Cpu:           types.Int64Null(),
-				CpuPercent:    types.Int64Null(),
-				CpuUsed:       types.Int64Null(),
+				CPU:           types.Int64Null(),
+				CPUPercent:    types.Int64Null(),
+				CPUUsed:       types.Int64Null(),
 				Disk:          types.Int64Null(),
 				DiskPercent:   types.Int64Null(),
 				DiskUsed:      types.Int64Null(),
@@ -372,13 +372,13 @@ func (d *DataSourceQuota) Read(ctx context.Context, req datasource.ReadRequest, 
 			}
 
 			if details.X.Cpu != nil {
-				xModel.Cpu = types.Int64Value(int64(*details.X.Cpu))
+				xModel.CPU = types.Int64Value(int64(*details.X.Cpu))
 			}
 			if details.X.CpuPercent != nil {
-				xModel.CpuPercent = types.Int64Value(int64(*details.X.CpuPercent))
+				xModel.CPUPercent = types.Int64Value(int64(*details.X.CpuPercent))
 			}
 			if details.X.CpuUsed != nil {
-				xModel.CpuUsed = types.Int64Value(int64(*details.X.CpuUsed))
+				xModel.CPUUsed = types.Int64Value(int64(*details.X.CpuUsed))
 			}
 			if details.X.Disk != nil {
 				xModel.Disk = types.Int64Value(int64(*details.X.Disk))

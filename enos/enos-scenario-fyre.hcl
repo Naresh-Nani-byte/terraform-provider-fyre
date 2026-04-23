@@ -88,4 +88,8 @@ scenario "fyre" {
   output "stencils" {
     value = step.test_datasources.stencils
   }
+
+  output "user_api_key" {
+    value = step.test_datasources.user_api_key
+  }
 }

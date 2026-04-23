@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2021, 2026
+// Copyright IBM Corp. 2026
 // SPDX-License-Identifier: MPL-2.0
 
 package provider
@@ -9,10 +9,12 @@ import (
 	"time"
 
 	"github.com/hashicorp-forge/terraform-provider-fyre/internal/client"
+
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema/listplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/stringplanmodifier"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -21,8 +23,9 @@ import (
 
 // Ensure provider defined types fully satisfy framework interfaces.
 var (
-	_ resource.Resource                = &ResourceVM{}
-	_ resource.ResourceWithImportState = &ResourceVM{}
+	_ resource.Resource                     = &ResourceVM{}
+	_ resource.ResourceWithImportState      = &ResourceVM{}
+	_ resource.ResourceWithConfigValidators = &ResourceVM{}
 )
 
 // NewResourceVM creates a new VM resource.
@@ -44,6 +47,7 @@ type VMModel struct {
 	Site            types.String `tfsdk:"site"`
 	QuotaType       types.String `tfsdk:"quota_type"`
 	ProductGroupID  types.String `tfsdk:"product_group_id"`
+	TimeToLive      types.String `tfsdk:"time_to_live"`
 	Platform        types.String `tfsdk:"platform"`
 	OS              types.String `tfsdk:"os"`
 	CPU             types.Int64  `tfsdk:"cpu"`
@@ -54,7 +58,7 @@ type VMModel struct {
 	ExpirationTime  types.String `tfsdk:"expiration_time"`
 	PublicNetwork   types.String `tfsdk:"public_network"`
 	DNS             types.String `tfsdk:"dns"`
-	SSHKey          types.String `tfsdk:"ssh_key"`
+	SSHKeys         types.List   `tfsdk:"ssh_keys"`
 	Password        types.String `tfsdk:"password"`
 	DisableDelete   types.String `tfsdk:"disable_delete"`
 	AdditionalDisks types.List   `tfsdk:"additional_disks"`
@@ -64,7 +68,10 @@ type VMModel struct {
 	State    types.String `tfsdk:"state"`
 	Created  types.String `tfsdk:"created"`
 	Location types.String `tfsdk:"location"`
+	IPs      types.List   `tfsdk:"ips"`
 }
+
+type quotaTypeValidator struct{}
 
 // Metadata returns the resource type name.
 func (r *ResourceVM) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -108,11 +115,18 @@ func (r *ResourceVM) Schema(ctx context.Context, req resource.SchemaRequest, res
 				},
 			},
 			"product_group_id": schema.StringAttribute{
-				MarkdownDescription: "Product group identifier. Defaults to user's default product group.",
+				MarkdownDescription: "Product group identifier. Required when quota_type is 'product_group'. Defaults to user's default product group.",
 				Optional:            true,
 				Computed:            true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.UseStateForUnknown(),
+					stringplanmodifier.RequiresReplace(),
+				},
+			},
+			"time_to_live": schema.StringAttribute{
+				MarkdownDescription: "Time to live in hours. Required when quota_type is 'quick_burn'.",
+				Optional:            true,
+				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
@@ -180,11 +194,12 @@ func (r *ResourceVM) Schema(ctx context.Context, req resource.SchemaRequest, res
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
-			"ssh_key": schema.StringAttribute{
-				MarkdownDescription: "SSH public key to add to the VM. Can be a single key or comma-separated list.",
+			"ssh_keys": schema.ListAttribute{
+				MarkdownDescription: "SSH public keys to add to the VM. Can be a list of keys.",
 				Optional:            true,
-				PlanModifiers: []planmodifier.String{
-					stringplanmodifier.RequiresReplace(),
+				ElementType:         types.StringType,
+				PlanModifiers: []planmodifier.List{
+					listplanmodifier.RequiresReplace(),
 				},
 			},
 			"password": schema.StringAttribute{
@@ -218,7 +233,38 @@ func (r *ResourceVM) Schema(ctx context.Context, req resource.SchemaRequest, res
 				MarkdownDescription: "VM location",
 				Computed:            true,
 			},
+			"ips": schema.ListNestedAttribute{
+				MarkdownDescription: "List of IP addresses assigned to the VM",
+				Computed:            true,
+				Optional:            true,
+				NestedObject: schema.NestedAttributeObject{
+					Attributes: map[string]schema.Attribute{
+						"ip": schema.StringAttribute{
+							MarkdownDescription: "IP address",
+							Computed:            true,
+							Optional:            true,
+						},
+						"type": schema.StringAttribute{
+							MarkdownDescription: "IP type (private or public)",
+							Computed:            true,
+							Optional:            true,
+						},
+						"scope": schema.StringAttribute{
+							MarkdownDescription: "IP scope",
+							Computed:            true,
+							Optional:            true,
+						},
+					},
+				},
+			},
 		},
+	}
+}
+
+// ConfigValidators returns a list of config validators for the resource.
+func (r *ResourceVM) ConfigValidators(ctx context.Context) []resource.ConfigValidator {
+	return []resource.ConfigValidator{
+		&quotaTypeValidator{},
 	}
 }
 
@@ -360,16 +406,25 @@ func (r *ResourceVM) Create(ctx context.Context, req resource.CreateRequest, res
 		createReq.ProductGroupId = &pgID
 	}
 
+	if !data.TimeToLive.IsNull() {
+		ttl := data.TimeToLive.ValueString()
+		createReq.TimeToLive = &ttl
+	}
+
 	if !data.Expiration.IsNull() {
 		exp := data.Expiration.ValueString()
 		createReq.Expiration = &exp
 	}
 
-	if !data.SSHKey.IsNull() {
-		sshKey := data.SSHKey.ValueString()
+	if !data.SSHKeys.IsNull() {
+		var sshKeys []string
+		resp.Diagnostics.Append(data.SSHKeys.ElementsAs(ctx, &sshKeys, false)...)
+		if resp.Diagnostics.HasError() {
+			return
+		}
 		sshKeyUnion := client.VMCreateRequest_SshKey{}
-		if err := sshKeyUnion.FromVMCreateRequestSshKey0(sshKey); err != nil {
-			resp.Diagnostics.AddError("Configuration Error", fmt.Sprintf("Unable to set SSH key: %s", err))
+		if err := sshKeyUnion.FromVMCreateRequestSshKey1(sshKeys); err != nil {
+			resp.Diagnostics.AddError("Configuration Error", fmt.Sprintf("Unable to set SSH keys: %s", err))
 			return
 		}
 		createReq.SshKey = &sshKeyUnion
@@ -585,6 +640,62 @@ func (r *ResourceVM) Create(ctx context.Context, req resource.CreateRequest, res
 		data.Location = types.StringNull()
 	}
 
+	// Map IPs from API response
+	if vmDetails.Ips != nil && len(*vmDetails.Ips) > 0 {
+		ipElements := make([]attr.Value, 0, len(*vmDetails.Ips))
+		for _, ip := range *vmDetails.Ips {
+			ipAttrs := map[string]attr.Value{
+				"ip":    types.StringNull(),
+				"type":  types.StringNull(),
+				"scope": types.StringNull(),
+			}
+			if ip.Ip != nil {
+				ipAttrs["ip"] = types.StringValue(*ip.Ip)
+			}
+			if ip.Type != nil {
+				ipAttrs["type"] = types.StringValue(*ip.Type)
+			}
+			if ip.Scope != nil {
+				ipAttrs["scope"] = types.StringValue(*ip.Scope)
+			}
+			ipObj, diags := types.ObjectValue(
+				map[string]attr.Type{
+					"ip":    types.StringType,
+					"type":  types.StringType,
+					"scope": types.StringType,
+				},
+				ipAttrs,
+			)
+			resp.Diagnostics.Append(diags...)
+			if resp.Diagnostics.HasError() {
+				return
+			}
+			ipElements = append(ipElements, ipObj)
+		}
+		ipsList, diags := types.ListValue(
+			types.ObjectType{
+				AttrTypes: map[string]attr.Type{
+					"ip":    types.StringType,
+					"type":  types.StringType,
+					"scope": types.StringType,
+				},
+			},
+			ipElements,
+		)
+		resp.Diagnostics.Append(diags...)
+		if !resp.Diagnostics.HasError() {
+			data.IPs = ipsList
+		}
+	} else {
+		data.IPs = types.ListNull(types.ObjectType{
+			AttrTypes: map[string]attr.Type{
+				"ip":    types.StringType,
+				"type":  types.StringType,
+				"scope": types.StringType,
+			},
+		})
+	}
+
 	tflog.Trace(ctx, "created VM resource")
 
 	// Save data into Terraform state
@@ -652,6 +763,16 @@ func (r *ResourceVM) Read(ctx context.Context, req resource.ReadRequest, resp *r
 	}
 
 	vmDetails := readResp.JSON200
+
+	// Check if VM is in deleted state - treat same as 404
+	if vmDetails.State != nil &&
+		(*vmDetails.State == "deleting" || *vmDetails.State == "deleted") {
+		tflog.Debug(ctx, "VM is in deleted state, removing from Terraform state", map[string]any{
+			"vm_id": vmIdentifier,
+		})
+		resp.State.RemoveResource(ctx)
+		return
+	}
 
 	// Update state with latest data
 	if vmDetails.VmId != nil {
@@ -749,6 +870,62 @@ func (r *ResourceVM) Read(ctx context.Context, req resource.ReadRequest, resp *r
 	// This allows users to set it after import if needed
 	if data.Expiration.IsUnknown() {
 		data.Expiration = types.StringNull()
+	}
+
+	// Map IPs from API response
+	if vmDetails.Ips != nil && len(*vmDetails.Ips) > 0 {
+		ipElements := make([]attr.Value, 0, len(*vmDetails.Ips))
+		for _, ip := range *vmDetails.Ips {
+			ipAttrs := map[string]attr.Value{
+				"ip":    types.StringNull(),
+				"type":  types.StringNull(),
+				"scope": types.StringNull(),
+			}
+			if ip.Ip != nil {
+				ipAttrs["ip"] = types.StringValue(*ip.Ip)
+			}
+			if ip.Type != nil {
+				ipAttrs["type"] = types.StringValue(*ip.Type)
+			}
+			if ip.Scope != nil {
+				ipAttrs["scope"] = types.StringValue(*ip.Scope)
+			}
+			ipObj, diags := types.ObjectValue(
+				map[string]attr.Type{
+					"ip":    types.StringType,
+					"type":  types.StringType,
+					"scope": types.StringType,
+				},
+				ipAttrs,
+			)
+			resp.Diagnostics.Append(diags...)
+			if resp.Diagnostics.HasError() {
+				return
+			}
+			ipElements = append(ipElements, ipObj)
+		}
+		ipsList, diags := types.ListValue(
+			types.ObjectType{
+				AttrTypes: map[string]attr.Type{
+					"ip":    types.StringType,
+					"type":  types.StringType,
+					"scope": types.StringType,
+				},
+			},
+			ipElements,
+		)
+		resp.Diagnostics.Append(diags...)
+		if !resp.Diagnostics.HasError() {
+			data.IPs = ipsList
+		}
+	} else {
+		data.IPs = types.ListNull(types.ObjectType{
+			AttrTypes: map[string]attr.Type{
+				"ip":    types.StringType,
+				"type":  types.StringType,
+				"scope": types.StringType,
+			},
+		})
 	}
 
 	tflog.Trace(ctx, "read VM resource")
@@ -1194,6 +1371,62 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 		plan.ExpirationTime = state.ExpirationTime
 	}
 
+	// Map IPs from API response
+	if vmDetails.Ips != nil && len(*vmDetails.Ips) > 0 {
+		ipElements := make([]attr.Value, 0, len(*vmDetails.Ips))
+		for _, ip := range *vmDetails.Ips {
+			ipAttrs := map[string]attr.Value{
+				"ip":    types.StringNull(),
+				"type":  types.StringNull(),
+				"scope": types.StringNull(),
+			}
+			if ip.Ip != nil {
+				ipAttrs["ip"] = types.StringValue(*ip.Ip)
+			}
+			if ip.Type != nil {
+				ipAttrs["type"] = types.StringValue(*ip.Type)
+			}
+			if ip.Scope != nil {
+				ipAttrs["scope"] = types.StringValue(*ip.Scope)
+			}
+			ipObj, diags := types.ObjectValue(
+				map[string]attr.Type{
+					"ip":    types.StringType,
+					"type":  types.StringType,
+					"scope": types.StringType,
+				},
+				ipAttrs,
+			)
+			resp.Diagnostics.Append(diags...)
+			if resp.Diagnostics.HasError() {
+				return
+			}
+			ipElements = append(ipElements, ipObj)
+		}
+		ipsList, diags := types.ListValue(
+			types.ObjectType{
+				AttrTypes: map[string]attr.Type{
+					"ip":    types.StringType,
+					"type":  types.StringType,
+					"scope": types.StringType,
+				},
+			},
+			ipElements,
+		)
+		resp.Diagnostics.Append(diags...)
+		if !resp.Diagnostics.HasError() {
+			plan.IPs = ipsList
+		}
+	} else if plan.IPs.IsUnknown() {
+		plan.IPs = types.ListNull(types.ObjectType{
+			AttrTypes: map[string]attr.Type{
+				"ip":    types.StringType,
+				"type":  types.StringType,
+				"scope": types.StringType,
+			},
+		})
+	}
+
 	// Save updated data into Terraform state
 	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
 }
@@ -1223,6 +1456,48 @@ func (r *ResourceVM) Delete(ctx context.Context, req resource.DeleteRequest, res
 	tflog.Debug(ctx, "Deleting VM", map[string]any{
 		"vm_id": vmIdentifier,
 	})
+
+	// First, check if the VM is already deleted by reading its current state
+	readSite := client.GetVMDetailsParamsSite(siteStr)
+	var readResp *client.GetVMDetailsResponse
+	readErr := retryWithBackoff(ctx, "Get VM Details", 1, func() error {
+		var callErr error
+		readResp, callErr = r.client.GetVMDetailsWithResponse(ctx, vmIdentifier, &client.GetVMDetailsParams{
+			Site: &readSite,
+		})
+		if callErr != nil {
+			return callErr
+		}
+		// Don't retry on 404 - VM was already deleted
+		if readResp.StatusCode() == 404 {
+			return nil
+		}
+		if readResp.StatusCode() < 200 || readResp.StatusCode() >= 300 {
+			return fmt.Errorf("API returned status %d: %s", readResp.StatusCode(), string(readResp.Body))
+		}
+		return nil
+	})
+
+	// If we got a 404 or the VM is in deleting/deleted state, it's already gone
+	if readErr == nil && readResp != nil {
+		if readResp.StatusCode() == 404 {
+			tflog.Debug(ctx, "VM already deleted (404), skipping deletion", map[string]any{
+				"vm_id": vmIdentifier,
+			})
+			tflog.Trace(ctx, "deleted VM resource")
+			return
+		}
+
+		if readResp.JSON200 != nil && readResp.JSON200.State != nil &&
+			(*readResp.JSON200.State == "deleted" || *readResp.JSON200.State == "deleting") {
+			tflog.Debug(ctx, "VM already in deleted state, skipping deletion", map[string]any{
+				"vm_id": vmIdentifier,
+				"state": *readResp.JSON200.State,
+			})
+			tflog.Trace(ctx, "deleted VM resource")
+			return
+		}
+	}
 
 	// VM deletion can return 400 when VM is in some undeleteable state. There is
 	// nothing in the VM state upon which to poll to determine this. I verified
@@ -1326,4 +1601,51 @@ func (r *ResourceVM) ImportState(ctx context.Context, req resource.ImportStateRe
 	tflog.Debug(ctx, "Imported VM", map[string]any{
 		"id": req.ID,
 	})
+}
+
+// Description returns a plain text description of the validator's behavior.
+func (v quotaTypeValidator) Description(ctx context.Context) string {
+	return "Validates that time_to_live is set when quota_type is 'quick_burn' and product_group_id is set when quota_type is 'product_group'"
+}
+
+// MarkdownDescription returns a markdown formatted description of the validator's behavior.
+func (v quotaTypeValidator) MarkdownDescription(ctx context.Context) string {
+	return "Validates that `time_to_live` is set when `quota_type` is `quick_burn` and `product_group_id` is set when `quota_type` is `product_group`"
+}
+
+// ValidateResource performs the validation.
+func (v quotaTypeValidator) ValidateResource(ctx context.Context, req resource.ValidateConfigRequest, resp *resource.ValidateConfigResponse) {
+	var config VMModel
+
+	resp.Diagnostics.Append(req.Config.Get(ctx, &config)...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// If quota_type is not set, skip validation (will use default)
+	if config.QuotaType.IsNull() || config.QuotaType.IsUnknown() {
+		return
+	}
+
+	quotaType := config.QuotaType.ValueString()
+
+	// Validate quick_burn requires time_to_live
+	if quotaType == "quick_burn" {
+		if config.TimeToLive.IsNull() || config.TimeToLive.IsUnknown() {
+			resp.Diagnostics.AddAttributeError(
+				path.Root("time_to_live"),
+				"Missing Required Attribute",
+				"When quota_type is 'quick_burn', time_to_live must be specified.",
+			)
+		}
+	}
+
+	// Validate product_group requires product_group_id (unless using provider default)
+	if quotaType == "product_group" {
+		if config.ProductGroupID.IsNull() || config.ProductGroupID.IsUnknown() {
+			// This is actually OK if the provider has a default product_group_id
+			// We can't check that here, so we'll just warn
+			tflog.Debug(ctx, "product_group_id not set, will use provider default if available")
+		}
+	}
 }

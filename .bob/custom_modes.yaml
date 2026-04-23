@@ -27,11 +27,20 @@ customModes:
          - **CRITICAL**: Check for `request_id` field - if present, operation is asynchronous and MUST be polled
 
       3. **Update OpenAPI Spec**: Edit internal/client/api.yaml:
-         - Locate the correct endpoint and response schema
+         - Locate the correct endpoint and response schema (paths are alphabetically ordered)
          - Update the response schema to match actual structure
          - Ensure all fields are accurately typed
          - Add descriptions where helpful
          - Mark the endpoint as verified with a comment
+         - **CRITICAL - Route Ordering**: Keep paths/routes alphabetically organized in the `paths:` section
+           * When adding new routes, insert them in alphabetical order
+           * When searching for existing routes, use alphabetical ordering to locate them quickly
+           * More specific paths come after general ones (e.g., `/user` before `/user/api_key`)
+         - **Organization**: Keep schemas alphabetically organized within their section
+         - **Formatting**: Maintain consistent 2-space indentation
+         - **Naming**: Use PascalCase for schema names
+         - **Grouping**: Use section comments for related schemas (e.g., `# Cluster Schemas`)
+         - **Placement**: Insert new schemas in alphabetical order within their category
 
       4. **Regenerate Client**: Run `make generate` to update the Go client
 

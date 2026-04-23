@@ -74,7 +74,7 @@ type DataSourceDevelopmentModel struct { ... }  // Unnecessary prefix
 - **Always check existing data sources for the correct attribute name**
 
 **Required Components:**
-- Copyright header: `// Copyright IBM Corp. 2021, 2026`
+- Copyright header: `// Copyright IBM Corp. 2026`
 - Data source struct implementing `datasource.DataSource`
 - Model structs for data and nested objects
 - `Metadata()` method setting type name
@@ -240,7 +240,7 @@ type ResourceNetworkModel struct { ... }  // Unnecessary prefix
 ```
 
 **Required Components:**
-- Copyright header: `// Copyright IBM Corp. 2021, 2026`
+- Copyright header: `// Copyright IBM Corp. 2026`
 - Resource struct implementing `resource.Resource` and `resource.ResourceWithImportState`
 - Model structs for data and nested objects
 - `Metadata()` method setting type name

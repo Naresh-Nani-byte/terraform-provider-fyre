@@ -6,12 +6,34 @@ terraform {
     fyre = {
       source = "hashicorp-forge/fyre"
     }
+
+    enos = {
+      source = "hashicorp-forge/enos"
+    }
   }
 }
 
 variable "product_group_id" {
   type        = number
   description = "The ID of the product group that you wish to create resources in"
+}
+
+variable "public_key_path" {
+  type        = string
+  description = "The path to the RFC 4716 formatted public key to use for SSH access"
+}
+
+variable "private_key_path" {
+  type        = string
+  description = "The path to private that corresponds to the public key for SSH access"
+}
+
+provider "enos" {
+  transport = {
+    ssh = {
+      private_key_path = var.private_key_path
+    }
+  }
 }
 
 provider "fyre" {
@@ -33,17 +55,8 @@ provider "fyre" {
 }
 
 # Get available operating systems for x86 platform
-data "fyre_vm_os_available" "x_platform" {
+data "fyre_vm_os_available" "x" {
   platform = "x"
-}
-
-# Basic VM with minimal configuration
-resource "fyre_vm" "basic" {
-  os          = data.fyre_vm_os_available.x_platform.redhat[0]
-  platform    = "x"
-  cpu         = 2
-  memory      = 4
-  description = "Basic VM example"
 }
 
 # Check if a hostname is available
@@ -51,48 +64,65 @@ data "fyre_vm_check_hostname" "example" {
   hostname = "my-test-vm"
 }
 
-# VM with full configuration
-resource "fyre_vm" "advanced" {
-  os             = data.fyre_vm_os_available.x_platform.redhat[0]
+# Create a VM
+resource "fyre_vm" "target" {
+  os             = data.fyre_vm_os_available.x.centos[0]
   platform       = "x"
   cpu            = 2
   memory         = 4
   hostname       = data.fyre_vm_check_hostname.example.is_available ? data.fyre_vm_check_hostname.example.hostname : null
-  description    = "Advanced VM with custom configuration"
-  expiration     = "48" # 48 hours
-  public_network = "y"
-  dns            = "y"
+  description    = "Enos, Terraform, and Fyre, together at last"
+  expiration     = "6" # hours
+  public_network = "y" # Required to SSH from outside the datacenter
+  dns            = "n" # Add the IP and hostname to DNS
   disable_delete = "n"
-  quota_type     = "product_group" # or "quick_burn"
+  quota_type     = "quick_burn" # or "product_group"
+  time_to_live   = "2"          # hours, set a ttl if the quota_type is quick_burn
 
-  # SSH key for access
-  ssh_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC..."
-
-  # Or password
-  # password    = "MySecurePassword123!"
+  # SSH pub key for access
+  ssh_keys = [file(var.public_key_path)]
 
   # Additional disks (max 2)
-  additional_disks = ["50", "100"]
+  # additional_disks = ["50", "100"]
+}
+
+locals {
+  // Get the public IP address
+  target_ip = fyre_vm.target.ips[index(fyre_vm.target.ips.*.type, "public")]["ip"]
+}
+
+resource "enos_remote_exec" "some_remote_command" {
+  depends_on = [
+    fyre_vm.target
+  ]
+
+  inline = [
+    // Run some commands on the remote machine via SSH
+    "echo 'hello world on the target'",
+    "echo 'hello stderr on the target' 1>&2",
+  ]
+
+  transport = {
+    ssh = {
+      host = local.target_ip
+      user = "root"
+    }
+  }
 }
 
 # Outputs
-output "basic_vm_id" {
-  description = "The VM ID of the basic VM"
-  value       = fyre_vm.basic.vm_id
+output "target" {
+  description = "Full details of the target VM"
+  // The 'password' is sensitive so we have to set this if we want to see all attributes.
+  // Generally you will only need output specific fields of the target resource.
+  sensitive = true
+  value     = fyre_vm.target
 }
 
-output "basic_vm_fqdn" {
-  description = "The FQDN of the basic VM"
-  value       = fyre_vm.basic.fqdn
+output "cmd_stdout" {
+  value = enos_remote_exec.some_remote_command.stdout
 }
 
-output "advanced_vm_details" {
-  description = "Full details of the advanced VM"
-  value = {
-    vm_id    = fyre_vm.advanced.vm_id
-    fqdn     = fyre_vm.advanced.fqdn
-    state    = fyre_vm.advanced.state
-    location = fyre_vm.advanced.location
-    created  = fyre_vm.advanced.created
-  }
+output "cmd_stderr" {
+  value = enos_remote_exec.some_remote_command.stderr
 }

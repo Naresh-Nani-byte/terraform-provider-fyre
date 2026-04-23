@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2021, 2026
+// Copyright IBM Corp. 2026
 // SPDX-License-Identifier: MPL-2.0
 
 package provider
@@ -147,7 +147,6 @@ func (d *DataSourceClusters) Read(ctx context.Context, req datasource.ReadReques
 	clustersResp, err := d.client.ListClustersWithResponse(ctx, &client.ListClustersParams{
 		Site: &site,
 	})
-
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Client Error",

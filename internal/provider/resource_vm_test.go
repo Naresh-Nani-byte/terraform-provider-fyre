@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2021, 2026
+// Copyright IBM Corp. 2026
 // SPDX-License-Identifier: MPL-2.0
 
 package provider
@@ -6,6 +6,7 @@ package provider
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -23,6 +24,8 @@ func TestAccResourceVM(t *testing.T) {
 		t.Skip("FYRE_ACC_PROD_GID must be set for acceptance tests")
 	}
 
+	// Our primary validator that tests modifying the the state of the resource
+	// many times. Other sub-tests have a smaller scope.
 	t.Run("with resource product group id", func(t *testing.T) {
 		resource.Test(t, resource.TestCase{
 			PreCheck:                 func() { testAccPreCheck(t) },
@@ -44,6 +47,8 @@ func TestAccResourceVM(t *testing.T) {
 						resource.TestCheckResourceAttrSet("fyre_vm.test", "site"),
 						resource.TestCheckResourceAttrSet("fyre_vm.test", "platform"),
 						resource.TestCheckResourceAttrSet("fyre_vm.test", "expiration_time"),
+						resource.TestCheckResourceAttrSet("fyre_vm.test", "ips.#"),
+						resource.TestCheckResourceAttrSet("fyre_vm.test", "ips.0.ip"),
 					),
 				},
 				// Update CPU and Memory
@@ -103,7 +108,7 @@ func TestAccResourceVM(t *testing.T) {
 					ImportStateVerify: true,
 					// Ignore fields that are not returned by the API or are sensitive
 					// expiration: user input (relative time) not returned by API, only expiration_time (absolute) is returned
-					ImportStateVerifyIgnore: []string{"password", "ssh_key", "expiration"},
+					ImportStateVerifyIgnore: []string{"password", "ssh_keys", "expiration"},
 				},
 				// Re-enable delete so the test sweeper can actually clean up the resource
 				{
@@ -147,18 +152,58 @@ func TestAccResourceVM(t *testing.T) {
 			},
 		})
 	})
-}
 
-// TestAccResourceVMProviderLevel tests VM resource with product_group_id inherited from provider.
-func TestAccResourceVMProviderLevel(t *testing.T) {
-	if os.Getenv("FYRE_USERNAME") == "" || os.Getenv("FYRE_API_KEY") == "" {
-		t.Skip("FYRE_USERNAME and FYRE_API_KEY must be set for acceptance tests")
+	t.Run("with missing time_to_live and quick_burn quota_type", func(t *testing.T) {
+		resource.Test(t, resource.TestCase{
+			PreCheck:                 func() { testAccPreCheck(t) },
+			ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+			Steps: []resource.TestStep{
+				{
+					Config: `
+	provider "fyre" {
+		site = "svl"
 	}
 
-	productGroupID := os.Getenv("FYRE_ACC_PROD_GID")
-	if productGroupID == "" {
-		t.Skip("FYRE_ACC_PROD_GID must be set for acceptance tests")
+	resource "fyre_vm" "test" {
+		# Basic properties
+		os               = "RedHat 9.6"
+		cpu              = 1
+		memory           = 2
+		description      = "A test VM"
+		platform         = "x"
+		expiration       = 48
+		disable_delete   = "n"
+
+		# Quota type
+		quota_type       = "quick_burn"
+		# Missing time_to_live - should fail validation
 	}
+	`,
+					ExpectError: regexp.MustCompile(`time_to_live must be specified`),
+				},
+			},
+		})
+	})
+
+	t.Run("with time_to_live and quick_burn quota_type", func(t *testing.T) {
+		resource.Test(t, resource.TestCase{
+			PreCheck:                 func() { testAccPreCheck(t) },
+			ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
+			Steps: []resource.TestStep{
+				{
+					Config: testAccResourceVMConfigQuickBurn("RedHat 9.6", 2, 4, "Test quick_burn VM", "4", productGroupID),
+					Check: resource.ComposeAggregateTestCheckFunc(
+						resource.TestCheckResourceAttr("fyre_vm.test_qb", "os", "RedHat 9.6"),
+						resource.TestCheckResourceAttr("fyre_vm.test_qb", "quota_type", "quick_burn"),
+						resource.TestCheckResourceAttr("fyre_vm.test_qb", "time_to_live", "4"),
+						resource.TestCheckResourceAttr("fyre_vm.test_qb", "product_group_id", productGroupID),
+						resource.TestCheckResourceAttrSet("fyre_vm.test_qb", "id"),
+						resource.TestCheckResourceAttrSet("fyre_vm.test_qb", "vm_id"),
+					),
+				},
+			},
+		})
+	})
 }
 
 func testAccResourceVMConfigBasic(os string, cpu, memory int, description, expiration, disableDelete, productGroupID string) string {
@@ -238,4 +283,23 @@ resource "fyre_vm" "test_provider" {
   # product_group_id inherited from provider
 }
 `, os, cpu, memory, description, expiration, disableDelete, productGroupID)
+}
+
+func testAccResourceVMConfigQuickBurn(os string, cpu, memory int, description, timeToLive, productGroupID string) string {
+	return fmt.Sprintf(`
+provider "fyre" {
+  site = "svl"
+}
+
+resource "fyre_vm" "test_qb" {
+  os               = %[1]q
+  cpu              = %[2]d
+  memory           = %[3]d
+  description      = %[4]q
+  platform         = "x"
+  quota_type       = "quick_burn"
+  time_to_live     = %[5]q
+  product_group_id = %[6]q
+}
+`, os, cpu, memory, description, timeToLive, productGroupID)
 }

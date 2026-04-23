@@ -25,10 +25,22 @@ Look for:
 
 ### 4. Update OpenAPI Spec
 In `internal/client/api.yaml`:
-- Find the endpoint definition
+- Find the endpoint definition (paths are alphabetically ordered)
 - Locate the response schema reference
 - Update the schema in `components/schemas`
 - Add a comment: `# Updated from actual API response on YYYY-MM-DD`
+
+**Organization Guidelines:**
+- **CRITICAL**: Keep paths/routes alphabetically organized in the `paths:` section
+  - When adding new routes, insert them in alphabetical order
+  - When searching for existing routes, use alphabetical ordering to locate them quickly
+  - More specific paths come after general ones (e.g., `/user` before `/user/api_key`)
+- Keep schemas alphabetically organized within their section
+- Maintain consistent formatting (2-space indentation)
+- Follow OpenAPI 3.0 specification strictly
+- Place new schemas in alphabetical order within their category
+- Use consistent naming: PascalCase for schema names
+- Group related schemas with section comments (e.g., `# Cluster Schemas`)
 
 ### 5. Regenerate Client
 ```bash

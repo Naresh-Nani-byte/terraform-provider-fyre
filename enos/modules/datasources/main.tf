@@ -31,6 +31,8 @@ data "fyre_quota" "svl" {
 
 data "fyre_user" "current" {}
 
+data "fyre_user_api_key" "current" {}
+
 data "fyre_vm_status" "test" {
   vm_id = var.vm_id
   site  = "svl"
@@ -131,4 +133,8 @@ output "clusters" {
 
 output "stencils" {
   value = data.fyre_stencils.test
+}
+
+output "user_api_key" {
+  value = data.fyre_user_api_key.current
 }

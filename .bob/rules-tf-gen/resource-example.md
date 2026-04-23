@@ -24,7 +24,7 @@ If missing or incomplete, it will recommend using `fyre-api-updater` mode first.
 ### File 1: `internal/provider/resource_vm.go`
 
 ```go
-// Copyright IBM Corp. 2021, 2026
+// Copyright IBM Corp. 2026
 // SPDX-License-Identifier: MPL-2.0
 
 package provider
@@ -414,7 +414,7 @@ func (r *ResourceVM) ImportState(ctx context.Context, req resource.ImportStateRe
 ### File 2: `internal/provider/resource_vm_test.go`
 
 ```go
-// Copyright IBM Corp. 2021, 2026
+// Copyright IBM Corp. 2026
 // SPDX-License-Identifier: MPL-2.0
 
 package provider

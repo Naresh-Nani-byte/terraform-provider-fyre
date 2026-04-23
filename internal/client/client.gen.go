@@ -41,6 +41,153 @@ func (e HostnameCheckStatus) Valid() bool {
 	}
 }
 
+// Defines values for NFSNameCheckStatus.
+const (
+	NFSNameCheckStatusSuccess NFSNameCheckStatus = "success"
+	NFSNameCheckStatusWarning NFSNameCheckStatus = "warning"
+)
+
+// Valid indicates whether the value is a known member of the NFSNameCheckStatus enum.
+func (e NFSNameCheckStatus) Valid() bool {
+	switch e {
+	case NFSNameCheckStatusSuccess:
+		return true
+	case NFSNameCheckStatusWarning:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NFSPermissionPermission.
+const (
+	NFSPermissionPermissionRo NFSPermissionPermission = "ro"
+	NFSPermissionPermissionRw NFSPermissionPermission = "rw"
+)
+
+// Valid indicates whether the value is a known member of the NFSPermissionPermission enum.
+func (e NFSPermissionPermission) Valid() bool {
+	switch e {
+	case NFSPermissionPermissionRo:
+		return true
+	case NFSPermissionPermissionRw:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NFSPermissionRootSquash.
+const (
+	NFSPermissionRootSquashNoRootSquash NFSPermissionRootSquash = "no_root_squash"
+	NFSPermissionRootSquashRootSquash   NFSPermissionRootSquash = "root_squash"
+)
+
+// Valid indicates whether the value is a known member of the NFSPermissionRootSquash enum.
+func (e NFSPermissionRootSquash) Valid() bool {
+	switch e {
+	case NFSPermissionRootSquashNoRootSquash:
+		return true
+	case NFSPermissionRootSquashRootSquash:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NFSPermissionsUpdateStorageArrayAction.
+const (
+	Add    NFSPermissionsUpdateStorageArrayAction = "add"
+	Change NFSPermissionsUpdateStorageArrayAction = "change"
+	Delete NFSPermissionsUpdateStorageArrayAction = "delete"
+)
+
+// Valid indicates whether the value is a known member of the NFSPermissionsUpdateStorageArrayAction enum.
+func (e NFSPermissionsUpdateStorageArrayAction) Valid() bool {
+	switch e {
+	case Add:
+		return true
+	case Change:
+		return true
+	case Delete:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NFSPermissionsUpdateStorageArrayPermission.
+const (
+	NFSPermissionsUpdateStorageArrayPermissionRo NFSPermissionsUpdateStorageArrayPermission = "ro"
+	NFSPermissionsUpdateStorageArrayPermissionRw NFSPermissionsUpdateStorageArrayPermission = "rw"
+)
+
+// Valid indicates whether the value is a known member of the NFSPermissionsUpdateStorageArrayPermission enum.
+func (e NFSPermissionsUpdateStorageArrayPermission) Valid() bool {
+	switch e {
+	case NFSPermissionsUpdateStorageArrayPermissionRo:
+		return true
+	case NFSPermissionsUpdateStorageArrayPermissionRw:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for NFSPermissionsUpdateStorageArrayRootSquash.
+const (
+	NFSPermissionsUpdateStorageArrayRootSquashNoRootSquash NFSPermissionsUpdateStorageArrayRootSquash = "no_root_squash"
+	NFSPermissionsUpdateStorageArrayRootSquashRootSquash   NFSPermissionsUpdateStorageArrayRootSquash = "root_squash"
+)
+
+// Valid indicates whether the value is a known member of the NFSPermissionsUpdateStorageArrayRootSquash enum.
+func (e NFSPermissionsUpdateStorageArrayRootSquash) Valid() bool {
+	switch e {
+	case NFSPermissionsUpdateStorageArrayRootSquashNoRootSquash:
+		return true
+	case NFSPermissionsUpdateStorageArrayRootSquashRootSquash:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for OCPClusterBuildRequestSize.
+const (
+	Large  OCPClusterBuildRequestSize = "large"
+	Medium OCPClusterBuildRequestSize = "medium"
+)
+
+// Valid indicates whether the value is a known member of the OCPClusterBuildRequestSize enum.
+func (e OCPClusterBuildRequestSize) Valid() bool {
+	switch e {
+	case Large:
+		return true
+	case Medium:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for QuotaTransferSite.
+const (
+	QuotaTransferSiteRtp QuotaTransferSite = "rtp"
+	QuotaTransferSiteSvl QuotaTransferSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the QuotaTransferSite enum.
+func (e QuotaTransferSite) Valid() bool {
+	switch e {
+	case QuotaTransferSiteRtp:
+		return true
+	case QuotaTransferSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for StencilDeployRequestPublicNetwork.
 const (
 	StencilDeployRequestPublicNetworkN StencilDeployRequestPublicNetwork = "n"
@@ -146,6 +293,24 @@ func (e StencilDetailsVmsPlatform) Valid() bool {
 	case StencilDetailsVmsPlatformX:
 		return true
 	case StencilDetailsVmsPlatformZ:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for UserQuotaUpdateSite.
+const (
+	UserQuotaUpdateSiteRtp UserQuotaUpdateSite = "rtp"
+	UserQuotaUpdateSiteSvl UserQuotaUpdateSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the UserQuotaUpdateSite enum.
+func (e UserQuotaUpdateSite) Valid() bool {
+	switch e {
+	case UserQuotaUpdateSiteRtp:
+		return true
+	case UserQuotaUpdateSiteSvl:
 		return true
 	default:
 		return false
@@ -596,6 +761,792 @@ func (e AttachFloatingIPParamsSite) Valid() bool {
 	}
 }
 
+// Defines values for CheckNFSServerNameParamsSite.
+const (
+	CheckNFSServerNameParamsSiteRtp CheckNFSServerNameParamsSite = "rtp"
+	CheckNFSServerNameParamsSiteSvl CheckNFSServerNameParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the CheckNFSServerNameParamsSite enum.
+func (e CheckNFSServerNameParamsSite) Valid() bool {
+	switch e {
+	case CheckNFSServerNameParamsSiteRtp:
+		return true
+	case CheckNFSServerNameParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CheckNFSShareNameParamsSite.
+const (
+	CheckNFSShareNameParamsSiteRtp CheckNFSShareNameParamsSite = "rtp"
+	CheckNFSShareNameParamsSiteSvl CheckNFSShareNameParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the CheckNFSShareNameParamsSite enum.
+func (e CheckNFSShareNameParamsSite) Valid() bool {
+	switch e {
+	case CheckNFSShareNameParamsSiteRtp:
+		return true
+	case CheckNFSShareNameParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetNFSClientsParamsSite.
+const (
+	GetNFSClientsParamsSiteRtp GetNFSClientsParamsSite = "rtp"
+	GetNFSClientsParamsSiteSvl GetNFSClientsParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetNFSClientsParamsSite enum.
+func (e GetNFSClientsParamsSite) Valid() bool {
+	switch e {
+	case GetNFSClientsParamsSiteRtp:
+		return true
+	case GetNFSClientsParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetNFSPermissionsParamsSite.
+const (
+	GetNFSPermissionsParamsSiteRtp GetNFSPermissionsParamsSite = "rtp"
+	GetNFSPermissionsParamsSiteSvl GetNFSPermissionsParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetNFSPermissionsParamsSite enum.
+func (e GetNFSPermissionsParamsSite) Valid() bool {
+	switch e {
+	case GetNFSPermissionsParamsSiteRtp:
+		return true
+	case GetNFSPermissionsParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for UpdateNFSPermissionsParamsSite.
+const (
+	UpdateNFSPermissionsParamsSiteRtp UpdateNFSPermissionsParamsSite = "rtp"
+	UpdateNFSPermissionsParamsSiteSvl UpdateNFSPermissionsParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the UpdateNFSPermissionsParamsSite enum.
+func (e UpdateNFSPermissionsParamsSite) Valid() bool {
+	switch e {
+	case UpdateNFSPermissionsParamsSiteRtp:
+		return true
+	case UpdateNFSPermissionsParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ProtectNFSStorageParamsSite.
+const (
+	ProtectNFSStorageParamsSiteRtp ProtectNFSStorageParamsSite = "rtp"
+	ProtectNFSStorageParamsSiteSvl ProtectNFSStorageParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the ProtectNFSStorageParamsSite enum.
+func (e ProtectNFSStorageParamsSite) Valid() bool {
+	switch e {
+	case ProtectNFSStorageParamsSiteRtp:
+		return true
+	case ProtectNFSStorageParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for RequestNFSStorageParamsSite.
+const (
+	RequestNFSStorageParamsSiteRtp RequestNFSStorageParamsSite = "rtp"
+	RequestNFSStorageParamsSiteSvl RequestNFSStorageParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the RequestNFSStorageParamsSite enum.
+func (e RequestNFSStorageParamsSite) Valid() bool {
+	switch e {
+	case RequestNFSStorageParamsSiteRtp:
+		return true
+	case RequestNFSStorageParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeleteNFSStorageRequestParamsSite.
+const (
+	DeleteNFSStorageRequestParamsSiteRtp DeleteNFSStorageRequestParamsSite = "rtp"
+	DeleteNFSStorageRequestParamsSiteSvl DeleteNFSStorageRequestParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the DeleteNFSStorageRequestParamsSite enum.
+func (e DeleteNFSStorageRequestParamsSite) Valid() bool {
+	switch e {
+	case DeleteNFSStorageRequestParamsSiteRtp:
+		return true
+	case DeleteNFSStorageRequestParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetNFSStorageParamsSite.
+const (
+	GetNFSStorageParamsSiteRtp GetNFSStorageParamsSite = "rtp"
+	GetNFSStorageParamsSiteSvl GetNFSStorageParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetNFSStorageParamsSite enum.
+func (e GetNFSStorageParamsSite) Valid() bool {
+	switch e {
+	case GetNFSStorageParamsSiteRtp:
+		return true
+	case GetNFSStorageParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetNFSStorageByProductGroupParamsSite.
+const (
+	GetNFSStorageByProductGroupParamsSiteRtp GetNFSStorageByProductGroupParamsSite = "rtp"
+	GetNFSStorageByProductGroupParamsSiteSvl GetNFSStorageByProductGroupParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetNFSStorageByProductGroupParamsSite enum.
+func (e GetNFSStorageByProductGroupParamsSite) Valid() bool {
+	switch e {
+	case GetNFSStorageByProductGroupParamsSiteRtp:
+		return true
+	case GetNFSStorageByProductGroupParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeleteNFSStorageParamsSite.
+const (
+	DeleteNFSStorageParamsSiteRtp DeleteNFSStorageParamsSite = "rtp"
+	DeleteNFSStorageParamsSiteSvl DeleteNFSStorageParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the DeleteNFSStorageParamsSite enum.
+func (e DeleteNFSStorageParamsSite) Valid() bool {
+	switch e {
+	case DeleteNFSStorageParamsSiteRtp:
+		return true
+	case DeleteNFSStorageParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TransferNFSStorageParamsSite.
+const (
+	TransferNFSStorageParamsSiteRtp TransferNFSStorageParamsSite = "rtp"
+	TransferNFSStorageParamsSiteSvl TransferNFSStorageParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the TransferNFSStorageParamsSite enum.
+func (e TransferNFSStorageParamsSite) Valid() bool {
+	switch e {
+	case TransferNFSStorageParamsSiteRtp:
+		return true
+	case TransferNFSStorageParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for UnprotectNFSStorageParamsSite.
+const (
+	UnprotectNFSStorageParamsSiteRtp UnprotectNFSStorageParamsSite = "rtp"
+	UnprotectNFSStorageParamsSiteSvl UnprotectNFSStorageParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the UnprotectNFSStorageParamsSite enum.
+func (e UnprotectNFSStorageParamsSite) Valid() bool {
+	switch e {
+	case UnprotectNFSStorageParamsSiteRtp:
+		return true
+	case UnprotectNFSStorageParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetOCPClustersParamsSite.
+const (
+	GetOCPClustersParamsSiteRtp GetOCPClustersParamsSite = "rtp"
+	GetOCPClustersParamsSiteSvl GetOCPClustersParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetOCPClustersParamsSite enum.
+func (e GetOCPClustersParamsSite) Valid() bool {
+	switch e {
+	case GetOCPClustersParamsSiteRtp:
+		return true
+	case GetOCPClustersParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetOCPRequestStatusParamsSite.
+const (
+	GetOCPRequestStatusParamsSiteRtp GetOCPRequestStatusParamsSite = "rtp"
+	GetOCPRequestStatusParamsSiteSvl GetOCPRequestStatusParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetOCPRequestStatusParamsSite enum.
+func (e GetOCPRequestStatusParamsSite) Valid() bool {
+	switch e {
+	case GetOCPRequestStatusParamsSiteRtp:
+		return true
+	case GetOCPRequestStatusParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeleteOCPClusterParamsSite.
+const (
+	DeleteOCPClusterParamsSiteRtp DeleteOCPClusterParamsSite = "rtp"
+	DeleteOCPClusterParamsSiteSvl DeleteOCPClusterParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the DeleteOCPClusterParamsSite enum.
+func (e DeleteOCPClusterParamsSite) Valid() bool {
+	switch e {
+	case DeleteOCPClusterParamsSiteRtp:
+		return true
+	case DeleteOCPClusterParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetOCPClusterDetailsParamsSite.
+const (
+	GetOCPClusterDetailsParamsSiteRtp GetOCPClusterDetailsParamsSite = "rtp"
+	GetOCPClusterDetailsParamsSiteSvl GetOCPClusterDetailsParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetOCPClusterDetailsParamsSite enum.
+func (e GetOCPClusterDetailsParamsSite) Valid() bool {
+	switch e {
+	case GetOCPClusterDetailsParamsSiteRtp:
+		return true
+	case GetOCPClusterDetailsParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AcceptOCPClusterTransferParamsSite.
+const (
+	AcceptOCPClusterTransferParamsSiteRtp AcceptOCPClusterTransferParamsSite = "rtp"
+	AcceptOCPClusterTransferParamsSiteSvl AcceptOCPClusterTransferParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the AcceptOCPClusterTransferParamsSite enum.
+func (e AcceptOCPClusterTransferParamsSite) Valid() bool {
+	switch e {
+	case AcceptOCPClusterTransferParamsSiteRtp:
+		return true
+	case AcceptOCPClusterTransferParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DisableOCPClusterDeleteParamsSite.
+const (
+	DisableOCPClusterDeleteParamsSiteRtp DisableOCPClusterDeleteParamsSite = "rtp"
+	DisableOCPClusterDeleteParamsSiteSvl DisableOCPClusterDeleteParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the DisableOCPClusterDeleteParamsSite enum.
+func (e DisableOCPClusterDeleteParamsSite) Valid() bool {
+	switch e {
+	case DisableOCPClusterDeleteParamsSiteRtp:
+		return true
+	case DisableOCPClusterDeleteParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for EnableOCPClusterDeleteParamsSite.
+const (
+	EnableOCPClusterDeleteParamsSiteRtp EnableOCPClusterDeleteParamsSite = "rtp"
+	EnableOCPClusterDeleteParamsSiteSvl EnableOCPClusterDeleteParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the EnableOCPClusterDeleteParamsSite enum.
+func (e EnableOCPClusterDeleteParamsSite) Valid() bool {
+	switch e {
+	case EnableOCPClusterDeleteParamsSiteRtp:
+		return true
+	case EnableOCPClusterDeleteParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for UpdateOCPClusterExpirationParamsSite.
+const (
+	UpdateOCPClusterExpirationParamsSiteRtp UpdateOCPClusterExpirationParamsSite = "rtp"
+	UpdateOCPClusterExpirationParamsSiteSvl UpdateOCPClusterExpirationParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the UpdateOCPClusterExpirationParamsSite enum.
+func (e UpdateOCPClusterExpirationParamsSite) Valid() bool {
+	switch e {
+	case UpdateOCPClusterExpirationParamsSiteRtp:
+		return true
+	case UpdateOCPClusterExpirationParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetOCPClusterStatusParamsSite.
+const (
+	GetOCPClusterStatusParamsSiteRtp GetOCPClusterStatusParamsSite = "rtp"
+	GetOCPClusterStatusParamsSiteSvl GetOCPClusterStatusParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetOCPClusterStatusParamsSite enum.
+func (e GetOCPClusterStatusParamsSite) Valid() bool {
+	switch e {
+	case GetOCPClusterStatusParamsSiteRtp:
+		return true
+	case GetOCPClusterStatusParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CancelOCPClusterTransferParamsSite.
+const (
+	CancelOCPClusterTransferParamsSiteRtp CancelOCPClusterTransferParamsSite = "rtp"
+	CancelOCPClusterTransferParamsSiteSvl CancelOCPClusterTransferParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the CancelOCPClusterTransferParamsSite enum.
+func (e CancelOCPClusterTransferParamsSite) Valid() bool {
+	switch e {
+	case CancelOCPClusterTransferParamsSiteRtp:
+		return true
+	case CancelOCPClusterTransferParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TransferOCPClusterToUserParamsSite.
+const (
+	TransferOCPClusterToUserParamsSiteRtp TransferOCPClusterToUserParamsSite = "rtp"
+	TransferOCPClusterToUserParamsSiteSvl TransferOCPClusterToUserParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the TransferOCPClusterToUserParamsSite enum.
+func (e TransferOCPClusterToUserParamsSite) Valid() bool {
+	switch e {
+	case TransferOCPClusterToUserParamsSiteRtp:
+		return true
+	case TransferOCPClusterToUserParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeleteOCPVIPParamsSite.
+const (
+	DeleteOCPVIPParamsSiteRtp DeleteOCPVIPParamsSite = "rtp"
+	DeleteOCPVIPParamsSiteSvl DeleteOCPVIPParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the DeleteOCPVIPParamsSite enum.
+func (e DeleteOCPVIPParamsSite) Valid() bool {
+	switch e {
+	case DeleteOCPVIPParamsSiteRtp:
+		return true
+	case DeleteOCPVIPParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeleteOCPVIPParamsVipType.
+const (
+	DeleteOCPVIPParamsVipTypePrivate DeleteOCPVIPParamsVipType = "private"
+	DeleteOCPVIPParamsVipTypePublic  DeleteOCPVIPParamsVipType = "public"
+)
+
+// Valid indicates whether the value is a known member of the DeleteOCPVIPParamsVipType enum.
+func (e DeleteOCPVIPParamsVipType) Valid() bool {
+	switch e {
+	case DeleteOCPVIPParamsVipTypePrivate:
+		return true
+	case DeleteOCPVIPParamsVipTypePublic:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AddOCPVIPParamsSite.
+const (
+	AddOCPVIPParamsSiteRtp AddOCPVIPParamsSite = "rtp"
+	AddOCPVIPParamsSiteSvl AddOCPVIPParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the AddOCPVIPParamsSite enum.
+func (e AddOCPVIPParamsSite) Valid() bool {
+	switch e {
+	case AddOCPVIPParamsSiteRtp:
+		return true
+	case AddOCPVIPParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AddOCPVIPParamsVipType.
+const (
+	AddOCPVIPParamsVipTypePrivate AddOCPVIPParamsVipType = "private"
+	AddOCPVIPParamsVipTypePublic  AddOCPVIPParamsVipType = "public"
+)
+
+// Valid indicates whether the value is a known member of the AddOCPVIPParamsVipType enum.
+func (e AddOCPVIPParamsVipType) Valid() bool {
+	switch e {
+	case AddOCPVIPParamsVipTypePrivate:
+		return true
+	case AddOCPVIPParamsVipTypePublic:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetOCPClusterVMDetailsParamsSite.
+const (
+	GetOCPClusterVMDetailsParamsSiteRtp GetOCPClusterVMDetailsParamsSite = "rtp"
+	GetOCPClusterVMDetailsParamsSiteSvl GetOCPClusterVMDetailsParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetOCPClusterVMDetailsParamsSite enum.
+func (e GetOCPClusterVMDetailsParamsSite) Valid() bool {
+	switch e {
+	case GetOCPClusterVMDetailsParamsSiteRtp:
+		return true
+	case GetOCPClusterVMDetailsParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AddOCPWorkerParamsSite.
+const (
+	AddOCPWorkerParamsSiteRtp AddOCPWorkerParamsSite = "rtp"
+	AddOCPWorkerParamsSiteSvl AddOCPWorkerParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the AddOCPWorkerParamsSite enum.
+func (e AddOCPWorkerParamsSite) Valid() bool {
+	switch e {
+	case AddOCPWorkerParamsSiteRtp:
+		return true
+	case AddOCPWorkerParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for OcpClusterPowerActionParamsSite.
+const (
+	OcpClusterPowerActionParamsSiteRtp OcpClusterPowerActionParamsSite = "rtp"
+	OcpClusterPowerActionParamsSiteSvl OcpClusterPowerActionParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the OcpClusterPowerActionParamsSite enum.
+func (e OcpClusterPowerActionParamsSite) Valid() bool {
+	switch e {
+	case OcpClusterPowerActionParamsSiteRtp:
+		return true
+	case OcpClusterPowerActionParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for OcpClusterPowerActionParamsAction.
+const (
+	OcpClusterPowerActionParamsActionBoot     OcpClusterPowerActionParamsAction = "boot"
+	OcpClusterPowerActionParamsActionReboot   OcpClusterPowerActionParamsAction = "reboot"
+	OcpClusterPowerActionParamsActionShutdown OcpClusterPowerActionParamsAction = "shutdown"
+)
+
+// Valid indicates whether the value is a known member of the OcpClusterPowerActionParamsAction enum.
+func (e OcpClusterPowerActionParamsAction) Valid() bool {
+	switch e {
+	case OcpClusterPowerActionParamsActionBoot:
+		return true
+	case OcpClusterPowerActionParamsActionReboot:
+		return true
+	case OcpClusterPowerActionParamsActionShutdown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AddOCPVMDiskParamsSite.
+const (
+	AddOCPVMDiskParamsSiteRtp AddOCPVMDiskParamsSite = "rtp"
+	AddOCPVMDiskParamsSiteSvl AddOCPVMDiskParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the AddOCPVMDiskParamsSite enum.
+func (e AddOCPVMDiskParamsSite) Valid() bool {
+	switch e {
+	case AddOCPVMDiskParamsSiteRtp:
+		return true
+	case AddOCPVMDiskParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ModifyOCPVMResourcesParamsSite.
+const (
+	ModifyOCPVMResourcesParamsSiteRtp ModifyOCPVMResourcesParamsSite = "rtp"
+	ModifyOCPVMResourcesParamsSiteSvl ModifyOCPVMResourcesParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the ModifyOCPVMResourcesParamsSite enum.
+func (e ModifyOCPVMResourcesParamsSite) Valid() bool {
+	switch e {
+	case ModifyOCPVMResourcesParamsSiteRtp:
+		return true
+	case ModifyOCPVMResourcesParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for OcpVMPowerActionParamsSite.
+const (
+	OcpVMPowerActionParamsSiteRtp OcpVMPowerActionParamsSite = "rtp"
+	OcpVMPowerActionParamsSiteSvl OcpVMPowerActionParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the OcpVMPowerActionParamsSite enum.
+func (e OcpVMPowerActionParamsSite) Valid() bool {
+	switch e {
+	case OcpVMPowerActionParamsSiteRtp:
+		return true
+	case OcpVMPowerActionParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for OcpVMPowerActionParamsAction.
+const (
+	OcpVMPowerActionParamsActionBoot     OcpVMPowerActionParamsAction = "boot"
+	OcpVMPowerActionParamsActionReboot   OcpVMPowerActionParamsAction = "reboot"
+	OcpVMPowerActionParamsActionShutdown OcpVMPowerActionParamsAction = "shutdown"
+)
+
+// Valid indicates whether the value is a known member of the OcpVMPowerActionParamsAction enum.
+func (e OcpVMPowerActionParamsAction) Valid() bool {
+	switch e {
+	case OcpVMPowerActionParamsActionBoot:
+		return true
+	case OcpVMPowerActionParamsActionReboot:
+		return true
+	case OcpVMPowerActionParamsActionShutdown:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for BuildOCPClusterParamsSite.
+const (
+	BuildOCPClusterParamsSiteRtp BuildOCPClusterParamsSite = "rtp"
+	BuildOCPClusterParamsSiteSvl BuildOCPClusterParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the BuildOCPClusterParamsSite enum.
+func (e BuildOCPClusterParamsSite) Valid() bool {
+	switch e {
+	case BuildOCPClusterParamsSiteRtp:
+		return true
+	case BuildOCPClusterParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for BuildOCPClusterParamsPlatform.
+const (
+	BuildOCPClusterParamsPlatformPvm BuildOCPClusterParamsPlatform = "pvm"
+	BuildOCPClusterParamsPlatformX   BuildOCPClusterParamsPlatform = "x"
+	BuildOCPClusterParamsPlatformZ   BuildOCPClusterParamsPlatform = "z"
+)
+
+// Valid indicates whether the value is a known member of the BuildOCPClusterParamsPlatform enum.
+func (e BuildOCPClusterParamsPlatform) Valid() bool {
+	switch e {
+	case BuildOCPClusterParamsPlatformPvm:
+		return true
+	case BuildOCPClusterParamsPlatformX:
+		return true
+	case BuildOCPClusterParamsPlatformZ:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetAvailableOCPVersionsParamsSite.
+const (
+	GetAvailableOCPVersionsParamsSiteRtp GetAvailableOCPVersionsParamsSite = "rtp"
+	GetAvailableOCPVersionsParamsSiteSvl GetAvailableOCPVersionsParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetAvailableOCPVersionsParamsSite enum.
+func (e GetAvailableOCPVersionsParamsSite) Valid() bool {
+	switch e {
+	case GetAvailableOCPVersionsParamsSiteRtp:
+		return true
+	case GetAvailableOCPVersionsParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetAvailableOCPVersionsParamsPlatform.
+const (
+	GetAvailableOCPVersionsParamsPlatformPvm GetAvailableOCPVersionsParamsPlatform = "pvm"
+	GetAvailableOCPVersionsParamsPlatformX   GetAvailableOCPVersionsParamsPlatform = "x"
+	GetAvailableOCPVersionsParamsPlatformZ   GetAvailableOCPVersionsParamsPlatform = "z"
+)
+
+// Valid indicates whether the value is a known member of the GetAvailableOCPVersionsParamsPlatform enum.
+func (e GetAvailableOCPVersionsParamsPlatform) Valid() bool {
+	switch e {
+	case GetAvailableOCPVersionsParamsPlatformPvm:
+		return true
+	case GetAvailableOCPVersionsParamsPlatformX:
+		return true
+	case GetAvailableOCPVersionsParamsPlatformZ:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for RemoveProductGroupOwnerParamsSite.
+const (
+	RemoveProductGroupOwnerParamsSiteRtp RemoveProductGroupOwnerParamsSite = "rtp"
+	RemoveProductGroupOwnerParamsSiteSvl RemoveProductGroupOwnerParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the RemoveProductGroupOwnerParamsSite enum.
+func (e RemoveProductGroupOwnerParamsSite) Valid() bool {
+	switch e {
+	case RemoveProductGroupOwnerParamsSiteRtp:
+		return true
+	case RemoveProductGroupOwnerParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for AddProductGroupOwnerParamsSite.
+const (
+	AddProductGroupOwnerParamsSiteRtp AddProductGroupOwnerParamsSite = "rtp"
+	AddProductGroupOwnerParamsSiteSvl AddProductGroupOwnerParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the AddProductGroupOwnerParamsSite enum.
+func (e AddProductGroupOwnerParamsSite) Valid() bool {
+	switch e {
+	case AddProductGroupOwnerParamsSiteRtp:
+		return true
+	case AddProductGroupOwnerParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetProductGroupUsersParamsSite.
+const (
+	GetProductGroupUsersParamsSiteRtp GetProductGroupUsersParamsSite = "rtp"
+	GetProductGroupUsersParamsSiteSvl GetProductGroupUsersParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetProductGroupUsersParamsSite enum.
+func (e GetProductGroupUsersParamsSite) Valid() bool {
+	switch e {
+	case GetProductGroupUsersParamsSiteRtp:
+		return true
+	case GetProductGroupUsersParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for GetQuotaParamsSite.
 const (
 	GetQuotaParamsSiteRtp GetQuotaParamsSite = "rtp"
@@ -608,6 +1559,240 @@ func (e GetQuotaParamsSite) Valid() bool {
 	case GetQuotaParamsSiteRtp:
 		return true
 	case GetQuotaParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetProductGroupQuotaParamsSite.
+const (
+	GetProductGroupQuotaParamsSiteRtp GetProductGroupQuotaParamsSite = "rtp"
+	GetProductGroupQuotaParamsSiteSvl GetProductGroupQuotaParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetProductGroupQuotaParamsSite enum.
+func (e GetProductGroupQuotaParamsSite) Valid() bool {
+	switch e {
+	case GetProductGroupQuotaParamsSiteRtp:
+		return true
+	case GetProductGroupQuotaParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for TransferVMQuotaParamsSite.
+const (
+	TransferVMQuotaParamsSiteRtp TransferVMQuotaParamsSite = "rtp"
+	TransferVMQuotaParamsSiteSvl TransferVMQuotaParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the TransferVMQuotaParamsSite enum.
+func (e TransferVMQuotaParamsSite) Valid() bool {
+	switch e {
+	case TransferVMQuotaParamsSiteRtp:
+		return true
+	case TransferVMQuotaParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetUserQuotasForProductGroupParamsSite.
+const (
+	GetUserQuotasForProductGroupParamsSiteRtp GetUserQuotasForProductGroupParamsSite = "rtp"
+	GetUserQuotasForProductGroupParamsSiteSvl GetUserQuotasForProductGroupParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetUserQuotasForProductGroupParamsSite enum.
+func (e GetUserQuotasForProductGroupParamsSite) Valid() bool {
+	switch e {
+	case GetUserQuotasForProductGroupParamsSiteRtp:
+		return true
+	case GetUserQuotasForProductGroupParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SetDefaultUserQuotaParamsSite.
+const (
+	SetDefaultUserQuotaParamsSiteRtp SetDefaultUserQuotaParamsSite = "rtp"
+	SetDefaultUserQuotaParamsSiteSvl SetDefaultUserQuotaParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the SetDefaultUserQuotaParamsSite enum.
+func (e SetDefaultUserQuotaParamsSite) Valid() bool {
+	switch e {
+	case SetDefaultUserQuotaParamsSiteRtp:
+		return true
+	case SetDefaultUserQuotaParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeleteUserQuotaParamsSite.
+const (
+	DeleteUserQuotaParamsSiteRtp DeleteUserQuotaParamsSite = "rtp"
+	DeleteUserQuotaParamsSiteSvl DeleteUserQuotaParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the DeleteUserQuotaParamsSite enum.
+func (e DeleteUserQuotaParamsSite) Valid() bool {
+	switch e {
+	case DeleteUserQuotaParamsSiteRtp:
+		return true
+	case DeleteUserQuotaParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetUserQuotaParamsSite.
+const (
+	GetUserQuotaParamsSiteRtp GetUserQuotaParamsSite = "rtp"
+	GetUserQuotaParamsSiteSvl GetUserQuotaParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetUserQuotaParamsSite enum.
+func (e GetUserQuotaParamsSite) Valid() bool {
+	switch e {
+	case GetUserQuotaParamsSiteRtp:
+		return true
+	case GetUserQuotaParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SetUserQuotaParamsSite.
+const (
+	SetUserQuotaParamsSiteRtp SetUserQuotaParamsSite = "rtp"
+	SetUserQuotaParamsSiteSvl SetUserQuotaParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the SetUserQuotaParamsSite enum.
+func (e SetUserQuotaParamsSite) Valid() bool {
+	switch e {
+	case SetUserQuotaParamsSiteRtp:
+		return true
+	case SetUserQuotaParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetSlotsystemsParamsSite.
+const (
+	GetSlotsystemsParamsSiteRtp GetSlotsystemsParamsSite = "rtp"
+	GetSlotsystemsParamsSiteSvl GetSlotsystemsParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetSlotsystemsParamsSite enum.
+func (e GetSlotsystemsParamsSite) Valid() bool {
+	switch e {
+	case GetSlotsystemsParamsSiteRtp:
+		return true
+	case GetSlotsystemsParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetSlotImagesParamsSite.
+const (
+	GetSlotImagesParamsSiteRtp GetSlotImagesParamsSite = "rtp"
+	GetSlotImagesParamsSiteSvl GetSlotImagesParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetSlotImagesParamsSite enum.
+func (e GetSlotImagesParamsSite) Valid() bool {
+	switch e {
+	case GetSlotImagesParamsSiteRtp:
+		return true
+	case GetSlotImagesParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for DeleteSlotSystemParamsSite.
+const (
+	DeleteSlotSystemParamsSiteRtp DeleteSlotSystemParamsSite = "rtp"
+	DeleteSlotSystemParamsSiteSvl DeleteSlotSystemParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the DeleteSlotSystemParamsSite enum.
+func (e DeleteSlotSystemParamsSite) Valid() bool {
+	switch e {
+	case DeleteSlotSystemParamsSiteRtp:
+		return true
+	case DeleteSlotSystemParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for RestartSlotSystemParamsSite.
+const (
+	RestartSlotSystemParamsSiteRtp RestartSlotSystemParamsSite = "rtp"
+	RestartSlotSystemParamsSiteSvl RestartSlotSystemParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the RestartSlotSystemParamsSite enum.
+func (e RestartSlotSystemParamsSite) Valid() bool {
+	switch e {
+	case RestartSlotSystemParamsSiteRtp:
+		return true
+	case RestartSlotSystemParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for StartSlotSystemParamsSite.
+const (
+	StartSlotSystemParamsSiteRtp StartSlotSystemParamsSite = "rtp"
+	StartSlotSystemParamsSiteSvl StartSlotSystemParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the StartSlotSystemParamsSite enum.
+func (e StartSlotSystemParamsSite) Valid() bool {
+	switch e {
+	case StartSlotSystemParamsSiteRtp:
+		return true
+	case StartSlotSystemParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for StopSlotSystemParamsSite.
+const (
+	StopSlotSystemParamsSiteRtp StopSlotSystemParamsSite = "rtp"
+	StopSlotSystemParamsSiteSvl StopSlotSystemParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the StopSlotSystemParamsSite enum.
+func (e StopSlotSystemParamsSite) Valid() bool {
+	switch e {
+	case StopSlotSystemParamsSiteRtp:
+		return true
+	case StopSlotSystemParamsSiteSvl:
 		return true
 	default:
 		return false
@@ -752,6 +1937,24 @@ func (e GetUserDetailsParamsSite) Valid() bool {
 	case GetUserDetailsParamsSiteRtp:
 		return true
 	case GetUserDetailsParamsSiteSvl:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetUserAPIKeyParamsSite.
+const (
+	GetUserAPIKeyParamsSiteRtp GetUserAPIKeyParamsSite = "rtp"
+	GetUserAPIKeyParamsSiteSvl GetUserAPIKeyParamsSite = "svl"
+)
+
+// Valid indicates whether the value is a known member of the GetUserAPIKeyParamsSite enum.
+func (e GetUserAPIKeyParamsSite) Valid() bool {
+	switch e {
+	case GetUserAPIKeyParamsSiteRtp:
+		return true
+	case GetUserAPIKeyParamsSiteSvl:
 		return true
 	default:
 		return false
@@ -1411,16 +2614,16 @@ func (e AttachVIPParamsVipType) Valid() bool {
 
 // Defines values for VmPowerActionParamsSite.
 const (
-	VmPowerActionParamsSiteRtp VmPowerActionParamsSite = "rtp"
-	VmPowerActionParamsSiteSvl VmPowerActionParamsSite = "svl"
+	Rtp VmPowerActionParamsSite = "rtp"
+	Svl VmPowerActionParamsSite = "svl"
 )
 
 // Valid indicates whether the value is a known member of the VmPowerActionParamsSite enum.
 func (e VmPowerActionParamsSite) Valid() bool {
 	switch e {
-	case VmPowerActionParamsSiteRtp:
+	case Rtp:
 		return true
-	case VmPowerActionParamsSiteSvl:
+	case Svl:
 		return true
 	default:
 		return false
@@ -1580,6 +2783,212 @@ type HostnameCheck struct {
 // HostnameCheckStatus success if hostname is available, warning if in use
 type HostnameCheckStatus string
 
+// NFSClientsList defines model for NFSClientsList.
+type NFSClientsList struct {
+	Clients *[]struct {
+		IpAddress  *string `json:"ip_address,omitempty"`
+		MountPoint *string `json:"mount_point,omitempty"`
+	} `json:"clients,omitempty"`
+	Status *string `json:"status,omitempty"`
+}
+
+// NFSNameCheck defines model for NFSNameCheck.
+type NFSNameCheck struct {
+	Details *string             `json:"details,omitempty"`
+	Status  *NFSNameCheckStatus `json:"status,omitempty"`
+}
+
+// NFSNameCheckStatus defines model for NFSNameCheck.Status.
+type NFSNameCheckStatus string
+
+// NFSPermission defines model for NFSPermission.
+type NFSPermission struct {
+	IpAddress   *string                  `json:"ip_address,omitempty"`
+	Permission  *NFSPermissionPermission `json:"permission,omitempty"`
+	RootSquash  *NFSPermissionRootSquash `json:"root_squash,omitempty"`
+	StoragePath *string                  `json:"storage_path,omitempty"`
+}
+
+// NFSPermissionPermission defines model for NFSPermission.Permission.
+type NFSPermissionPermission string
+
+// NFSPermissionRootSquash defines model for NFSPermission.RootSquash.
+type NFSPermissionRootSquash string
+
+// NFSPermissionsList defines model for NFSPermissionsList.
+type NFSPermissionsList struct {
+	Permissions *[]NFSPermission `json:"permissions,omitempty"`
+	Status      *string          `json:"status,omitempty"`
+}
+
+// NFSPermissionsUpdate defines model for NFSPermissionsUpdate.
+type NFSPermissionsUpdate struct {
+	StorageArray []struct {
+		Action      NFSPermissionsUpdateStorageArrayAction      `json:"action"`
+		IpAddress   string                                      `json:"ip_address"`
+		Permission  *NFSPermissionsUpdateStorageArrayPermission `json:"permission,omitempty"`
+		RootSquash  *NFSPermissionsUpdateStorageArrayRootSquash `json:"root_squash,omitempty"`
+		StoragePath string                                      `json:"storage_path"`
+	} `json:"storage_array"`
+}
+
+// NFSPermissionsUpdateStorageArrayAction defines model for NFSPermissionsUpdate.StorageArray.Action.
+type NFSPermissionsUpdateStorageArrayAction string
+
+// NFSPermissionsUpdateStorageArrayPermission defines model for NFSPermissionsUpdate.StorageArray.Permission.
+type NFSPermissionsUpdateStorageArrayPermission string
+
+// NFSPermissionsUpdateStorageArrayRootSquash defines model for NFSPermissionsUpdate.StorageArray.RootSquash.
+type NFSPermissionsUpdateStorageArrayRootSquash string
+
+// NFSStorageList defines model for NFSStorageList.
+type NFSStorageList struct {
+	Status  *string              `json:"status,omitempty"`
+	Storage *[]NFSStorageSummary `json:"storage,omitempty"`
+}
+
+// NFSStorageRequest defines model for NFSStorageRequest.
+type NFSStorageRequest struct {
+	// Capacity Capacity in GB
+	Capacity string `json:"capacity"`
+
+	// Justification Optional justification
+	Justification *string `json:"justification,omitempty"`
+	ServerName    string  `json:"server_name"`
+	ShareName     string  `json:"share_name"`
+}
+
+// NFSStorageSummary defines model for NFSStorageSummary.
+type NFSStorageSummary struct {
+	Available   *int    `json:"available,omitempty"`
+	Capacity    *int    `json:"capacity,omitempty"`
+	Protected   *bool   `json:"protected,omitempty"`
+	ServerName  *string `json:"server_name,omitempty"`
+	StorageName *string `json:"storage_name,omitempty"`
+	Used        *int    `json:"used,omitempty"`
+}
+
+// NFSStorageTransfer defines model for NFSStorageTransfer.
+type NFSStorageTransfer struct {
+	NewOwnerEmail string `json:"new_owner_email"`
+}
+
+// OCPClusterBuildRequest defines model for OCPClusterBuildRequest.
+type OCPClusterBuildRequest struct {
+	Description *string `json:"description,omitempty"`
+	Expiration  *string `json:"expiration,omitempty"`
+	Infra       *struct {
+		Cpu    *int `json:"cpu,omitempty"`
+		Disk   *int `json:"disk,omitempty"`
+		Memory *int `json:"memory,omitempty"`
+	} `json:"infra,omitempty"`
+	Master *struct {
+		Count  *int `json:"count,omitempty"`
+		Cpu    *int `json:"cpu,omitempty"`
+		Disk   *int `json:"disk,omitempty"`
+		Memory *int `json:"memory,omitempty"`
+	} `json:"master,omitempty"`
+	Name       *string                     `json:"name,omitempty"`
+	OcpVersion *string                     `json:"ocp_version,omitempty"`
+	QuickBurn  *bool                       `json:"quick_burn,omitempty"`
+	Size       *OCPClusterBuildRequestSize `json:"size,omitempty"`
+	Worker     *[]struct {
+		AdditionalDisk *[]int `json:"additional_disk,omitempty"`
+		Count          *int   `json:"count,omitempty"`
+		Cpu            *int   `json:"cpu,omitempty"`
+		Memory         *int   `json:"memory,omitempty"`
+		OsDisk         *int   `json:"os_disk,omitempty"`
+	} `json:"worker,omitempty"`
+}
+
+// OCPClusterBuildRequestSize defines model for OCPClusterBuildRequest.Size.
+type OCPClusterBuildRequestSize string
+
+// OCPClusterDetails defines model for OCPClusterDetails.
+type OCPClusterDetails struct {
+	ClusterId   *string           `json:"cluster_id,omitempty"`
+	ClusterName *string           `json:"cluster_name,omitempty"`
+	Created     *string           `json:"created,omitempty"`
+	Description *string           `json:"description,omitempty"`
+	Expiration  *string           `json:"expiration,omitempty"`
+	Nodes       *[]OCPNodeSummary `json:"nodes,omitempty"`
+	OcpVersion  *string           `json:"ocp_version,omitempty"`
+	Platform    *string           `json:"platform,omitempty"`
+	Status      *string           `json:"status,omitempty"`
+}
+
+// OCPClusterList defines model for OCPClusterList.
+type OCPClusterList struct {
+	Clusters *[]OCPClusterSummary `json:"clusters,omitempty"`
+	Status   *string              `json:"status,omitempty"`
+}
+
+// OCPClusterStatus defines model for OCPClusterStatus.
+type OCPClusterStatus struct {
+	ClusterStatus *string `json:"cluster_status,omitempty"`
+	Details       *string `json:"details,omitempty"`
+	Status        *string `json:"status,omitempty"`
+}
+
+// OCPClusterSummary defines model for OCPClusterSummary.
+type OCPClusterSummary struct {
+	ClusterId   *string `json:"cluster_id,omitempty"`
+	ClusterName *string `json:"cluster_name,omitempty"`
+	Created     *string `json:"created,omitempty"`
+	Platform    *string `json:"platform,omitempty"`
+	Status      *string `json:"status,omitempty"`
+}
+
+// OCPClusterTransfer defines model for OCPClusterTransfer.
+type OCPClusterTransfer struct {
+	Comment *string `json:"comment,omitempty"`
+}
+
+// OCPNodeSummary defines model for OCPNodeSummary.
+type OCPNodeSummary struct {
+	Cpu      *int    `json:"cpu,omitempty"`
+	Memory   *int    `json:"memory,omitempty"`
+	NodeName *string `json:"node_name,omitempty"`
+	NodeType *string `json:"node_type,omitempty"`
+	Status   *string `json:"status,omitempty"`
+}
+
+// OCPVMDetails defines model for OCPVMDetails.
+type OCPVMDetails struct {
+	Cpu      *int    `json:"cpu,omitempty"`
+	Disk     *int    `json:"disk,omitempty"`
+	Hostname *string `json:"hostname,omitempty"`
+	Memory   *int    `json:"memory,omitempty"`
+	Status   *string `json:"status,omitempty"`
+	VmId     *string `json:"vm_id,omitempty"`
+}
+
+// OCPVMDiskAdd defines model for OCPVMDiskAdd.
+type OCPVMDiskAdd struct {
+	AdditionalDisk []int `json:"additional_disk"`
+}
+
+// OCPVMResourceUpdate defines model for OCPVMResourceUpdate.
+type OCPVMResourceUpdate struct {
+	Cpu    *int `json:"cpu,omitempty"`
+	Memory *int `json:"memory,omitempty"`
+}
+
+// OCPVersionList defines model for OCPVersionList.
+type OCPVersionList struct {
+	Status   *string   `json:"status,omitempty"`
+	Versions *[]string `json:"versions,omitempty"`
+}
+
+// OCPWorkerAdd defines model for OCPWorkerAdd.
+type OCPWorkerAdd struct {
+	AdditionalDisk *[]int `json:"additional_disk,omitempty"`
+	Count          *int   `json:"count,omitempty"`
+	Cpu            *int   `json:"cpu,omitempty"`
+	Memory         *int   `json:"memory,omitempty"`
+	OsDisk         *int   `json:"os_disk,omitempty"`
+}
+
 // OSList defines model for OSList.
 type OSList struct {
 	// DefaultSize Default and maximum VM sizing constraints
@@ -1692,6 +3101,22 @@ type QuotaResponse struct {
 	Status *string `json:"status,omitempty"`
 }
 
+// QuotaTransfer defines model for QuotaTransfer.
+type QuotaTransfer struct {
+	ProductGroupId string            `json:"product_group_id"`
+	Site           QuotaTransferSite `json:"site"`
+	Vm             *struct {
+		X *struct {
+			Cpu    *string `json:"cpu,omitempty"`
+			Disk   *string `json:"disk,omitempty"`
+			Memory *string `json:"memory,omitempty"`
+		} `json:"x,omitempty"`
+	} `json:"vm,omitempty"`
+}
+
+// QuotaTransferSite defines model for QuotaTransfer.Site.
+type QuotaTransferSite string
+
 // RequestStatus defines model for RequestStatus.
 type RequestStatus struct {
 	// Request Request details object
@@ -1732,6 +3157,41 @@ type RequestStatus struct {
 
 	// Status Status of the response (success, error, etc.)
 	Status *string `json:"status,omitempty"`
+}
+
+// SlotDeleteRequest defines model for SlotDeleteRequest.
+type SlotDeleteRequest struct {
+	DeleteBackups *bool `json:"delete_backups,omitempty"`
+}
+
+// SlotImageList defines model for SlotImageList.
+type SlotImageList struct {
+	Images *[]string `json:"images,omitempty"`
+	Status *string   `json:"status,omitempty"`
+}
+
+// SlotStartRequest defines model for SlotStartRequest.
+type SlotStartRequest struct {
+	Image     *string `json:"image,omitempty"`
+	Overwrite *bool   `json:"overwrite,omitempty"`
+}
+
+// SlotStopRequest defines model for SlotStopRequest.
+type SlotStopRequest struct {
+	Overwrite *bool `json:"overwrite,omitempty"`
+}
+
+// SlotSummary defines model for SlotSummary.
+type SlotSummary struct {
+	Image      *string `json:"image,omitempty"`
+	Status     *string `json:"status,omitempty"`
+	SystemName *string `json:"system_name,omitempty"`
+}
+
+// SlotsList defines model for SlotsList.
+type SlotsList struct {
+	Status  *string        `json:"status,omitempty"`
+	Systems *[]SlotSummary `json:"systems,omitempty"`
 }
 
 // Snapshot defines model for Snapshot.
@@ -1941,6 +3401,18 @@ type Success struct {
 	Status    *string `json:"status,omitempty"`
 }
 
+// UserAPIKeyResponse defines model for UserAPIKeyResponse.
+type UserAPIKeyResponse struct {
+	// Details Human-readable message about the API key
+	Details *string `json:"details,omitempty"`
+
+	// Expiration API key expiration timestamp
+	Expiration *string `json:"expiration,omitempty"`
+
+	// Status Response status
+	Status *string `json:"status,omitempty"`
+}
+
 // UserDetails defines model for UserDetails.
 type UserDetails struct {
 	Authenticated *bool   `json:"authenticated,omitempty"`
@@ -1988,8 +3460,53 @@ type UserDetails struct {
 
 // UserList defines model for UserList.
 type UserList struct {
-	Status *string `json:"status,omitempty"`
+	Status *string        `json:"status,omitempty"`
+	Users  *[]UserSummary `json:"users,omitempty"`
 }
+
+// UserQuotaList defines model for UserQuotaList.
+type UserQuotaList struct {
+	Status *string             `json:"status,omitempty"`
+	Users  *[]UserQuotaSummary `json:"users,omitempty"`
+}
+
+// UserQuotaSummary defines model for UserQuotaSummary.
+type UserQuotaSummary struct {
+	Email    *string                 `json:"email,omitempty"`
+	Quota    *map[string]interface{} `json:"quota,omitempty"`
+	UserId   *int                    `json:"user_id,omitempty"`
+	Username *string                 `json:"username,omitempty"`
+}
+
+// UserQuotaUpdate defines model for UserQuotaUpdate.
+type UserQuotaUpdate struct {
+	Ip *struct {
+		Floating *string `json:"floating,omitempty"`
+		PortMap  *string `json:"port_map,omitempty"`
+		Public   *string `json:"public,omitempty"`
+	} `json:"ip,omitempty"`
+	Site *UserQuotaUpdateSite `json:"site,omitempty"`
+	Vm   *struct {
+		Pvm *struct {
+			Cpu    *string `json:"cpu,omitempty"`
+			Disk   *string `json:"disk,omitempty"`
+			Memory *string `json:"memory,omitempty"`
+		} `json:"pvm,omitempty"`
+		X *struct {
+			Cpu    *string `json:"cpu,omitempty"`
+			Disk   *string `json:"disk,omitempty"`
+			Memory *string `json:"memory,omitempty"`
+		} `json:"x,omitempty"`
+		Z *struct {
+			Cpu    *string `json:"cpu,omitempty"`
+			Disk   *string `json:"disk,omitempty"`
+			Memory *string `json:"memory,omitempty"`
+		} `json:"z,omitempty"`
+	} `json:"vm,omitempty"`
+}
+
+// UserQuotaUpdateSite defines model for UserQuotaUpdate.Site.
+type UserQuotaUpdateSite string
 
 // UserSummary defines model for UserSummary.
 type UserSummary struct {
@@ -2264,9 +3781,12 @@ type VMDetails struct {
 	Sshable             *string `json:"sshable,omitempty"`
 	SshableLastChecked  *string `json:"sshable_last_checked,omitempty"`
 	State               *string `json:"state,omitempty"`
-	Timezone            *string `json:"timezone,omitempty"`
-	TransferComment     *string `json:"transfer_comment,omitempty"`
-	User                *struct {
+
+	// TimeRemaining Human-readable time remaining until expiration
+	TimeRemaining   *string `json:"time_remaining,omitempty"`
+	Timezone        *string `json:"timezone,omitempty"`
+	TransferComment *string `json:"transfer_comment,omitempty"`
+	User            *struct {
 		DisplayName *string `json:"display_name,omitempty"`
 		Email       *string `json:"email,omitempty"`
 		Id          *int    `json:"id,omitempty"`
@@ -2393,8 +3913,7 @@ type VMUpdateResponse struct {
 	RequestId *string `json:"request_id,omitempty"`
 
 	// Status Status of the response (success, error, etc.)
-	Status *string        `json:"status,omitempty"`
-	Users  *[]UserSummary `json:"users,omitempty"`
+	Status *string `json:"status,omitempty"`
 }
 
 // ClusterIdentifier defines model for clusterIdentifier.
@@ -2514,6 +4033,357 @@ type AttachFloatingIPParams struct {
 // AttachFloatingIPParamsSite defines parameters for AttachFloatingIP.
 type AttachFloatingIPParamsSite string
 
+// CheckNFSServerNameParams defines parameters for CheckNFSServerName.
+type CheckNFSServerNameParams struct {
+	// Site Site location (svl or rtp)
+	Site *CheckNFSServerNameParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// CheckNFSServerNameParamsSite defines parameters for CheckNFSServerName.
+type CheckNFSServerNameParamsSite string
+
+// CheckNFSShareNameParams defines parameters for CheckNFSShareName.
+type CheckNFSShareNameParams struct {
+	// Site Site location (svl or rtp)
+	Site *CheckNFSShareNameParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// CheckNFSShareNameParamsSite defines parameters for CheckNFSShareName.
+type CheckNFSShareNameParamsSite string
+
+// GetNFSClientsParams defines parameters for GetNFSClients.
+type GetNFSClientsParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetNFSClientsParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetNFSClientsParamsSite defines parameters for GetNFSClients.
+type GetNFSClientsParamsSite string
+
+// GetNFSPermissionsParams defines parameters for GetNFSPermissions.
+type GetNFSPermissionsParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetNFSPermissionsParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetNFSPermissionsParamsSite defines parameters for GetNFSPermissions.
+type GetNFSPermissionsParamsSite string
+
+// UpdateNFSPermissionsParams defines parameters for UpdateNFSPermissions.
+type UpdateNFSPermissionsParams struct {
+	// Site Site location (svl or rtp)
+	Site *UpdateNFSPermissionsParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// UpdateNFSPermissionsParamsSite defines parameters for UpdateNFSPermissions.
+type UpdateNFSPermissionsParamsSite string
+
+// ProtectNFSStorageParams defines parameters for ProtectNFSStorage.
+type ProtectNFSStorageParams struct {
+	// Site Site location (svl or rtp)
+	Site *ProtectNFSStorageParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// ProtectNFSStorageParamsSite defines parameters for ProtectNFSStorage.
+type ProtectNFSStorageParamsSite string
+
+// RequestNFSStorageParams defines parameters for RequestNFSStorage.
+type RequestNFSStorageParams struct {
+	// Site Site location (svl or rtp)
+	Site *RequestNFSStorageParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// RequestNFSStorageParamsSite defines parameters for RequestNFSStorage.
+type RequestNFSStorageParamsSite string
+
+// DeleteNFSStorageRequestParams defines parameters for DeleteNFSStorageRequest.
+type DeleteNFSStorageRequestParams struct {
+	// Site Site location (svl or rtp)
+	Site *DeleteNFSStorageRequestParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// DeleteNFSStorageRequestParamsSite defines parameters for DeleteNFSStorageRequest.
+type DeleteNFSStorageRequestParamsSite string
+
+// GetNFSStorageParams defines parameters for GetNFSStorage.
+type GetNFSStorageParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetNFSStorageParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetNFSStorageParamsSite defines parameters for GetNFSStorage.
+type GetNFSStorageParamsSite string
+
+// GetNFSStorageByProductGroupParams defines parameters for GetNFSStorageByProductGroup.
+type GetNFSStorageByProductGroupParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetNFSStorageByProductGroupParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetNFSStorageByProductGroupParamsSite defines parameters for GetNFSStorageByProductGroup.
+type GetNFSStorageByProductGroupParamsSite string
+
+// DeleteNFSStorageParams defines parameters for DeleteNFSStorage.
+type DeleteNFSStorageParams struct {
+	// Site Site location (svl or rtp)
+	Site *DeleteNFSStorageParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// DeleteNFSStorageParamsSite defines parameters for DeleteNFSStorage.
+type DeleteNFSStorageParamsSite string
+
+// TransferNFSStorageParams defines parameters for TransferNFSStorage.
+type TransferNFSStorageParams struct {
+	// Site Site location (svl or rtp)
+	Site *TransferNFSStorageParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// TransferNFSStorageParamsSite defines parameters for TransferNFSStorage.
+type TransferNFSStorageParamsSite string
+
+// UnprotectNFSStorageParams defines parameters for UnprotectNFSStorage.
+type UnprotectNFSStorageParams struct {
+	// Site Site location (svl or rtp)
+	Site *UnprotectNFSStorageParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// UnprotectNFSStorageParamsSite defines parameters for UnprotectNFSStorage.
+type UnprotectNFSStorageParamsSite string
+
+// GetOCPClustersParams defines parameters for GetOCPClusters.
+type GetOCPClustersParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetOCPClustersParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetOCPClustersParamsSite defines parameters for GetOCPClusters.
+type GetOCPClustersParamsSite string
+
+// GetOCPRequestStatusParams defines parameters for GetOCPRequestStatus.
+type GetOCPRequestStatusParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetOCPRequestStatusParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetOCPRequestStatusParamsSite defines parameters for GetOCPRequestStatus.
+type GetOCPRequestStatusParamsSite string
+
+// DeleteOCPClusterParams defines parameters for DeleteOCPCluster.
+type DeleteOCPClusterParams struct {
+	// Site Site location (svl or rtp)
+	Site *DeleteOCPClusterParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// DeleteOCPClusterParamsSite defines parameters for DeleteOCPCluster.
+type DeleteOCPClusterParamsSite string
+
+// GetOCPClusterDetailsParams defines parameters for GetOCPClusterDetails.
+type GetOCPClusterDetailsParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetOCPClusterDetailsParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetOCPClusterDetailsParamsSite defines parameters for GetOCPClusterDetails.
+type GetOCPClusterDetailsParamsSite string
+
+// AcceptOCPClusterTransferParams defines parameters for AcceptOCPClusterTransfer.
+type AcceptOCPClusterTransferParams struct {
+	// Site Site location (svl or rtp)
+	Site *AcceptOCPClusterTransferParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// AcceptOCPClusterTransferParamsSite defines parameters for AcceptOCPClusterTransfer.
+type AcceptOCPClusterTransferParamsSite string
+
+// DisableOCPClusterDeleteParams defines parameters for DisableOCPClusterDelete.
+type DisableOCPClusterDeleteParams struct {
+	// Site Site location (svl or rtp)
+	Site *DisableOCPClusterDeleteParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// DisableOCPClusterDeleteParamsSite defines parameters for DisableOCPClusterDelete.
+type DisableOCPClusterDeleteParamsSite string
+
+// EnableOCPClusterDeleteParams defines parameters for EnableOCPClusterDelete.
+type EnableOCPClusterDeleteParams struct {
+	// Site Site location (svl or rtp)
+	Site *EnableOCPClusterDeleteParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// EnableOCPClusterDeleteParamsSite defines parameters for EnableOCPClusterDelete.
+type EnableOCPClusterDeleteParamsSite string
+
+// UpdateOCPClusterExpirationParams defines parameters for UpdateOCPClusterExpiration.
+type UpdateOCPClusterExpirationParams struct {
+	// Site Site location (svl or rtp)
+	Site *UpdateOCPClusterExpirationParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// UpdateOCPClusterExpirationParamsSite defines parameters for UpdateOCPClusterExpiration.
+type UpdateOCPClusterExpirationParamsSite string
+
+// GetOCPClusterStatusParams defines parameters for GetOCPClusterStatus.
+type GetOCPClusterStatusParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetOCPClusterStatusParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetOCPClusterStatusParamsSite defines parameters for GetOCPClusterStatus.
+type GetOCPClusterStatusParamsSite string
+
+// CancelOCPClusterTransferParams defines parameters for CancelOCPClusterTransfer.
+type CancelOCPClusterTransferParams struct {
+	// Site Site location (svl or rtp)
+	Site *CancelOCPClusterTransferParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// CancelOCPClusterTransferParamsSite defines parameters for CancelOCPClusterTransfer.
+type CancelOCPClusterTransferParamsSite string
+
+// TransferOCPClusterToUserParams defines parameters for TransferOCPClusterToUser.
+type TransferOCPClusterToUserParams struct {
+	// Site Site location (svl or rtp)
+	Site *TransferOCPClusterToUserParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// TransferOCPClusterToUserParamsSite defines parameters for TransferOCPClusterToUser.
+type TransferOCPClusterToUserParamsSite string
+
+// DeleteOCPVIPParams defines parameters for DeleteOCPVIP.
+type DeleteOCPVIPParams struct {
+	// Site Site location (svl or rtp)
+	Site *DeleteOCPVIPParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// DeleteOCPVIPParamsSite defines parameters for DeleteOCPVIP.
+type DeleteOCPVIPParamsSite string
+
+// DeleteOCPVIPParamsVipType defines parameters for DeleteOCPVIP.
+type DeleteOCPVIPParamsVipType string
+
+// AddOCPVIPParams defines parameters for AddOCPVIP.
+type AddOCPVIPParams struct {
+	// Site Site location (svl or rtp)
+	Site *AddOCPVIPParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// AddOCPVIPParamsSite defines parameters for AddOCPVIP.
+type AddOCPVIPParamsSite string
+
+// AddOCPVIPParamsVipType defines parameters for AddOCPVIP.
+type AddOCPVIPParamsVipType string
+
+// GetOCPClusterVMDetailsParams defines parameters for GetOCPClusterVMDetails.
+type GetOCPClusterVMDetailsParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetOCPClusterVMDetailsParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetOCPClusterVMDetailsParamsSite defines parameters for GetOCPClusterVMDetails.
+type GetOCPClusterVMDetailsParamsSite string
+
+// AddOCPWorkerParams defines parameters for AddOCPWorker.
+type AddOCPWorkerParams struct {
+	// Site Site location (svl or rtp)
+	Site *AddOCPWorkerParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// AddOCPWorkerParamsSite defines parameters for AddOCPWorker.
+type AddOCPWorkerParamsSite string
+
+// OcpClusterPowerActionParams defines parameters for OcpClusterPowerAction.
+type OcpClusterPowerActionParams struct {
+	// Site Site location (svl or rtp)
+	Site *OcpClusterPowerActionParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// OcpClusterPowerActionParamsSite defines parameters for OcpClusterPowerAction.
+type OcpClusterPowerActionParamsSite string
+
+// OcpClusterPowerActionParamsAction defines parameters for OcpClusterPowerAction.
+type OcpClusterPowerActionParamsAction string
+
+// AddOCPVMDiskParams defines parameters for AddOCPVMDisk.
+type AddOCPVMDiskParams struct {
+	// Site Site location (svl or rtp)
+	Site *AddOCPVMDiskParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// AddOCPVMDiskParamsSite defines parameters for AddOCPVMDisk.
+type AddOCPVMDiskParamsSite string
+
+// ModifyOCPVMResourcesParams defines parameters for ModifyOCPVMResources.
+type ModifyOCPVMResourcesParams struct {
+	// Site Site location (svl or rtp)
+	Site *ModifyOCPVMResourcesParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// ModifyOCPVMResourcesParamsSite defines parameters for ModifyOCPVMResources.
+type ModifyOCPVMResourcesParamsSite string
+
+// OcpVMPowerActionParams defines parameters for OcpVMPowerAction.
+type OcpVMPowerActionParams struct {
+	// Site Site location (svl or rtp)
+	Site *OcpVMPowerActionParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// OcpVMPowerActionParamsSite defines parameters for OcpVMPowerAction.
+type OcpVMPowerActionParamsSite string
+
+// OcpVMPowerActionParamsAction defines parameters for OcpVMPowerAction.
+type OcpVMPowerActionParamsAction string
+
+// BuildOCPClusterParams defines parameters for BuildOCPCluster.
+type BuildOCPClusterParams struct {
+	// Site Site location (svl or rtp)
+	Site *BuildOCPClusterParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// BuildOCPClusterParamsSite defines parameters for BuildOCPCluster.
+type BuildOCPClusterParamsSite string
+
+// BuildOCPClusterParamsPlatform defines parameters for BuildOCPCluster.
+type BuildOCPClusterParamsPlatform string
+
+// GetAvailableOCPVersionsParams defines parameters for GetAvailableOCPVersions.
+type GetAvailableOCPVersionsParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetAvailableOCPVersionsParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetAvailableOCPVersionsParamsSite defines parameters for GetAvailableOCPVersions.
+type GetAvailableOCPVersionsParamsSite string
+
+// GetAvailableOCPVersionsParamsPlatform defines parameters for GetAvailableOCPVersions.
+type GetAvailableOCPVersionsParamsPlatform string
+
+// RemoveProductGroupOwnerParams defines parameters for RemoveProductGroupOwner.
+type RemoveProductGroupOwnerParams struct {
+	// Site Site location (svl or rtp)
+	Site *RemoveProductGroupOwnerParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// RemoveProductGroupOwnerParamsSite defines parameters for RemoveProductGroupOwner.
+type RemoveProductGroupOwnerParamsSite string
+
+// AddProductGroupOwnerParams defines parameters for AddProductGroupOwner.
+type AddProductGroupOwnerParams struct {
+	// Site Site location (svl or rtp)
+	Site *AddProductGroupOwnerParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// AddProductGroupOwnerParamsSite defines parameters for AddProductGroupOwner.
+type AddProductGroupOwnerParamsSite string
+
+// GetProductGroupUsersParams defines parameters for GetProductGroupUsers.
+type GetProductGroupUsersParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetProductGroupUsersParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetProductGroupUsersParamsSite defines parameters for GetProductGroupUsers.
+type GetProductGroupUsersParamsSite string
+
 // GetQuotaParams defines parameters for GetQuota.
 type GetQuotaParams struct {
 	// Site Site location (svl or rtp)
@@ -2522,6 +4392,123 @@ type GetQuotaParams struct {
 
 // GetQuotaParamsSite defines parameters for GetQuota.
 type GetQuotaParamsSite string
+
+// GetProductGroupQuotaParams defines parameters for GetProductGroupQuota.
+type GetProductGroupQuotaParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetProductGroupQuotaParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetProductGroupQuotaParamsSite defines parameters for GetProductGroupQuota.
+type GetProductGroupQuotaParamsSite string
+
+// TransferVMQuotaParams defines parameters for TransferVMQuota.
+type TransferVMQuotaParams struct {
+	// Site Site location (svl or rtp)
+	Site *TransferVMQuotaParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// TransferVMQuotaParamsSite defines parameters for TransferVMQuota.
+type TransferVMQuotaParamsSite string
+
+// GetUserQuotasForProductGroupParams defines parameters for GetUserQuotasForProductGroup.
+type GetUserQuotasForProductGroupParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetUserQuotasForProductGroupParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetUserQuotasForProductGroupParamsSite defines parameters for GetUserQuotasForProductGroup.
+type GetUserQuotasForProductGroupParamsSite string
+
+// SetDefaultUserQuotaParams defines parameters for SetDefaultUserQuota.
+type SetDefaultUserQuotaParams struct {
+	// Site Site location (svl or rtp)
+	Site *SetDefaultUserQuotaParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// SetDefaultUserQuotaParamsSite defines parameters for SetDefaultUserQuota.
+type SetDefaultUserQuotaParamsSite string
+
+// DeleteUserQuotaParams defines parameters for DeleteUserQuota.
+type DeleteUserQuotaParams struct {
+	// Site Site location (svl or rtp)
+	Site *DeleteUserQuotaParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// DeleteUserQuotaParamsSite defines parameters for DeleteUserQuota.
+type DeleteUserQuotaParamsSite string
+
+// GetUserQuotaParams defines parameters for GetUserQuota.
+type GetUserQuotaParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetUserQuotaParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetUserQuotaParamsSite defines parameters for GetUserQuota.
+type GetUserQuotaParamsSite string
+
+// SetUserQuotaParams defines parameters for SetUserQuota.
+type SetUserQuotaParams struct {
+	// Site Site location (svl or rtp)
+	Site *SetUserQuotaParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// SetUserQuotaParamsSite defines parameters for SetUserQuota.
+type SetUserQuotaParamsSite string
+
+// GetSlotsystemsParams defines parameters for GetSlotsystems.
+type GetSlotsystemsParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetSlotsystemsParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetSlotsystemsParamsSite defines parameters for GetSlotsystems.
+type GetSlotsystemsParamsSite string
+
+// GetSlotImagesParams defines parameters for GetSlotImages.
+type GetSlotImagesParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetSlotImagesParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetSlotImagesParamsSite defines parameters for GetSlotImages.
+type GetSlotImagesParamsSite string
+
+// DeleteSlotSystemParams defines parameters for DeleteSlotSystem.
+type DeleteSlotSystemParams struct {
+	// Site Site location (svl or rtp)
+	Site *DeleteSlotSystemParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// DeleteSlotSystemParamsSite defines parameters for DeleteSlotSystem.
+type DeleteSlotSystemParamsSite string
+
+// RestartSlotSystemParams defines parameters for RestartSlotSystem.
+type RestartSlotSystemParams struct {
+	// Site Site location (svl or rtp)
+	Site *RestartSlotSystemParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// RestartSlotSystemParamsSite defines parameters for RestartSlotSystem.
+type RestartSlotSystemParamsSite string
+
+// StartSlotSystemParams defines parameters for StartSlotSystem.
+type StartSlotSystemParams struct {
+	// Site Site location (svl or rtp)
+	Site *StartSlotSystemParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// StartSlotSystemParamsSite defines parameters for StartSlotSystem.
+type StartSlotSystemParamsSite string
+
+// StopSlotSystemParams defines parameters for StopSlotSystem.
+type StopSlotSystemParams struct {
+	// Site Site location (svl or rtp)
+	Site *StopSlotSystemParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// StopSlotSystemParamsSite defines parameters for StopSlotSystem.
+type StopSlotSystemParamsSite string
 
 // GetStencilDetailsParams defines parameters for GetStencilDetails.
 type GetStencilDetailsParams struct {
@@ -2588,6 +4575,15 @@ type GetUserDetailsParams struct {
 
 // GetUserDetailsParamsSite defines parameters for GetUserDetails.
 type GetUserDetailsParamsSite string
+
+// GetUserAPIKeyParams defines parameters for GetUserAPIKey.
+type GetUserAPIKeyParams struct {
+	// Site Site location (svl or rtp)
+	Site *GetUserAPIKeyParamsSite `form:"site,omitempty" json:"site,omitempty"`
+}
+
+// GetUserAPIKeyParamsSite defines parameters for GetUserAPIKey.
+type GetUserAPIKeyParamsSite string
 
 // ListVMsParams defines parameters for ListVMs.
 type ListVMsParams struct {
@@ -2921,6 +4917,54 @@ type RemoveVMsFromClusterJSONRequestBody = ClusterVMRequest
 
 // AttachFloatingIPJSONRequestBody defines body for AttachFloatingIP for application/json ContentType.
 type AttachFloatingIPJSONRequestBody = FloatingIPRequest
+
+// UpdateNFSPermissionsJSONRequestBody defines body for UpdateNFSPermissions for application/json ContentType.
+type UpdateNFSPermissionsJSONRequestBody = NFSPermissionsUpdate
+
+// RequestNFSStorageJSONRequestBody defines body for RequestNFSStorage for application/json ContentType.
+type RequestNFSStorageJSONRequestBody = NFSStorageRequest
+
+// TransferNFSStorageJSONRequestBody defines body for TransferNFSStorage for application/json ContentType.
+type TransferNFSStorageJSONRequestBody = NFSStorageTransfer
+
+// UpdateOCPClusterExpirationJSONRequestBody defines body for UpdateOCPClusterExpiration for application/json ContentType.
+type UpdateOCPClusterExpirationJSONRequestBody = ExpirationUpdate
+
+// TransferOCPClusterToUserJSONRequestBody defines body for TransferOCPClusterToUser for application/json ContentType.
+type TransferOCPClusterToUserJSONRequestBody = OCPClusterTransfer
+
+// DeleteOCPVIPJSONRequestBody defines body for DeleteOCPVIP for application/json ContentType.
+type DeleteOCPVIPJSONRequestBody = VIPDeleteRequest
+
+// AddOCPWorkerJSONRequestBody defines body for AddOCPWorker for application/json ContentType.
+type AddOCPWorkerJSONRequestBody = OCPWorkerAdd
+
+// AddOCPVMDiskJSONRequestBody defines body for AddOCPVMDisk for application/json ContentType.
+type AddOCPVMDiskJSONRequestBody = OCPVMDiskAdd
+
+// ModifyOCPVMResourcesJSONRequestBody defines body for ModifyOCPVMResources for application/json ContentType.
+type ModifyOCPVMResourcesJSONRequestBody = OCPVMResourceUpdate
+
+// BuildOCPClusterJSONRequestBody defines body for BuildOCPCluster for application/json ContentType.
+type BuildOCPClusterJSONRequestBody = OCPClusterBuildRequest
+
+// TransferVMQuotaJSONRequestBody defines body for TransferVMQuota for application/json ContentType.
+type TransferVMQuotaJSONRequestBody = QuotaTransfer
+
+// SetDefaultUserQuotaJSONRequestBody defines body for SetDefaultUserQuota for application/json ContentType.
+type SetDefaultUserQuotaJSONRequestBody = UserQuotaUpdate
+
+// SetUserQuotaJSONRequestBody defines body for SetUserQuota for application/json ContentType.
+type SetUserQuotaJSONRequestBody = UserQuotaUpdate
+
+// DeleteSlotSystemJSONRequestBody defines body for DeleteSlotSystem for application/json ContentType.
+type DeleteSlotSystemJSONRequestBody = SlotDeleteRequest
+
+// StartSlotSystemJSONRequestBody defines body for StartSlotSystem for application/json ContentType.
+type StartSlotSystemJSONRequestBody = SlotStartRequest
+
+// StopSlotSystemJSONRequestBody defines body for StopSlotSystem for application/json ContentType.
+type StopSlotSystemJSONRequestBody = SlotStopRequest
 
 // CreateVMJSONRequestBody defines body for CreateVM for application/json ContentType.
 type CreateVMJSONRequestBody = VMCreateRequest
@@ -3399,8 +5443,190 @@ type ClientInterface interface {
 
 	AttachFloatingIP(ctx context.Context, vmIdentifier VmIdentifier, params *AttachFloatingIPParams, body AttachFloatingIPJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// CheckNFSServerName request
+	CheckNFSServerName(ctx context.Context, name string, params *CheckNFSServerNameParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CheckNFSShareName request
+	CheckNFSShareName(ctx context.Context, name string, params *CheckNFSShareNameParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetNFSClients request
+	GetNFSClients(ctx context.Context, storageName string, params *GetNFSClientsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetNFSPermissions request
+	GetNFSPermissions(ctx context.Context, storageName string, params *GetNFSPermissionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UpdateNFSPermissionsWithBody request with any body
+	UpdateNFSPermissionsWithBody(ctx context.Context, storageName string, params *UpdateNFSPermissionsParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	UpdateNFSPermissions(ctx context.Context, storageName string, params *UpdateNFSPermissionsParams, body UpdateNFSPermissionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ProtectNFSStorage request
+	ProtectNFSStorage(ctx context.Context, storageName string, params *ProtectNFSStorageParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// RequestNFSStorageWithBody request with any body
+	RequestNFSStorageWithBody(ctx context.Context, params *RequestNFSStorageParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	RequestNFSStorage(ctx context.Context, params *RequestNFSStorageParams, body RequestNFSStorageJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteNFSStorageRequest request
+	DeleteNFSStorageRequest(ctx context.Context, storageName string, params *DeleteNFSStorageRequestParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetNFSStorage request
+	GetNFSStorage(ctx context.Context, params *GetNFSStorageParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetNFSStorageByProductGroup request
+	GetNFSStorageByProductGroup(ctx context.Context, productGroupId ProductGroupId, params *GetNFSStorageByProductGroupParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteNFSStorage request
+	DeleteNFSStorage(ctx context.Context, storageName string, params *DeleteNFSStorageParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// TransferNFSStorageWithBody request with any body
+	TransferNFSStorageWithBody(ctx context.Context, storageName string, params *TransferNFSStorageParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	TransferNFSStorage(ctx context.Context, storageName string, params *TransferNFSStorageParams, body TransferNFSStorageJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UnprotectNFSStorage request
+	UnprotectNFSStorage(ctx context.Context, storageName string, params *UnprotectNFSStorageParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetOCPClusters request
+	GetOCPClusters(ctx context.Context, params *GetOCPClustersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetOCPRequestStatus request
+	GetOCPRequestStatus(ctx context.Context, requestId RequestId, params *GetOCPRequestStatusParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteOCPCluster request
+	DeleteOCPCluster(ctx context.Context, clusterIdentifier ClusterIdentifier, params *DeleteOCPClusterParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetOCPClusterDetails request
+	GetOCPClusterDetails(ctx context.Context, clusterIdentifier ClusterIdentifier, params *GetOCPClusterDetailsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AcceptOCPClusterTransfer request
+	AcceptOCPClusterTransfer(ctx context.Context, clusterIdentifier ClusterIdentifier, params *AcceptOCPClusterTransferParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DisableOCPClusterDelete request
+	DisableOCPClusterDelete(ctx context.Context, clusterIdentifier ClusterIdentifier, params *DisableOCPClusterDeleteParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// EnableOCPClusterDelete request
+	EnableOCPClusterDelete(ctx context.Context, clusterIdentifier ClusterIdentifier, params *EnableOCPClusterDeleteParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UpdateOCPClusterExpirationWithBody request with any body
+	UpdateOCPClusterExpirationWithBody(ctx context.Context, clusterIdentifier ClusterIdentifier, params *UpdateOCPClusterExpirationParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	UpdateOCPClusterExpiration(ctx context.Context, clusterIdentifier ClusterIdentifier, params *UpdateOCPClusterExpirationParams, body UpdateOCPClusterExpirationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetOCPClusterStatus request
+	GetOCPClusterStatus(ctx context.Context, clusterIdentifier ClusterIdentifier, params *GetOCPClusterStatusParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CancelOCPClusterTransfer request
+	CancelOCPClusterTransfer(ctx context.Context, clusterIdentifier ClusterIdentifier, params *CancelOCPClusterTransferParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// TransferOCPClusterToUserWithBody request with any body
+	TransferOCPClusterToUserWithBody(ctx context.Context, clusterIdentifier ClusterIdentifier, userIdentifier UserIdentifier, params *TransferOCPClusterToUserParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	TransferOCPClusterToUser(ctx context.Context, clusterIdentifier ClusterIdentifier, userIdentifier UserIdentifier, params *TransferOCPClusterToUserParams, body TransferOCPClusterToUserJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteOCPVIPWithBody request with any body
+	DeleteOCPVIPWithBody(ctx context.Context, clusterIdentifier ClusterIdentifier, vipType DeleteOCPVIPParamsVipType, params *DeleteOCPVIPParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	DeleteOCPVIP(ctx context.Context, clusterIdentifier ClusterIdentifier, vipType DeleteOCPVIPParamsVipType, params *DeleteOCPVIPParams, body DeleteOCPVIPJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AddOCPVIP request
+	AddOCPVIP(ctx context.Context, clusterIdentifier ClusterIdentifier, vipType AddOCPVIPParamsVipType, params *AddOCPVIPParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetOCPClusterVMDetails request
+	GetOCPClusterVMDetails(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *GetOCPClusterVMDetailsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AddOCPWorkerWithBody request with any body
+	AddOCPWorkerWithBody(ctx context.Context, clusterIdentifier ClusterIdentifier, params *AddOCPWorkerParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	AddOCPWorker(ctx context.Context, clusterIdentifier ClusterIdentifier, params *AddOCPWorkerParams, body AddOCPWorkerJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// OcpClusterPowerAction request
+	OcpClusterPowerAction(ctx context.Context, clusterIdentifier ClusterIdentifier, action OcpClusterPowerActionParamsAction, params *OcpClusterPowerActionParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AddOCPVMDiskWithBody request with any body
+	AddOCPVMDiskWithBody(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *AddOCPVMDiskParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	AddOCPVMDisk(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *AddOCPVMDiskParams, body AddOCPVMDiskJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ModifyOCPVMResourcesWithBody request with any body
+	ModifyOCPVMResourcesWithBody(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *ModifyOCPVMResourcesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	ModifyOCPVMResources(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *ModifyOCPVMResourcesParams, body ModifyOCPVMResourcesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// OcpVMPowerAction request
+	OcpVMPowerAction(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, action OcpVMPowerActionParamsAction, params *OcpVMPowerActionParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// BuildOCPClusterWithBody request with any body
+	BuildOCPClusterWithBody(ctx context.Context, platform BuildOCPClusterParamsPlatform, params *BuildOCPClusterParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	BuildOCPCluster(ctx context.Context, platform BuildOCPClusterParamsPlatform, params *BuildOCPClusterParams, body BuildOCPClusterJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetAvailableOCPVersions request
+	GetAvailableOCPVersions(ctx context.Context, platform GetAvailableOCPVersionsParamsPlatform, params *GetAvailableOCPVersionsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// RemoveProductGroupOwner request
+	RemoveProductGroupOwner(ctx context.Context, productGroupId ProductGroupId, ownerEmail string, params *RemoveProductGroupOwnerParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// AddProductGroupOwner request
+	AddProductGroupOwner(ctx context.Context, productGroupId ProductGroupId, ownerEmail string, params *AddProductGroupOwnerParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetProductGroupUsers request
+	GetProductGroupUsers(ctx context.Context, productGroupId ProductGroupId, params *GetProductGroupUsersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetQuota request
 	GetQuota(ctx context.Context, params *GetQuotaParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetProductGroupQuota request
+	GetProductGroupQuota(ctx context.Context, productGroupId ProductGroupId, params *GetProductGroupQuotaParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// TransferVMQuotaWithBody request with any body
+	TransferVMQuotaWithBody(ctx context.Context, productGroupId ProductGroupId, params *TransferVMQuotaParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	TransferVMQuota(ctx context.Context, productGroupId ProductGroupId, params *TransferVMQuotaParams, body TransferVMQuotaJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetUserQuotasForProductGroup request
+	GetUserQuotasForProductGroup(ctx context.Context, productGroupId ProductGroupId, params *GetUserQuotasForProductGroupParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SetDefaultUserQuotaWithBody request with any body
+	SetDefaultUserQuotaWithBody(ctx context.Context, productGroupId ProductGroupId, params *SetDefaultUserQuotaParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SetDefaultUserQuota(ctx context.Context, productGroupId ProductGroupId, params *SetDefaultUserQuotaParams, body SetDefaultUserQuotaJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteUserQuota request
+	DeleteUserQuota(ctx context.Context, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *DeleteUserQuotaParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetUserQuota request
+	GetUserQuota(ctx context.Context, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *GetUserQuotaParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// SetUserQuotaWithBody request with any body
+	SetUserQuotaWithBody(ctx context.Context, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *SetUserQuotaParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	SetUserQuota(ctx context.Context, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *SetUserQuotaParams, body SetUserQuotaJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetSlotsystems request
+	GetSlotsystems(ctx context.Context, params *GetSlotsystemsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetSlotImages request
+	GetSlotImages(ctx context.Context, params *GetSlotImagesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteSlotSystemWithBody request with any body
+	DeleteSlotSystemWithBody(ctx context.Context, systemName string, params *DeleteSlotSystemParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	DeleteSlotSystem(ctx context.Context, systemName string, params *DeleteSlotSystemParams, body DeleteSlotSystemJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// RestartSlotSystem request
+	RestartSlotSystem(ctx context.Context, systemName string, params *RestartSlotSystemParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StartSlotSystemWithBody request with any body
+	StartSlotSystemWithBody(ctx context.Context, systemName string, params *StartSlotSystemParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	StartSlotSystem(ctx context.Context, systemName string, params *StartSlotSystemParams, body StartSlotSystemJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// StopSlotSystemWithBody request with any body
+	StopSlotSystemWithBody(ctx context.Context, systemName string, params *StopSlotSystemParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	StopSlotSystem(ctx context.Context, systemName string, params *StopSlotSystemParams, body StopSlotSystemJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetStencilDetails request
 	GetStencilDetails(ctx context.Context, stencilId StencilId, params *GetStencilDetailsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -3425,6 +5651,9 @@ type ClientInterface interface {
 
 	// GetUserDetails request
 	GetUserDetails(ctx context.Context, params *GetUserDetailsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetUserAPIKey request
+	GetUserAPIKey(ctx context.Context, params *GetUserAPIKeyParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// ListVMs request
 	ListVMs(ctx context.Context, params *ListVMsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -3731,8 +5960,800 @@ func (c *Client) AttachFloatingIP(ctx context.Context, vmIdentifier VmIdentifier
 	return c.Client.Do(req)
 }
 
+func (c *Client) CheckNFSServerName(ctx context.Context, name string, params *CheckNFSServerNameParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCheckNFSServerNameRequest(c.Server, name, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CheckNFSShareName(ctx context.Context, name string, params *CheckNFSShareNameParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCheckNFSShareNameRequest(c.Server, name, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetNFSClients(ctx context.Context, storageName string, params *GetNFSClientsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetNFSClientsRequest(c.Server, storageName, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetNFSPermissions(ctx context.Context, storageName string, params *GetNFSPermissionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetNFSPermissionsRequest(c.Server, storageName, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateNFSPermissionsWithBody(ctx context.Context, storageName string, params *UpdateNFSPermissionsParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateNFSPermissionsRequestWithBody(c.Server, storageName, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateNFSPermissions(ctx context.Context, storageName string, params *UpdateNFSPermissionsParams, body UpdateNFSPermissionsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateNFSPermissionsRequest(c.Server, storageName, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ProtectNFSStorage(ctx context.Context, storageName string, params *ProtectNFSStorageParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewProtectNFSStorageRequest(c.Server, storageName, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) RequestNFSStorageWithBody(ctx context.Context, params *RequestNFSStorageParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRequestNFSStorageRequestWithBody(c.Server, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) RequestNFSStorage(ctx context.Context, params *RequestNFSStorageParams, body RequestNFSStorageJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRequestNFSStorageRequest(c.Server, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteNFSStorageRequest(ctx context.Context, storageName string, params *DeleteNFSStorageRequestParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteNFSStorageRequestRequest(c.Server, storageName, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetNFSStorage(ctx context.Context, params *GetNFSStorageParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetNFSStorageRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetNFSStorageByProductGroup(ctx context.Context, productGroupId ProductGroupId, params *GetNFSStorageByProductGroupParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetNFSStorageByProductGroupRequest(c.Server, productGroupId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteNFSStorage(ctx context.Context, storageName string, params *DeleteNFSStorageParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteNFSStorageRequest(c.Server, storageName, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) TransferNFSStorageWithBody(ctx context.Context, storageName string, params *TransferNFSStorageParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTransferNFSStorageRequestWithBody(c.Server, storageName, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) TransferNFSStorage(ctx context.Context, storageName string, params *TransferNFSStorageParams, body TransferNFSStorageJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTransferNFSStorageRequest(c.Server, storageName, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UnprotectNFSStorage(ctx context.Context, storageName string, params *UnprotectNFSStorageParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUnprotectNFSStorageRequest(c.Server, storageName, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetOCPClusters(ctx context.Context, params *GetOCPClustersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetOCPClustersRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetOCPRequestStatus(ctx context.Context, requestId RequestId, params *GetOCPRequestStatusParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetOCPRequestStatusRequest(c.Server, requestId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteOCPCluster(ctx context.Context, clusterIdentifier ClusterIdentifier, params *DeleteOCPClusterParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteOCPClusterRequest(c.Server, clusterIdentifier, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetOCPClusterDetails(ctx context.Context, clusterIdentifier ClusterIdentifier, params *GetOCPClusterDetailsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetOCPClusterDetailsRequest(c.Server, clusterIdentifier, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AcceptOCPClusterTransfer(ctx context.Context, clusterIdentifier ClusterIdentifier, params *AcceptOCPClusterTransferParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAcceptOCPClusterTransferRequest(c.Server, clusterIdentifier, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DisableOCPClusterDelete(ctx context.Context, clusterIdentifier ClusterIdentifier, params *DisableOCPClusterDeleteParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDisableOCPClusterDeleteRequest(c.Server, clusterIdentifier, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) EnableOCPClusterDelete(ctx context.Context, clusterIdentifier ClusterIdentifier, params *EnableOCPClusterDeleteParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewEnableOCPClusterDeleteRequest(c.Server, clusterIdentifier, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateOCPClusterExpirationWithBody(ctx context.Context, clusterIdentifier ClusterIdentifier, params *UpdateOCPClusterExpirationParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateOCPClusterExpirationRequestWithBody(c.Server, clusterIdentifier, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateOCPClusterExpiration(ctx context.Context, clusterIdentifier ClusterIdentifier, params *UpdateOCPClusterExpirationParams, body UpdateOCPClusterExpirationJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateOCPClusterExpirationRequest(c.Server, clusterIdentifier, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetOCPClusterStatus(ctx context.Context, clusterIdentifier ClusterIdentifier, params *GetOCPClusterStatusParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetOCPClusterStatusRequest(c.Server, clusterIdentifier, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CancelOCPClusterTransfer(ctx context.Context, clusterIdentifier ClusterIdentifier, params *CancelOCPClusterTransferParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCancelOCPClusterTransferRequest(c.Server, clusterIdentifier, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) TransferOCPClusterToUserWithBody(ctx context.Context, clusterIdentifier ClusterIdentifier, userIdentifier UserIdentifier, params *TransferOCPClusterToUserParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTransferOCPClusterToUserRequestWithBody(c.Server, clusterIdentifier, userIdentifier, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) TransferOCPClusterToUser(ctx context.Context, clusterIdentifier ClusterIdentifier, userIdentifier UserIdentifier, params *TransferOCPClusterToUserParams, body TransferOCPClusterToUserJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTransferOCPClusterToUserRequest(c.Server, clusterIdentifier, userIdentifier, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteOCPVIPWithBody(ctx context.Context, clusterIdentifier ClusterIdentifier, vipType DeleteOCPVIPParamsVipType, params *DeleteOCPVIPParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteOCPVIPRequestWithBody(c.Server, clusterIdentifier, vipType, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteOCPVIP(ctx context.Context, clusterIdentifier ClusterIdentifier, vipType DeleteOCPVIPParamsVipType, params *DeleteOCPVIPParams, body DeleteOCPVIPJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteOCPVIPRequest(c.Server, clusterIdentifier, vipType, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AddOCPVIP(ctx context.Context, clusterIdentifier ClusterIdentifier, vipType AddOCPVIPParamsVipType, params *AddOCPVIPParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAddOCPVIPRequest(c.Server, clusterIdentifier, vipType, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetOCPClusterVMDetails(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *GetOCPClusterVMDetailsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetOCPClusterVMDetailsRequest(c.Server, clusterIdentifier, nodeName, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AddOCPWorkerWithBody(ctx context.Context, clusterIdentifier ClusterIdentifier, params *AddOCPWorkerParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAddOCPWorkerRequestWithBody(c.Server, clusterIdentifier, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AddOCPWorker(ctx context.Context, clusterIdentifier ClusterIdentifier, params *AddOCPWorkerParams, body AddOCPWorkerJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAddOCPWorkerRequest(c.Server, clusterIdentifier, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) OcpClusterPowerAction(ctx context.Context, clusterIdentifier ClusterIdentifier, action OcpClusterPowerActionParamsAction, params *OcpClusterPowerActionParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewOcpClusterPowerActionRequest(c.Server, clusterIdentifier, action, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AddOCPVMDiskWithBody(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *AddOCPVMDiskParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAddOCPVMDiskRequestWithBody(c.Server, clusterIdentifier, nodeName, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AddOCPVMDisk(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *AddOCPVMDiskParams, body AddOCPVMDiskJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAddOCPVMDiskRequest(c.Server, clusterIdentifier, nodeName, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ModifyOCPVMResourcesWithBody(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *ModifyOCPVMResourcesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewModifyOCPVMResourcesRequestWithBody(c.Server, clusterIdentifier, nodeName, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ModifyOCPVMResources(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *ModifyOCPVMResourcesParams, body ModifyOCPVMResourcesJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewModifyOCPVMResourcesRequest(c.Server, clusterIdentifier, nodeName, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) OcpVMPowerAction(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, action OcpVMPowerActionParamsAction, params *OcpVMPowerActionParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewOcpVMPowerActionRequest(c.Server, clusterIdentifier, nodeName, action, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) BuildOCPClusterWithBody(ctx context.Context, platform BuildOCPClusterParamsPlatform, params *BuildOCPClusterParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewBuildOCPClusterRequestWithBody(c.Server, platform, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) BuildOCPCluster(ctx context.Context, platform BuildOCPClusterParamsPlatform, params *BuildOCPClusterParams, body BuildOCPClusterJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewBuildOCPClusterRequest(c.Server, platform, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetAvailableOCPVersions(ctx context.Context, platform GetAvailableOCPVersionsParamsPlatform, params *GetAvailableOCPVersionsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetAvailableOCPVersionsRequest(c.Server, platform, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) RemoveProductGroupOwner(ctx context.Context, productGroupId ProductGroupId, ownerEmail string, params *RemoveProductGroupOwnerParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRemoveProductGroupOwnerRequest(c.Server, productGroupId, ownerEmail, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) AddProductGroupOwner(ctx context.Context, productGroupId ProductGroupId, ownerEmail string, params *AddProductGroupOwnerParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewAddProductGroupOwnerRequest(c.Server, productGroupId, ownerEmail, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetProductGroupUsers(ctx context.Context, productGroupId ProductGroupId, params *GetProductGroupUsersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetProductGroupUsersRequest(c.Server, productGroupId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) GetQuota(ctx context.Context, params *GetQuotaParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetQuotaRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetProductGroupQuota(ctx context.Context, productGroupId ProductGroupId, params *GetProductGroupQuotaParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetProductGroupQuotaRequest(c.Server, productGroupId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) TransferVMQuotaWithBody(ctx context.Context, productGroupId ProductGroupId, params *TransferVMQuotaParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTransferVMQuotaRequestWithBody(c.Server, productGroupId, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) TransferVMQuota(ctx context.Context, productGroupId ProductGroupId, params *TransferVMQuotaParams, body TransferVMQuotaJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewTransferVMQuotaRequest(c.Server, productGroupId, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetUserQuotasForProductGroup(ctx context.Context, productGroupId ProductGroupId, params *GetUserQuotasForProductGroupParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetUserQuotasForProductGroupRequest(c.Server, productGroupId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SetDefaultUserQuotaWithBody(ctx context.Context, productGroupId ProductGroupId, params *SetDefaultUserQuotaParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetDefaultUserQuotaRequestWithBody(c.Server, productGroupId, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SetDefaultUserQuota(ctx context.Context, productGroupId ProductGroupId, params *SetDefaultUserQuotaParams, body SetDefaultUserQuotaJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetDefaultUserQuotaRequest(c.Server, productGroupId, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteUserQuota(ctx context.Context, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *DeleteUserQuotaParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteUserQuotaRequest(c.Server, productGroupId, userIdentifier, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetUserQuota(ctx context.Context, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *GetUserQuotaParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetUserQuotaRequest(c.Server, productGroupId, userIdentifier, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SetUserQuotaWithBody(ctx context.Context, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *SetUserQuotaParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetUserQuotaRequestWithBody(c.Server, productGroupId, userIdentifier, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) SetUserQuota(ctx context.Context, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *SetUserQuotaParams, body SetUserQuotaJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewSetUserQuotaRequest(c.Server, productGroupId, userIdentifier, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetSlotsystems(ctx context.Context, params *GetSlotsystemsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetSlotsystemsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetSlotImages(ctx context.Context, params *GetSlotImagesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetSlotImagesRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteSlotSystemWithBody(ctx context.Context, systemName string, params *DeleteSlotSystemParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteSlotSystemRequestWithBody(c.Server, systemName, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteSlotSystem(ctx context.Context, systemName string, params *DeleteSlotSystemParams, body DeleteSlotSystemJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteSlotSystemRequest(c.Server, systemName, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) RestartSlotSystem(ctx context.Context, systemName string, params *RestartSlotSystemParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewRestartSlotSystemRequest(c.Server, systemName, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) StartSlotSystemWithBody(ctx context.Context, systemName string, params *StartSlotSystemParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStartSlotSystemRequestWithBody(c.Server, systemName, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) StartSlotSystem(ctx context.Context, systemName string, params *StartSlotSystemParams, body StartSlotSystemJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStartSlotSystemRequest(c.Server, systemName, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) StopSlotSystemWithBody(ctx context.Context, systemName string, params *StopSlotSystemParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStopSlotSystemRequestWithBody(c.Server, systemName, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) StopSlotSystem(ctx context.Context, systemName string, params *StopSlotSystemParams, body StopSlotSystemJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewStopSlotSystemRequest(c.Server, systemName, params, body)
 	if err != nil {
 		return nil, err
 	}
@@ -3829,6 +6850,18 @@ func (c *Client) ListStencilsBySite(ctx context.Context, site ListStencilsBySite
 
 func (c *Client) GetUserDetails(ctx context.Context, params *GetUserDetailsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetUserDetailsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetUserAPIKey(ctx context.Context, params *GetUserAPIKeyParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetUserAPIKeyRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -5006,6 +8039,2264 @@ func NewAttachFloatingIPRequestWithBody(server string, vmIdentifier VmIdentifier
 	return req, nil
 }
 
+// NewCheckNFSServerNameRequest generates requests for CheckNFSServerName
+func NewCheckNFSServerNameRequest(server string, name string, params *CheckNFSServerNameParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "name", name, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/nfs/check_fqdn/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCheckNFSShareNameRequest generates requests for CheckNFSShareName
+func NewCheckNFSShareNameRequest(server string, name string, params *CheckNFSShareNameParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "name", name, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/nfs/check_name/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetNFSClientsRequest generates requests for GetNFSClients
+func NewGetNFSClientsRequest(server string, storageName string, params *GetNFSClientsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "storage_name", storageName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/nfs/clients/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetNFSPermissionsRequest generates requests for GetNFSPermissions
+func NewGetNFSPermissionsRequest(server string, storageName string, params *GetNFSPermissionsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "storage_name", storageName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/nfs/permissions/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewUpdateNFSPermissionsRequest calls the generic UpdateNFSPermissions builder with application/json body
+func NewUpdateNFSPermissionsRequest(server string, storageName string, params *UpdateNFSPermissionsParams, body UpdateNFSPermissionsJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUpdateNFSPermissionsRequestWithBody(server, storageName, params, "application/json", bodyReader)
+}
+
+// NewUpdateNFSPermissionsRequestWithBody generates requests for UpdateNFSPermissions with any type of body
+func NewUpdateNFSPermissionsRequestWithBody(server string, storageName string, params *UpdateNFSPermissionsParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "storage_name", storageName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/nfs/permissions/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewProtectNFSStorageRequest generates requests for ProtectNFSStorage
+func NewProtectNFSStorageRequest(server string, storageName string, params *ProtectNFSStorageParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "storage_name", storageName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/nfs/protect/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewRequestNFSStorageRequest calls the generic RequestNFSStorage builder with application/json body
+func NewRequestNFSStorageRequest(server string, params *RequestNFSStorageParams, body RequestNFSStorageJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewRequestNFSStorageRequestWithBody(server, params, "application/json", bodyReader)
+}
+
+// NewRequestNFSStorageRequestWithBody generates requests for RequestNFSStorage with any type of body
+func NewRequestNFSStorageRequestWithBody(server string, params *RequestNFSStorageParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/nfs/request")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteNFSStorageRequestRequest generates requests for DeleteNFSStorageRequest
+func NewDeleteNFSStorageRequestRequest(server string, storageName string, params *DeleteNFSStorageRequestParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "storage_name", storageName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/nfs/request/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetNFSStorageRequest generates requests for GetNFSStorage
+func NewGetNFSStorageRequest(server string, params *GetNFSStorageParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/nfs/storage")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetNFSStorageByProductGroupRequest generates requests for GetNFSStorageByProductGroup
+func NewGetNFSStorageByProductGroupRequest(server string, productGroupId ProductGroupId, params *GetNFSStorageByProductGroupParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "product_group_id", productGroupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/nfs/storage/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewDeleteNFSStorageRequest generates requests for DeleteNFSStorage
+func NewDeleteNFSStorageRequest(server string, storageName string, params *DeleteNFSStorageParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "storage_name", storageName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/nfs/storage/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewTransferNFSStorageRequest calls the generic TransferNFSStorage builder with application/json body
+func NewTransferNFSStorageRequest(server string, storageName string, params *TransferNFSStorageParams, body TransferNFSStorageJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewTransferNFSStorageRequestWithBody(server, storageName, params, "application/json", bodyReader)
+}
+
+// NewTransferNFSStorageRequestWithBody generates requests for TransferNFSStorage with any type of body
+func NewTransferNFSStorageRequestWithBody(server string, storageName string, params *TransferNFSStorageParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "storage_name", storageName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/nfs/transfer/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewUnprotectNFSStorageRequest generates requests for UnprotectNFSStorage
+func NewUnprotectNFSStorageRequest(server string, storageName string, params *UnprotectNFSStorageParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "storage_name", storageName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/nfs/unprotect/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetOCPClustersRequest generates requests for GetOCPClusters
+func NewGetOCPClustersRequest(server string, params *GetOCPClustersParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetOCPRequestStatusRequest generates requests for GetOCPRequestStatus
+func NewGetOCPRequestStatusRequest(server string, requestId RequestId, params *GetOCPRequestStatusParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "request_id", requestId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/request/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewDeleteOCPClusterRequest generates requests for DeleteOCPCluster
+func NewDeleteOCPClusterRequest(server string, clusterIdentifier ClusterIdentifier, params *DeleteOCPClusterParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetOCPClusterDetailsRequest generates requests for GetOCPClusterDetails
+func NewGetOCPClusterDetailsRequest(server string, clusterIdentifier ClusterIdentifier, params *GetOCPClusterDetailsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAcceptOCPClusterTransferRequest generates requests for AcceptOCPClusterTransfer
+func NewAcceptOCPClusterTransferRequest(server string, clusterIdentifier ClusterIdentifier, params *AcceptOCPClusterTransferParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s/accept_transfer", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewDisableOCPClusterDeleteRequest generates requests for DisableOCPClusterDelete
+func NewDisableOCPClusterDeleteRequest(server string, clusterIdentifier ClusterIdentifier, params *DisableOCPClusterDeleteParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s/disable_delete", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewEnableOCPClusterDeleteRequest generates requests for EnableOCPClusterDelete
+func NewEnableOCPClusterDeleteRequest(server string, clusterIdentifier ClusterIdentifier, params *EnableOCPClusterDeleteParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s/enable_delete", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewUpdateOCPClusterExpirationRequest calls the generic UpdateOCPClusterExpiration builder with application/json body
+func NewUpdateOCPClusterExpirationRequest(server string, clusterIdentifier ClusterIdentifier, params *UpdateOCPClusterExpirationParams, body UpdateOCPClusterExpirationJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUpdateOCPClusterExpirationRequestWithBody(server, clusterIdentifier, params, "application/json", bodyReader)
+}
+
+// NewUpdateOCPClusterExpirationRequestWithBody generates requests for UpdateOCPClusterExpiration with any type of body
+func NewUpdateOCPClusterExpirationRequestWithBody(server string, clusterIdentifier ClusterIdentifier, params *UpdateOCPClusterExpirationParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s/expiration", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetOCPClusterStatusRequest generates requests for GetOCPClusterStatus
+func NewGetOCPClusterStatusRequest(server string, clusterIdentifier ClusterIdentifier, params *GetOCPClusterStatusParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s/status", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCancelOCPClusterTransferRequest generates requests for CancelOCPClusterTransfer
+func NewCancelOCPClusterTransferRequest(server string, clusterIdentifier ClusterIdentifier, params *CancelOCPClusterTransferParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s/transfer", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewTransferOCPClusterToUserRequest calls the generic TransferOCPClusterToUser builder with application/json body
+func NewTransferOCPClusterToUserRequest(server string, clusterIdentifier ClusterIdentifier, userIdentifier UserIdentifier, params *TransferOCPClusterToUserParams, body TransferOCPClusterToUserJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewTransferOCPClusterToUserRequestWithBody(server, clusterIdentifier, userIdentifier, params, "application/json", bodyReader)
+}
+
+// NewTransferOCPClusterToUserRequestWithBody generates requests for TransferOCPClusterToUser with any type of body
+func NewTransferOCPClusterToUserRequestWithBody(server string, clusterIdentifier ClusterIdentifier, userIdentifier UserIdentifier, params *TransferOCPClusterToUserParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "user_identifier", userIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s/transfer/user/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteOCPVIPRequest calls the generic DeleteOCPVIP builder with application/json body
+func NewDeleteOCPVIPRequest(server string, clusterIdentifier ClusterIdentifier, vipType DeleteOCPVIPParamsVipType, params *DeleteOCPVIPParams, body DeleteOCPVIPJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDeleteOCPVIPRequestWithBody(server, clusterIdentifier, vipType, params, "application/json", bodyReader)
+}
+
+// NewDeleteOCPVIPRequestWithBody generates requests for DeleteOCPVIP with any type of body
+func NewDeleteOCPVIPRequestWithBody(server string, clusterIdentifier ClusterIdentifier, vipType DeleteOCPVIPParamsVipType, params *DeleteOCPVIPParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "vip_type", vipType, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s/vip/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewAddOCPVIPRequest generates requests for AddOCPVIP
+func NewAddOCPVIPRequest(server string, clusterIdentifier ClusterIdentifier, vipType AddOCPVIPParamsVipType, params *AddOCPVIPParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "vip_type", vipType, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s/vip/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetOCPClusterVMDetailsRequest generates requests for GetOCPClusterVMDetails
+func NewGetOCPClusterVMDetailsRequest(server string, clusterIdentifier ClusterIdentifier, nodeName string, params *GetOCPClusterVMDetailsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "node_name", nodeName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s/vm/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAddOCPWorkerRequest calls the generic AddOCPWorker builder with application/json body
+func NewAddOCPWorkerRequest(server string, clusterIdentifier ClusterIdentifier, params *AddOCPWorkerParams, body AddOCPWorkerJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAddOCPWorkerRequestWithBody(server, clusterIdentifier, params, "application/json", bodyReader)
+}
+
+// NewAddOCPWorkerRequestWithBody generates requests for AddOCPWorker with any type of body
+func NewAddOCPWorkerRequestWithBody(server string, clusterIdentifier ClusterIdentifier, params *AddOCPWorkerParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s/worker", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewOcpClusterPowerActionRequest generates requests for OcpClusterPowerAction
+func NewOcpClusterPowerActionRequest(server string, clusterIdentifier ClusterIdentifier, action OcpClusterPowerActionParamsAction, params *OcpClusterPowerActionParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "action", action, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAddOCPVMDiskRequest calls the generic AddOCPVMDisk builder with application/json body
+func NewAddOCPVMDiskRequest(server string, clusterIdentifier ClusterIdentifier, nodeName string, params *AddOCPVMDiskParams, body AddOCPVMDiskJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewAddOCPVMDiskRequestWithBody(server, clusterIdentifier, nodeName, params, "application/json", bodyReader)
+}
+
+// NewAddOCPVMDiskRequestWithBody generates requests for AddOCPVMDisk with any type of body
+func NewAddOCPVMDiskRequestWithBody(server string, clusterIdentifier ClusterIdentifier, nodeName string, params *AddOCPVMDiskParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "node_name", nodeName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s/%s/disk", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewModifyOCPVMResourcesRequest calls the generic ModifyOCPVMResources builder with application/json body
+func NewModifyOCPVMResourcesRequest(server string, clusterIdentifier ClusterIdentifier, nodeName string, params *ModifyOCPVMResourcesParams, body ModifyOCPVMResourcesJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewModifyOCPVMResourcesRequestWithBody(server, clusterIdentifier, nodeName, params, "application/json", bodyReader)
+}
+
+// NewModifyOCPVMResourcesRequestWithBody generates requests for ModifyOCPVMResources with any type of body
+func NewModifyOCPVMResourcesRequestWithBody(server string, clusterIdentifier ClusterIdentifier, nodeName string, params *ModifyOCPVMResourcesParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "node_name", nodeName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s/%s/resource", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewOcpVMPowerActionRequest generates requests for OcpVMPowerAction
+func NewOcpVMPowerActionRequest(server string, clusterIdentifier ClusterIdentifier, nodeName string, action OcpVMPowerActionParamsAction, params *OcpVMPowerActionParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "cluster_identifier", clusterIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "node_name", nodeName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam2 string
+
+	pathParam2, err = runtime.StyleParamWithOptions("simple", false, "action", action, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s/%s/%s", pathParam0, pathParam1, pathParam2)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewBuildOCPClusterRequest calls the generic BuildOCPCluster builder with application/json body
+func NewBuildOCPClusterRequest(server string, platform BuildOCPClusterParamsPlatform, params *BuildOCPClusterParams, body BuildOCPClusterJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewBuildOCPClusterRequestWithBody(server, platform, params, "application/json", bodyReader)
+}
+
+// NewBuildOCPClusterRequestWithBody generates requests for BuildOCPCluster with any type of body
+func NewBuildOCPClusterRequestWithBody(server string, platform BuildOCPClusterParamsPlatform, params *BuildOCPClusterParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "platform", platform, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetAvailableOCPVersionsRequest generates requests for GetAvailableOCPVersions
+func NewGetAvailableOCPVersionsRequest(server string, platform GetAvailableOCPVersionsParamsPlatform, params *GetAvailableOCPVersionsParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "platform", platform, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ocp_available/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewRemoveProductGroupOwnerRequest generates requests for RemoveProductGroupOwner
+func NewRemoveProductGroupOwnerRequest(server string, productGroupId ProductGroupId, ownerEmail string, params *RemoveProductGroupOwnerParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "product_group_id", productGroupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "owner_email", ownerEmail, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/product_group/product_group_owner/%s/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewAddProductGroupOwnerRequest generates requests for AddProductGroupOwner
+func NewAddProductGroupOwnerRequest(server string, productGroupId ProductGroupId, ownerEmail string, params *AddProductGroupOwnerParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "product_group_id", productGroupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "owner_email", ownerEmail, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/product_group/product_group_owner/%s/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetProductGroupUsersRequest generates requests for GetProductGroupUsers
+func NewGetProductGroupUsersRequest(server string, productGroupId ProductGroupId, params *GetProductGroupUsersParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "product_group_id", productGroupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/product_group/%s/user", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetQuotaRequest generates requests for GetQuota
 func NewGetQuotaRequest(server string, params *GetQuotaParams) (*http.Request, error) {
 	var err error
@@ -5051,6 +10342,819 @@ func NewGetQuotaRequest(server string, params *GetQuotaParams) (*http.Request, e
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewGetProductGroupQuotaRequest generates requests for GetProductGroupQuota
+func NewGetProductGroupQuotaRequest(server string, productGroupId ProductGroupId, params *GetProductGroupQuotaParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "product_group_id", productGroupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/quota/product_group/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewTransferVMQuotaRequest calls the generic TransferVMQuota builder with application/json body
+func NewTransferVMQuotaRequest(server string, productGroupId ProductGroupId, params *TransferVMQuotaParams, body TransferVMQuotaJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewTransferVMQuotaRequestWithBody(server, productGroupId, params, "application/json", bodyReader)
+}
+
+// NewTransferVMQuotaRequestWithBody generates requests for TransferVMQuota with any type of body
+func NewTransferVMQuotaRequestWithBody(server string, productGroupId ProductGroupId, params *TransferVMQuotaParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "product_group_id", productGroupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/quota/product_group/%s/transfer/vm", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetUserQuotasForProductGroupRequest generates requests for GetUserQuotasForProductGroup
+func NewGetUserQuotasForProductGroupRequest(server string, productGroupId ProductGroupId, params *GetUserQuotasForProductGroupParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "product_group_id", productGroupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/quota/product_group/%s/user", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSetDefaultUserQuotaRequest calls the generic SetDefaultUserQuota builder with application/json body
+func NewSetDefaultUserQuotaRequest(server string, productGroupId ProductGroupId, params *SetDefaultUserQuotaParams, body SetDefaultUserQuotaJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSetDefaultUserQuotaRequestWithBody(server, productGroupId, params, "application/json", bodyReader)
+}
+
+// NewSetDefaultUserQuotaRequestWithBody generates requests for SetDefaultUserQuota with any type of body
+func NewSetDefaultUserQuotaRequestWithBody(server string, productGroupId ProductGroupId, params *SetDefaultUserQuotaParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "product_group_id", productGroupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/quota/product_group/%s/user", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteUserQuotaRequest generates requests for DeleteUserQuota
+func NewDeleteUserQuotaRequest(server string, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *DeleteUserQuotaParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "product_group_id", productGroupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "user_identifier", userIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/quota/product_group/%s/user/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetUserQuotaRequest generates requests for GetUserQuota
+func NewGetUserQuotaRequest(server string, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *GetUserQuotaParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "product_group_id", productGroupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "user_identifier", userIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/quota/product_group/%s/user/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewSetUserQuotaRequest calls the generic SetUserQuota builder with application/json body
+func NewSetUserQuotaRequest(server string, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *SetUserQuotaParams, body SetUserQuotaJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewSetUserQuotaRequestWithBody(server, productGroupId, userIdentifier, params, "application/json", bodyReader)
+}
+
+// NewSetUserQuotaRequestWithBody generates requests for SetUserQuota with any type of body
+func NewSetUserQuotaRequestWithBody(server string, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *SetUserQuotaParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "product_group_id", productGroupId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "user_identifier", userIdentifier, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/quota/product_group/%s/user/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetSlotsystemsRequest generates requests for GetSlotsystems
+func NewGetSlotsystemsRequest(server string, params *GetSlotsystemsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/slots")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetSlotImagesRequest generates requests for GetSlotImages
+func NewGetSlotImagesRequest(server string, params *GetSlotImagesParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/slots/images")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewDeleteSlotSystemRequest calls the generic DeleteSlotSystem builder with application/json body
+func NewDeleteSlotSystemRequest(server string, systemName string, params *DeleteSlotSystemParams, body DeleteSlotSystemJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDeleteSlotSystemRequestWithBody(server, systemName, params, "application/json", bodyReader)
+}
+
+// NewDeleteSlotSystemRequestWithBody generates requests for DeleteSlotSystem with any type of body
+func NewDeleteSlotSystemRequestWithBody(server string, systemName string, params *DeleteSlotSystemParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "system_name", systemName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/slots/%s/", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewRestartSlotSystemRequest generates requests for RestartSlotSystem
+func NewRestartSlotSystemRequest(server string, systemName string, params *RestartSlotSystemParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "system_name", systemName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/slots/%s/restart", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewStartSlotSystemRequest calls the generic StartSlotSystem builder with application/json body
+func NewStartSlotSystemRequest(server string, systemName string, params *StartSlotSystemParams, body StartSlotSystemJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewStartSlotSystemRequestWithBody(server, systemName, params, "application/json", bodyReader)
+}
+
+// NewStartSlotSystemRequestWithBody generates requests for StartSlotSystem with any type of body
+func NewStartSlotSystemRequestWithBody(server string, systemName string, params *StartSlotSystemParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "system_name", systemName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/slots/%s/start", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewStopSlotSystemRequest calls the generic StopSlotSystem builder with application/json body
+func NewStopSlotSystemRequest(server string, systemName string, params *StopSlotSystemParams, body StopSlotSystemJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewStopSlotSystemRequestWithBody(server, systemName, params, "application/json", bodyReader)
+}
+
+// NewStopSlotSystemRequestWithBody generates requests for StopSlotSystem with any type of body
+func NewStopSlotSystemRequestWithBody(server string, systemName string, params *StopSlotSystemParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "system_name", systemName, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/slots/%s/stop", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PUT", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -5407,6 +11511,55 @@ func NewGetUserDetailsRequest(server string, params *GetUserDetailsParams) (*htt
 	}
 
 	operationPath := fmt.Sprintf("/user")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Site != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "site", *params.Site, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "string", Format: ""}); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetUserAPIKeyRequest generates requests for GetUserAPIKey
+func NewGetUserAPIKeyRequest(server string, params *GetUserAPIKeyParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/user/api_key")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -7672,8 +13825,190 @@ type ClientWithResponsesInterface interface {
 
 	AttachFloatingIPWithResponse(ctx context.Context, vmIdentifier VmIdentifier, params *AttachFloatingIPParams, body AttachFloatingIPJSONRequestBody, reqEditors ...RequestEditorFn) (*AttachFloatingIPResponse, error)
 
+	// CheckNFSServerNameWithResponse request
+	CheckNFSServerNameWithResponse(ctx context.Context, name string, params *CheckNFSServerNameParams, reqEditors ...RequestEditorFn) (*CheckNFSServerNameResponse, error)
+
+	// CheckNFSShareNameWithResponse request
+	CheckNFSShareNameWithResponse(ctx context.Context, name string, params *CheckNFSShareNameParams, reqEditors ...RequestEditorFn) (*CheckNFSShareNameResponse, error)
+
+	// GetNFSClientsWithResponse request
+	GetNFSClientsWithResponse(ctx context.Context, storageName string, params *GetNFSClientsParams, reqEditors ...RequestEditorFn) (*GetNFSClientsResponse, error)
+
+	// GetNFSPermissionsWithResponse request
+	GetNFSPermissionsWithResponse(ctx context.Context, storageName string, params *GetNFSPermissionsParams, reqEditors ...RequestEditorFn) (*GetNFSPermissionsResponse, error)
+
+	// UpdateNFSPermissionsWithBodyWithResponse request with any body
+	UpdateNFSPermissionsWithBodyWithResponse(ctx context.Context, storageName string, params *UpdateNFSPermissionsParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateNFSPermissionsResponse, error)
+
+	UpdateNFSPermissionsWithResponse(ctx context.Context, storageName string, params *UpdateNFSPermissionsParams, body UpdateNFSPermissionsJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateNFSPermissionsResponse, error)
+
+	// ProtectNFSStorageWithResponse request
+	ProtectNFSStorageWithResponse(ctx context.Context, storageName string, params *ProtectNFSStorageParams, reqEditors ...RequestEditorFn) (*ProtectNFSStorageResponse, error)
+
+	// RequestNFSStorageWithBodyWithResponse request with any body
+	RequestNFSStorageWithBodyWithResponse(ctx context.Context, params *RequestNFSStorageParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RequestNFSStorageResponse, error)
+
+	RequestNFSStorageWithResponse(ctx context.Context, params *RequestNFSStorageParams, body RequestNFSStorageJSONRequestBody, reqEditors ...RequestEditorFn) (*RequestNFSStorageResponse, error)
+
+	// DeleteNFSStorageRequestWithResponse request
+	DeleteNFSStorageRequestWithResponse(ctx context.Context, storageName string, params *DeleteNFSStorageRequestParams, reqEditors ...RequestEditorFn) (*DeleteNFSStorageRequestResponse, error)
+
+	// GetNFSStorageWithResponse request
+	GetNFSStorageWithResponse(ctx context.Context, params *GetNFSStorageParams, reqEditors ...RequestEditorFn) (*GetNFSStorageResponse, error)
+
+	// GetNFSStorageByProductGroupWithResponse request
+	GetNFSStorageByProductGroupWithResponse(ctx context.Context, productGroupId ProductGroupId, params *GetNFSStorageByProductGroupParams, reqEditors ...RequestEditorFn) (*GetNFSStorageByProductGroupResponse, error)
+
+	// DeleteNFSStorageWithResponse request
+	DeleteNFSStorageWithResponse(ctx context.Context, storageName string, params *DeleteNFSStorageParams, reqEditors ...RequestEditorFn) (*DeleteNFSStorageResponse, error)
+
+	// TransferNFSStorageWithBodyWithResponse request with any body
+	TransferNFSStorageWithBodyWithResponse(ctx context.Context, storageName string, params *TransferNFSStorageParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TransferNFSStorageResponse, error)
+
+	TransferNFSStorageWithResponse(ctx context.Context, storageName string, params *TransferNFSStorageParams, body TransferNFSStorageJSONRequestBody, reqEditors ...RequestEditorFn) (*TransferNFSStorageResponse, error)
+
+	// UnprotectNFSStorageWithResponse request
+	UnprotectNFSStorageWithResponse(ctx context.Context, storageName string, params *UnprotectNFSStorageParams, reqEditors ...RequestEditorFn) (*UnprotectNFSStorageResponse, error)
+
+	// GetOCPClustersWithResponse request
+	GetOCPClustersWithResponse(ctx context.Context, params *GetOCPClustersParams, reqEditors ...RequestEditorFn) (*GetOCPClustersResponse, error)
+
+	// GetOCPRequestStatusWithResponse request
+	GetOCPRequestStatusWithResponse(ctx context.Context, requestId RequestId, params *GetOCPRequestStatusParams, reqEditors ...RequestEditorFn) (*GetOCPRequestStatusResponse, error)
+
+	// DeleteOCPClusterWithResponse request
+	DeleteOCPClusterWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *DeleteOCPClusterParams, reqEditors ...RequestEditorFn) (*DeleteOCPClusterResponse, error)
+
+	// GetOCPClusterDetailsWithResponse request
+	GetOCPClusterDetailsWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *GetOCPClusterDetailsParams, reqEditors ...RequestEditorFn) (*GetOCPClusterDetailsResponse, error)
+
+	// AcceptOCPClusterTransferWithResponse request
+	AcceptOCPClusterTransferWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *AcceptOCPClusterTransferParams, reqEditors ...RequestEditorFn) (*AcceptOCPClusterTransferResponse, error)
+
+	// DisableOCPClusterDeleteWithResponse request
+	DisableOCPClusterDeleteWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *DisableOCPClusterDeleteParams, reqEditors ...RequestEditorFn) (*DisableOCPClusterDeleteResponse, error)
+
+	// EnableOCPClusterDeleteWithResponse request
+	EnableOCPClusterDeleteWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *EnableOCPClusterDeleteParams, reqEditors ...RequestEditorFn) (*EnableOCPClusterDeleteResponse, error)
+
+	// UpdateOCPClusterExpirationWithBodyWithResponse request with any body
+	UpdateOCPClusterExpirationWithBodyWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *UpdateOCPClusterExpirationParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateOCPClusterExpirationResponse, error)
+
+	UpdateOCPClusterExpirationWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *UpdateOCPClusterExpirationParams, body UpdateOCPClusterExpirationJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateOCPClusterExpirationResponse, error)
+
+	// GetOCPClusterStatusWithResponse request
+	GetOCPClusterStatusWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *GetOCPClusterStatusParams, reqEditors ...RequestEditorFn) (*GetOCPClusterStatusResponse, error)
+
+	// CancelOCPClusterTransferWithResponse request
+	CancelOCPClusterTransferWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *CancelOCPClusterTransferParams, reqEditors ...RequestEditorFn) (*CancelOCPClusterTransferResponse, error)
+
+	// TransferOCPClusterToUserWithBodyWithResponse request with any body
+	TransferOCPClusterToUserWithBodyWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, userIdentifier UserIdentifier, params *TransferOCPClusterToUserParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TransferOCPClusterToUserResponse, error)
+
+	TransferOCPClusterToUserWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, userIdentifier UserIdentifier, params *TransferOCPClusterToUserParams, body TransferOCPClusterToUserJSONRequestBody, reqEditors ...RequestEditorFn) (*TransferOCPClusterToUserResponse, error)
+
+	// DeleteOCPVIPWithBodyWithResponse request with any body
+	DeleteOCPVIPWithBodyWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, vipType DeleteOCPVIPParamsVipType, params *DeleteOCPVIPParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteOCPVIPResponse, error)
+
+	DeleteOCPVIPWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, vipType DeleteOCPVIPParamsVipType, params *DeleteOCPVIPParams, body DeleteOCPVIPJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteOCPVIPResponse, error)
+
+	// AddOCPVIPWithResponse request
+	AddOCPVIPWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, vipType AddOCPVIPParamsVipType, params *AddOCPVIPParams, reqEditors ...RequestEditorFn) (*AddOCPVIPResponse, error)
+
+	// GetOCPClusterVMDetailsWithResponse request
+	GetOCPClusterVMDetailsWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *GetOCPClusterVMDetailsParams, reqEditors ...RequestEditorFn) (*GetOCPClusterVMDetailsResponse, error)
+
+	// AddOCPWorkerWithBodyWithResponse request with any body
+	AddOCPWorkerWithBodyWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *AddOCPWorkerParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AddOCPWorkerResponse, error)
+
+	AddOCPWorkerWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *AddOCPWorkerParams, body AddOCPWorkerJSONRequestBody, reqEditors ...RequestEditorFn) (*AddOCPWorkerResponse, error)
+
+	// OcpClusterPowerActionWithResponse request
+	OcpClusterPowerActionWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, action OcpClusterPowerActionParamsAction, params *OcpClusterPowerActionParams, reqEditors ...RequestEditorFn) (*OcpClusterPowerActionResponse, error)
+
+	// AddOCPVMDiskWithBodyWithResponse request with any body
+	AddOCPVMDiskWithBodyWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *AddOCPVMDiskParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AddOCPVMDiskResponse, error)
+
+	AddOCPVMDiskWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *AddOCPVMDiskParams, body AddOCPVMDiskJSONRequestBody, reqEditors ...RequestEditorFn) (*AddOCPVMDiskResponse, error)
+
+	// ModifyOCPVMResourcesWithBodyWithResponse request with any body
+	ModifyOCPVMResourcesWithBodyWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *ModifyOCPVMResourcesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ModifyOCPVMResourcesResponse, error)
+
+	ModifyOCPVMResourcesWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *ModifyOCPVMResourcesParams, body ModifyOCPVMResourcesJSONRequestBody, reqEditors ...RequestEditorFn) (*ModifyOCPVMResourcesResponse, error)
+
+	// OcpVMPowerActionWithResponse request
+	OcpVMPowerActionWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, action OcpVMPowerActionParamsAction, params *OcpVMPowerActionParams, reqEditors ...RequestEditorFn) (*OcpVMPowerActionResponse, error)
+
+	// BuildOCPClusterWithBodyWithResponse request with any body
+	BuildOCPClusterWithBodyWithResponse(ctx context.Context, platform BuildOCPClusterParamsPlatform, params *BuildOCPClusterParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*BuildOCPClusterResponse, error)
+
+	BuildOCPClusterWithResponse(ctx context.Context, platform BuildOCPClusterParamsPlatform, params *BuildOCPClusterParams, body BuildOCPClusterJSONRequestBody, reqEditors ...RequestEditorFn) (*BuildOCPClusterResponse, error)
+
+	// GetAvailableOCPVersionsWithResponse request
+	GetAvailableOCPVersionsWithResponse(ctx context.Context, platform GetAvailableOCPVersionsParamsPlatform, params *GetAvailableOCPVersionsParams, reqEditors ...RequestEditorFn) (*GetAvailableOCPVersionsResponse, error)
+
+	// RemoveProductGroupOwnerWithResponse request
+	RemoveProductGroupOwnerWithResponse(ctx context.Context, productGroupId ProductGroupId, ownerEmail string, params *RemoveProductGroupOwnerParams, reqEditors ...RequestEditorFn) (*RemoveProductGroupOwnerResponse, error)
+
+	// AddProductGroupOwnerWithResponse request
+	AddProductGroupOwnerWithResponse(ctx context.Context, productGroupId ProductGroupId, ownerEmail string, params *AddProductGroupOwnerParams, reqEditors ...RequestEditorFn) (*AddProductGroupOwnerResponse, error)
+
+	// GetProductGroupUsersWithResponse request
+	GetProductGroupUsersWithResponse(ctx context.Context, productGroupId ProductGroupId, params *GetProductGroupUsersParams, reqEditors ...RequestEditorFn) (*GetProductGroupUsersResponse, error)
+
 	// GetQuotaWithResponse request
 	GetQuotaWithResponse(ctx context.Context, params *GetQuotaParams, reqEditors ...RequestEditorFn) (*GetQuotaResponse, error)
+
+	// GetProductGroupQuotaWithResponse request
+	GetProductGroupQuotaWithResponse(ctx context.Context, productGroupId ProductGroupId, params *GetProductGroupQuotaParams, reqEditors ...RequestEditorFn) (*GetProductGroupQuotaResponse, error)
+
+	// TransferVMQuotaWithBodyWithResponse request with any body
+	TransferVMQuotaWithBodyWithResponse(ctx context.Context, productGroupId ProductGroupId, params *TransferVMQuotaParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TransferVMQuotaResponse, error)
+
+	TransferVMQuotaWithResponse(ctx context.Context, productGroupId ProductGroupId, params *TransferVMQuotaParams, body TransferVMQuotaJSONRequestBody, reqEditors ...RequestEditorFn) (*TransferVMQuotaResponse, error)
+
+	// GetUserQuotasForProductGroupWithResponse request
+	GetUserQuotasForProductGroupWithResponse(ctx context.Context, productGroupId ProductGroupId, params *GetUserQuotasForProductGroupParams, reqEditors ...RequestEditorFn) (*GetUserQuotasForProductGroupResponse, error)
+
+	// SetDefaultUserQuotaWithBodyWithResponse request with any body
+	SetDefaultUserQuotaWithBodyWithResponse(ctx context.Context, productGroupId ProductGroupId, params *SetDefaultUserQuotaParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetDefaultUserQuotaResponse, error)
+
+	SetDefaultUserQuotaWithResponse(ctx context.Context, productGroupId ProductGroupId, params *SetDefaultUserQuotaParams, body SetDefaultUserQuotaJSONRequestBody, reqEditors ...RequestEditorFn) (*SetDefaultUserQuotaResponse, error)
+
+	// DeleteUserQuotaWithResponse request
+	DeleteUserQuotaWithResponse(ctx context.Context, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *DeleteUserQuotaParams, reqEditors ...RequestEditorFn) (*DeleteUserQuotaResponse, error)
+
+	// GetUserQuotaWithResponse request
+	GetUserQuotaWithResponse(ctx context.Context, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *GetUserQuotaParams, reqEditors ...RequestEditorFn) (*GetUserQuotaResponse, error)
+
+	// SetUserQuotaWithBodyWithResponse request with any body
+	SetUserQuotaWithBodyWithResponse(ctx context.Context, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *SetUserQuotaParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetUserQuotaResponse, error)
+
+	SetUserQuotaWithResponse(ctx context.Context, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *SetUserQuotaParams, body SetUserQuotaJSONRequestBody, reqEditors ...RequestEditorFn) (*SetUserQuotaResponse, error)
+
+	// GetSlotsystemsWithResponse request
+	GetSlotsystemsWithResponse(ctx context.Context, params *GetSlotsystemsParams, reqEditors ...RequestEditorFn) (*GetSlotsystemsResponse, error)
+
+	// GetSlotImagesWithResponse request
+	GetSlotImagesWithResponse(ctx context.Context, params *GetSlotImagesParams, reqEditors ...RequestEditorFn) (*GetSlotImagesResponse, error)
+
+	// DeleteSlotSystemWithBodyWithResponse request with any body
+	DeleteSlotSystemWithBodyWithResponse(ctx context.Context, systemName string, params *DeleteSlotSystemParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteSlotSystemResponse, error)
+
+	DeleteSlotSystemWithResponse(ctx context.Context, systemName string, params *DeleteSlotSystemParams, body DeleteSlotSystemJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteSlotSystemResponse, error)
+
+	// RestartSlotSystemWithResponse request
+	RestartSlotSystemWithResponse(ctx context.Context, systemName string, params *RestartSlotSystemParams, reqEditors ...RequestEditorFn) (*RestartSlotSystemResponse, error)
+
+	// StartSlotSystemWithBodyWithResponse request with any body
+	StartSlotSystemWithBodyWithResponse(ctx context.Context, systemName string, params *StartSlotSystemParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StartSlotSystemResponse, error)
+
+	StartSlotSystemWithResponse(ctx context.Context, systemName string, params *StartSlotSystemParams, body StartSlotSystemJSONRequestBody, reqEditors ...RequestEditorFn) (*StartSlotSystemResponse, error)
+
+	// StopSlotSystemWithBodyWithResponse request with any body
+	StopSlotSystemWithBodyWithResponse(ctx context.Context, systemName string, params *StopSlotSystemParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StopSlotSystemResponse, error)
+
+	StopSlotSystemWithResponse(ctx context.Context, systemName string, params *StopSlotSystemParams, body StopSlotSystemJSONRequestBody, reqEditors ...RequestEditorFn) (*StopSlotSystemResponse, error)
 
 	// GetStencilDetailsWithResponse request
 	GetStencilDetailsWithResponse(ctx context.Context, stencilId StencilId, params *GetStencilDetailsParams, reqEditors ...RequestEditorFn) (*GetStencilDetailsResponse, error)
@@ -7698,6 +14033,9 @@ type ClientWithResponsesInterface interface {
 
 	// GetUserDetailsWithResponse request
 	GetUserDetailsWithResponse(ctx context.Context, params *GetUserDetailsParams, reqEditors ...RequestEditorFn) (*GetUserDetailsResponse, error)
+
+	// GetUserAPIKeyWithResponse request
+	GetUserAPIKeyWithResponse(ctx context.Context, params *GetUserAPIKeyParams, reqEditors ...RequestEditorFn) (*GetUserAPIKeyResponse, error)
 
 	// ListVMsWithResponse request
 	ListVMsWithResponse(ctx context.Context, params *ListVMsParams, reqEditors ...RequestEditorFn) (*ListVMsResponse, error)
@@ -8051,6 +14389,857 @@ func (r AttachFloatingIPResponse) StatusCode() int {
 	return 0
 }
 
+type CheckNFSServerNameResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *NFSNameCheck
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r CheckNFSServerNameResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CheckNFSServerNameResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CheckNFSShareNameResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *NFSNameCheck
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r CheckNFSShareNameResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CheckNFSShareNameResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetNFSClientsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *NFSClientsList
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetNFSClientsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetNFSClientsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetNFSPermissionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *NFSPermissionsList
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetNFSPermissionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetNFSPermissionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type UpdateNFSPermissionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r UpdateNFSPermissionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UpdateNFSPermissionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ProtectNFSStorageResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r ProtectNFSStorageResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ProtectNFSStorageResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type RequestNFSStorageResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r RequestNFSStorageResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r RequestNFSStorageResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteNFSStorageRequestResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteNFSStorageRequestResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteNFSStorageRequestResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetNFSStorageResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *NFSStorageList
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetNFSStorageResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetNFSStorageResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetNFSStorageByProductGroupResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *NFSStorageList
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetNFSStorageByProductGroupResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetNFSStorageByProductGroupResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteNFSStorageResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteNFSStorageResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteNFSStorageResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type TransferNFSStorageResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r TransferNFSStorageResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r TransferNFSStorageResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type UnprotectNFSStorageResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r UnprotectNFSStorageResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UnprotectNFSStorageResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetOCPClustersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *OCPClusterList
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetOCPClustersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetOCPClustersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetOCPRequestStatusResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *RequestStatus
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetOCPRequestStatusResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetOCPRequestStatusResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteOCPClusterResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteOCPClusterResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteOCPClusterResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetOCPClusterDetailsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *OCPClusterDetails
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetOCPClusterDetailsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetOCPClusterDetailsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AcceptOCPClusterTransferResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r AcceptOCPClusterTransferResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AcceptOCPClusterTransferResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DisableOCPClusterDeleteResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r DisableOCPClusterDeleteResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DisableOCPClusterDeleteResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type EnableOCPClusterDeleteResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r EnableOCPClusterDeleteResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r EnableOCPClusterDeleteResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type UpdateOCPClusterExpirationResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r UpdateOCPClusterExpirationResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UpdateOCPClusterExpirationResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetOCPClusterStatusResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *OCPClusterStatus
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetOCPClusterStatusResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetOCPClusterStatusResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CancelOCPClusterTransferResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r CancelOCPClusterTransferResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CancelOCPClusterTransferResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type TransferOCPClusterToUserResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r TransferOCPClusterToUserResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r TransferOCPClusterToUserResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteOCPVIPResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteOCPVIPResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteOCPVIPResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AddOCPVIPResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r AddOCPVIPResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AddOCPVIPResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetOCPClusterVMDetailsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *OCPVMDetails
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetOCPClusterVMDetailsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetOCPClusterVMDetailsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AddOCPWorkerResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r AddOCPWorkerResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AddOCPWorkerResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type OcpClusterPowerActionResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r OcpClusterPowerActionResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r OcpClusterPowerActionResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AddOCPVMDiskResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r AddOCPVMDiskResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AddOCPVMDiskResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ModifyOCPVMResourcesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r ModifyOCPVMResourcesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ModifyOCPVMResourcesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type OcpVMPowerActionResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r OcpVMPowerActionResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r OcpVMPowerActionResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type BuildOCPClusterResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r BuildOCPClusterResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r BuildOCPClusterResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetAvailableOCPVersionsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *OCPVersionList
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetAvailableOCPVersionsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetAvailableOCPVersionsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type RemoveProductGroupOwnerResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r RemoveProductGroupOwnerResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r RemoveProductGroupOwnerResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type AddProductGroupOwnerResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r AddProductGroupOwnerResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r AddProductGroupOwnerResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetProductGroupUsersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *UserList
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetProductGroupUsersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetProductGroupUsersResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetQuotaResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -8068,6 +15257,305 @@ func (r GetQuotaResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetQuotaResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetProductGroupQuotaResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *QuotaResponse
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetProductGroupQuotaResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetProductGroupQuotaResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type TransferVMQuotaResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r TransferVMQuotaResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r TransferVMQuotaResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetUserQuotasForProductGroupResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *UserQuotaList
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetUserQuotasForProductGroupResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetUserQuotasForProductGroupResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SetDefaultUserQuotaResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r SetDefaultUserQuotaResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SetDefaultUserQuotaResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteUserQuotaResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteUserQuotaResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteUserQuotaResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetUserQuotaResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *QuotaResponse
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetUserQuotaResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetUserQuotaResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type SetUserQuotaResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r SetUserQuotaResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r SetUserQuotaResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetSlotsystemsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *SlotsList
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetSlotsystemsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetSlotsystemsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetSlotImagesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *SlotImageList
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetSlotImagesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetSlotImagesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteSlotSystemResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteSlotSystemResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteSlotSystemResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type RestartSlotSystemResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r RestartSlotSystemResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r RestartSlotSystemResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type StartSlotSystemResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r StartSlotSystemResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r StartSlotSystemResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type StopSlotSystemResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *Success
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r StopSlotSystemResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r StopSlotSystemResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -8253,6 +15741,29 @@ func (r GetUserDetailsResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetUserDetailsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetUserAPIKeyResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *UserAPIKeyResponse
+	JSON401      *Error
+}
+
+// Status returns HTTPResponse.Status
+func (r GetUserAPIKeyResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetUserAPIKeyResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -8547,6 +16058,7 @@ type UpdateVMDescriptionResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *Success
+	JSON401      *Error
 }
 
 // Status returns HTTPResponse.Status
@@ -9183,6 +16695,419 @@ func (c *ClientWithResponses) AttachFloatingIPWithResponse(ctx context.Context, 
 	return ParseAttachFloatingIPResponse(rsp)
 }
 
+// CheckNFSServerNameWithResponse request returning *CheckNFSServerNameResponse
+func (c *ClientWithResponses) CheckNFSServerNameWithResponse(ctx context.Context, name string, params *CheckNFSServerNameParams, reqEditors ...RequestEditorFn) (*CheckNFSServerNameResponse, error) {
+	rsp, err := c.CheckNFSServerName(ctx, name, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCheckNFSServerNameResponse(rsp)
+}
+
+// CheckNFSShareNameWithResponse request returning *CheckNFSShareNameResponse
+func (c *ClientWithResponses) CheckNFSShareNameWithResponse(ctx context.Context, name string, params *CheckNFSShareNameParams, reqEditors ...RequestEditorFn) (*CheckNFSShareNameResponse, error) {
+	rsp, err := c.CheckNFSShareName(ctx, name, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCheckNFSShareNameResponse(rsp)
+}
+
+// GetNFSClientsWithResponse request returning *GetNFSClientsResponse
+func (c *ClientWithResponses) GetNFSClientsWithResponse(ctx context.Context, storageName string, params *GetNFSClientsParams, reqEditors ...RequestEditorFn) (*GetNFSClientsResponse, error) {
+	rsp, err := c.GetNFSClients(ctx, storageName, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetNFSClientsResponse(rsp)
+}
+
+// GetNFSPermissionsWithResponse request returning *GetNFSPermissionsResponse
+func (c *ClientWithResponses) GetNFSPermissionsWithResponse(ctx context.Context, storageName string, params *GetNFSPermissionsParams, reqEditors ...RequestEditorFn) (*GetNFSPermissionsResponse, error) {
+	rsp, err := c.GetNFSPermissions(ctx, storageName, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetNFSPermissionsResponse(rsp)
+}
+
+// UpdateNFSPermissionsWithBodyWithResponse request with arbitrary body returning *UpdateNFSPermissionsResponse
+func (c *ClientWithResponses) UpdateNFSPermissionsWithBodyWithResponse(ctx context.Context, storageName string, params *UpdateNFSPermissionsParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateNFSPermissionsResponse, error) {
+	rsp, err := c.UpdateNFSPermissionsWithBody(ctx, storageName, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateNFSPermissionsResponse(rsp)
+}
+
+func (c *ClientWithResponses) UpdateNFSPermissionsWithResponse(ctx context.Context, storageName string, params *UpdateNFSPermissionsParams, body UpdateNFSPermissionsJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateNFSPermissionsResponse, error) {
+	rsp, err := c.UpdateNFSPermissions(ctx, storageName, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateNFSPermissionsResponse(rsp)
+}
+
+// ProtectNFSStorageWithResponse request returning *ProtectNFSStorageResponse
+func (c *ClientWithResponses) ProtectNFSStorageWithResponse(ctx context.Context, storageName string, params *ProtectNFSStorageParams, reqEditors ...RequestEditorFn) (*ProtectNFSStorageResponse, error) {
+	rsp, err := c.ProtectNFSStorage(ctx, storageName, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseProtectNFSStorageResponse(rsp)
+}
+
+// RequestNFSStorageWithBodyWithResponse request with arbitrary body returning *RequestNFSStorageResponse
+func (c *ClientWithResponses) RequestNFSStorageWithBodyWithResponse(ctx context.Context, params *RequestNFSStorageParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*RequestNFSStorageResponse, error) {
+	rsp, err := c.RequestNFSStorageWithBody(ctx, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRequestNFSStorageResponse(rsp)
+}
+
+func (c *ClientWithResponses) RequestNFSStorageWithResponse(ctx context.Context, params *RequestNFSStorageParams, body RequestNFSStorageJSONRequestBody, reqEditors ...RequestEditorFn) (*RequestNFSStorageResponse, error) {
+	rsp, err := c.RequestNFSStorage(ctx, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRequestNFSStorageResponse(rsp)
+}
+
+// DeleteNFSStorageRequestWithResponse request returning *DeleteNFSStorageRequestResponse
+func (c *ClientWithResponses) DeleteNFSStorageRequestWithResponse(ctx context.Context, storageName string, params *DeleteNFSStorageRequestParams, reqEditors ...RequestEditorFn) (*DeleteNFSStorageRequestResponse, error) {
+	rsp, err := c.DeleteNFSStorageRequest(ctx, storageName, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteNFSStorageRequestResponse(rsp)
+}
+
+// GetNFSStorageWithResponse request returning *GetNFSStorageResponse
+func (c *ClientWithResponses) GetNFSStorageWithResponse(ctx context.Context, params *GetNFSStorageParams, reqEditors ...RequestEditorFn) (*GetNFSStorageResponse, error) {
+	rsp, err := c.GetNFSStorage(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetNFSStorageResponse(rsp)
+}
+
+// GetNFSStorageByProductGroupWithResponse request returning *GetNFSStorageByProductGroupResponse
+func (c *ClientWithResponses) GetNFSStorageByProductGroupWithResponse(ctx context.Context, productGroupId ProductGroupId, params *GetNFSStorageByProductGroupParams, reqEditors ...RequestEditorFn) (*GetNFSStorageByProductGroupResponse, error) {
+	rsp, err := c.GetNFSStorageByProductGroup(ctx, productGroupId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetNFSStorageByProductGroupResponse(rsp)
+}
+
+// DeleteNFSStorageWithResponse request returning *DeleteNFSStorageResponse
+func (c *ClientWithResponses) DeleteNFSStorageWithResponse(ctx context.Context, storageName string, params *DeleteNFSStorageParams, reqEditors ...RequestEditorFn) (*DeleteNFSStorageResponse, error) {
+	rsp, err := c.DeleteNFSStorage(ctx, storageName, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteNFSStorageResponse(rsp)
+}
+
+// TransferNFSStorageWithBodyWithResponse request with arbitrary body returning *TransferNFSStorageResponse
+func (c *ClientWithResponses) TransferNFSStorageWithBodyWithResponse(ctx context.Context, storageName string, params *TransferNFSStorageParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TransferNFSStorageResponse, error) {
+	rsp, err := c.TransferNFSStorageWithBody(ctx, storageName, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseTransferNFSStorageResponse(rsp)
+}
+
+func (c *ClientWithResponses) TransferNFSStorageWithResponse(ctx context.Context, storageName string, params *TransferNFSStorageParams, body TransferNFSStorageJSONRequestBody, reqEditors ...RequestEditorFn) (*TransferNFSStorageResponse, error) {
+	rsp, err := c.TransferNFSStorage(ctx, storageName, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseTransferNFSStorageResponse(rsp)
+}
+
+// UnprotectNFSStorageWithResponse request returning *UnprotectNFSStorageResponse
+func (c *ClientWithResponses) UnprotectNFSStorageWithResponse(ctx context.Context, storageName string, params *UnprotectNFSStorageParams, reqEditors ...RequestEditorFn) (*UnprotectNFSStorageResponse, error) {
+	rsp, err := c.UnprotectNFSStorage(ctx, storageName, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUnprotectNFSStorageResponse(rsp)
+}
+
+// GetOCPClustersWithResponse request returning *GetOCPClustersResponse
+func (c *ClientWithResponses) GetOCPClustersWithResponse(ctx context.Context, params *GetOCPClustersParams, reqEditors ...RequestEditorFn) (*GetOCPClustersResponse, error) {
+	rsp, err := c.GetOCPClusters(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetOCPClustersResponse(rsp)
+}
+
+// GetOCPRequestStatusWithResponse request returning *GetOCPRequestStatusResponse
+func (c *ClientWithResponses) GetOCPRequestStatusWithResponse(ctx context.Context, requestId RequestId, params *GetOCPRequestStatusParams, reqEditors ...RequestEditorFn) (*GetOCPRequestStatusResponse, error) {
+	rsp, err := c.GetOCPRequestStatus(ctx, requestId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetOCPRequestStatusResponse(rsp)
+}
+
+// DeleteOCPClusterWithResponse request returning *DeleteOCPClusterResponse
+func (c *ClientWithResponses) DeleteOCPClusterWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *DeleteOCPClusterParams, reqEditors ...RequestEditorFn) (*DeleteOCPClusterResponse, error) {
+	rsp, err := c.DeleteOCPCluster(ctx, clusterIdentifier, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteOCPClusterResponse(rsp)
+}
+
+// GetOCPClusterDetailsWithResponse request returning *GetOCPClusterDetailsResponse
+func (c *ClientWithResponses) GetOCPClusterDetailsWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *GetOCPClusterDetailsParams, reqEditors ...RequestEditorFn) (*GetOCPClusterDetailsResponse, error) {
+	rsp, err := c.GetOCPClusterDetails(ctx, clusterIdentifier, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetOCPClusterDetailsResponse(rsp)
+}
+
+// AcceptOCPClusterTransferWithResponse request returning *AcceptOCPClusterTransferResponse
+func (c *ClientWithResponses) AcceptOCPClusterTransferWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *AcceptOCPClusterTransferParams, reqEditors ...RequestEditorFn) (*AcceptOCPClusterTransferResponse, error) {
+	rsp, err := c.AcceptOCPClusterTransfer(ctx, clusterIdentifier, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAcceptOCPClusterTransferResponse(rsp)
+}
+
+// DisableOCPClusterDeleteWithResponse request returning *DisableOCPClusterDeleteResponse
+func (c *ClientWithResponses) DisableOCPClusterDeleteWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *DisableOCPClusterDeleteParams, reqEditors ...RequestEditorFn) (*DisableOCPClusterDeleteResponse, error) {
+	rsp, err := c.DisableOCPClusterDelete(ctx, clusterIdentifier, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDisableOCPClusterDeleteResponse(rsp)
+}
+
+// EnableOCPClusterDeleteWithResponse request returning *EnableOCPClusterDeleteResponse
+func (c *ClientWithResponses) EnableOCPClusterDeleteWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *EnableOCPClusterDeleteParams, reqEditors ...RequestEditorFn) (*EnableOCPClusterDeleteResponse, error) {
+	rsp, err := c.EnableOCPClusterDelete(ctx, clusterIdentifier, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseEnableOCPClusterDeleteResponse(rsp)
+}
+
+// UpdateOCPClusterExpirationWithBodyWithResponse request with arbitrary body returning *UpdateOCPClusterExpirationResponse
+func (c *ClientWithResponses) UpdateOCPClusterExpirationWithBodyWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *UpdateOCPClusterExpirationParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateOCPClusterExpirationResponse, error) {
+	rsp, err := c.UpdateOCPClusterExpirationWithBody(ctx, clusterIdentifier, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateOCPClusterExpirationResponse(rsp)
+}
+
+func (c *ClientWithResponses) UpdateOCPClusterExpirationWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *UpdateOCPClusterExpirationParams, body UpdateOCPClusterExpirationJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateOCPClusterExpirationResponse, error) {
+	rsp, err := c.UpdateOCPClusterExpiration(ctx, clusterIdentifier, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateOCPClusterExpirationResponse(rsp)
+}
+
+// GetOCPClusterStatusWithResponse request returning *GetOCPClusterStatusResponse
+func (c *ClientWithResponses) GetOCPClusterStatusWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *GetOCPClusterStatusParams, reqEditors ...RequestEditorFn) (*GetOCPClusterStatusResponse, error) {
+	rsp, err := c.GetOCPClusterStatus(ctx, clusterIdentifier, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetOCPClusterStatusResponse(rsp)
+}
+
+// CancelOCPClusterTransferWithResponse request returning *CancelOCPClusterTransferResponse
+func (c *ClientWithResponses) CancelOCPClusterTransferWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *CancelOCPClusterTransferParams, reqEditors ...RequestEditorFn) (*CancelOCPClusterTransferResponse, error) {
+	rsp, err := c.CancelOCPClusterTransfer(ctx, clusterIdentifier, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCancelOCPClusterTransferResponse(rsp)
+}
+
+// TransferOCPClusterToUserWithBodyWithResponse request with arbitrary body returning *TransferOCPClusterToUserResponse
+func (c *ClientWithResponses) TransferOCPClusterToUserWithBodyWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, userIdentifier UserIdentifier, params *TransferOCPClusterToUserParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TransferOCPClusterToUserResponse, error) {
+	rsp, err := c.TransferOCPClusterToUserWithBody(ctx, clusterIdentifier, userIdentifier, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseTransferOCPClusterToUserResponse(rsp)
+}
+
+func (c *ClientWithResponses) TransferOCPClusterToUserWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, userIdentifier UserIdentifier, params *TransferOCPClusterToUserParams, body TransferOCPClusterToUserJSONRequestBody, reqEditors ...RequestEditorFn) (*TransferOCPClusterToUserResponse, error) {
+	rsp, err := c.TransferOCPClusterToUser(ctx, clusterIdentifier, userIdentifier, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseTransferOCPClusterToUserResponse(rsp)
+}
+
+// DeleteOCPVIPWithBodyWithResponse request with arbitrary body returning *DeleteOCPVIPResponse
+func (c *ClientWithResponses) DeleteOCPVIPWithBodyWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, vipType DeleteOCPVIPParamsVipType, params *DeleteOCPVIPParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteOCPVIPResponse, error) {
+	rsp, err := c.DeleteOCPVIPWithBody(ctx, clusterIdentifier, vipType, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteOCPVIPResponse(rsp)
+}
+
+func (c *ClientWithResponses) DeleteOCPVIPWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, vipType DeleteOCPVIPParamsVipType, params *DeleteOCPVIPParams, body DeleteOCPVIPJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteOCPVIPResponse, error) {
+	rsp, err := c.DeleteOCPVIP(ctx, clusterIdentifier, vipType, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteOCPVIPResponse(rsp)
+}
+
+// AddOCPVIPWithResponse request returning *AddOCPVIPResponse
+func (c *ClientWithResponses) AddOCPVIPWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, vipType AddOCPVIPParamsVipType, params *AddOCPVIPParams, reqEditors ...RequestEditorFn) (*AddOCPVIPResponse, error) {
+	rsp, err := c.AddOCPVIP(ctx, clusterIdentifier, vipType, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAddOCPVIPResponse(rsp)
+}
+
+// GetOCPClusterVMDetailsWithResponse request returning *GetOCPClusterVMDetailsResponse
+func (c *ClientWithResponses) GetOCPClusterVMDetailsWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *GetOCPClusterVMDetailsParams, reqEditors ...RequestEditorFn) (*GetOCPClusterVMDetailsResponse, error) {
+	rsp, err := c.GetOCPClusterVMDetails(ctx, clusterIdentifier, nodeName, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetOCPClusterVMDetailsResponse(rsp)
+}
+
+// AddOCPWorkerWithBodyWithResponse request with arbitrary body returning *AddOCPWorkerResponse
+func (c *ClientWithResponses) AddOCPWorkerWithBodyWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *AddOCPWorkerParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AddOCPWorkerResponse, error) {
+	rsp, err := c.AddOCPWorkerWithBody(ctx, clusterIdentifier, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAddOCPWorkerResponse(rsp)
+}
+
+func (c *ClientWithResponses) AddOCPWorkerWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, params *AddOCPWorkerParams, body AddOCPWorkerJSONRequestBody, reqEditors ...RequestEditorFn) (*AddOCPWorkerResponse, error) {
+	rsp, err := c.AddOCPWorker(ctx, clusterIdentifier, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAddOCPWorkerResponse(rsp)
+}
+
+// OcpClusterPowerActionWithResponse request returning *OcpClusterPowerActionResponse
+func (c *ClientWithResponses) OcpClusterPowerActionWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, action OcpClusterPowerActionParamsAction, params *OcpClusterPowerActionParams, reqEditors ...RequestEditorFn) (*OcpClusterPowerActionResponse, error) {
+	rsp, err := c.OcpClusterPowerAction(ctx, clusterIdentifier, action, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseOcpClusterPowerActionResponse(rsp)
+}
+
+// AddOCPVMDiskWithBodyWithResponse request with arbitrary body returning *AddOCPVMDiskResponse
+func (c *ClientWithResponses) AddOCPVMDiskWithBodyWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *AddOCPVMDiskParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*AddOCPVMDiskResponse, error) {
+	rsp, err := c.AddOCPVMDiskWithBody(ctx, clusterIdentifier, nodeName, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAddOCPVMDiskResponse(rsp)
+}
+
+func (c *ClientWithResponses) AddOCPVMDiskWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *AddOCPVMDiskParams, body AddOCPVMDiskJSONRequestBody, reqEditors ...RequestEditorFn) (*AddOCPVMDiskResponse, error) {
+	rsp, err := c.AddOCPVMDisk(ctx, clusterIdentifier, nodeName, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAddOCPVMDiskResponse(rsp)
+}
+
+// ModifyOCPVMResourcesWithBodyWithResponse request with arbitrary body returning *ModifyOCPVMResourcesResponse
+func (c *ClientWithResponses) ModifyOCPVMResourcesWithBodyWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *ModifyOCPVMResourcesParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*ModifyOCPVMResourcesResponse, error) {
+	rsp, err := c.ModifyOCPVMResourcesWithBody(ctx, clusterIdentifier, nodeName, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseModifyOCPVMResourcesResponse(rsp)
+}
+
+func (c *ClientWithResponses) ModifyOCPVMResourcesWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, params *ModifyOCPVMResourcesParams, body ModifyOCPVMResourcesJSONRequestBody, reqEditors ...RequestEditorFn) (*ModifyOCPVMResourcesResponse, error) {
+	rsp, err := c.ModifyOCPVMResources(ctx, clusterIdentifier, nodeName, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseModifyOCPVMResourcesResponse(rsp)
+}
+
+// OcpVMPowerActionWithResponse request returning *OcpVMPowerActionResponse
+func (c *ClientWithResponses) OcpVMPowerActionWithResponse(ctx context.Context, clusterIdentifier ClusterIdentifier, nodeName string, action OcpVMPowerActionParamsAction, params *OcpVMPowerActionParams, reqEditors ...RequestEditorFn) (*OcpVMPowerActionResponse, error) {
+	rsp, err := c.OcpVMPowerAction(ctx, clusterIdentifier, nodeName, action, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseOcpVMPowerActionResponse(rsp)
+}
+
+// BuildOCPClusterWithBodyWithResponse request with arbitrary body returning *BuildOCPClusterResponse
+func (c *ClientWithResponses) BuildOCPClusterWithBodyWithResponse(ctx context.Context, platform BuildOCPClusterParamsPlatform, params *BuildOCPClusterParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*BuildOCPClusterResponse, error) {
+	rsp, err := c.BuildOCPClusterWithBody(ctx, platform, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseBuildOCPClusterResponse(rsp)
+}
+
+func (c *ClientWithResponses) BuildOCPClusterWithResponse(ctx context.Context, platform BuildOCPClusterParamsPlatform, params *BuildOCPClusterParams, body BuildOCPClusterJSONRequestBody, reqEditors ...RequestEditorFn) (*BuildOCPClusterResponse, error) {
+	rsp, err := c.BuildOCPCluster(ctx, platform, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseBuildOCPClusterResponse(rsp)
+}
+
+// GetAvailableOCPVersionsWithResponse request returning *GetAvailableOCPVersionsResponse
+func (c *ClientWithResponses) GetAvailableOCPVersionsWithResponse(ctx context.Context, platform GetAvailableOCPVersionsParamsPlatform, params *GetAvailableOCPVersionsParams, reqEditors ...RequestEditorFn) (*GetAvailableOCPVersionsResponse, error) {
+	rsp, err := c.GetAvailableOCPVersions(ctx, platform, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetAvailableOCPVersionsResponse(rsp)
+}
+
+// RemoveProductGroupOwnerWithResponse request returning *RemoveProductGroupOwnerResponse
+func (c *ClientWithResponses) RemoveProductGroupOwnerWithResponse(ctx context.Context, productGroupId ProductGroupId, ownerEmail string, params *RemoveProductGroupOwnerParams, reqEditors ...RequestEditorFn) (*RemoveProductGroupOwnerResponse, error) {
+	rsp, err := c.RemoveProductGroupOwner(ctx, productGroupId, ownerEmail, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRemoveProductGroupOwnerResponse(rsp)
+}
+
+// AddProductGroupOwnerWithResponse request returning *AddProductGroupOwnerResponse
+func (c *ClientWithResponses) AddProductGroupOwnerWithResponse(ctx context.Context, productGroupId ProductGroupId, ownerEmail string, params *AddProductGroupOwnerParams, reqEditors ...RequestEditorFn) (*AddProductGroupOwnerResponse, error) {
+	rsp, err := c.AddProductGroupOwner(ctx, productGroupId, ownerEmail, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseAddProductGroupOwnerResponse(rsp)
+}
+
+// GetProductGroupUsersWithResponse request returning *GetProductGroupUsersResponse
+func (c *ClientWithResponses) GetProductGroupUsersWithResponse(ctx context.Context, productGroupId ProductGroupId, params *GetProductGroupUsersParams, reqEditors ...RequestEditorFn) (*GetProductGroupUsersResponse, error) {
+	rsp, err := c.GetProductGroupUsers(ctx, productGroupId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetProductGroupUsersResponse(rsp)
+}
+
 // GetQuotaWithResponse request returning *GetQuotaResponse
 func (c *ClientWithResponses) GetQuotaWithResponse(ctx context.Context, params *GetQuotaParams, reqEditors ...RequestEditorFn) (*GetQuotaResponse, error) {
 	rsp, err := c.GetQuota(ctx, params, reqEditors...)
@@ -9190,6 +17115,171 @@ func (c *ClientWithResponses) GetQuotaWithResponse(ctx context.Context, params *
 		return nil, err
 	}
 	return ParseGetQuotaResponse(rsp)
+}
+
+// GetProductGroupQuotaWithResponse request returning *GetProductGroupQuotaResponse
+func (c *ClientWithResponses) GetProductGroupQuotaWithResponse(ctx context.Context, productGroupId ProductGroupId, params *GetProductGroupQuotaParams, reqEditors ...RequestEditorFn) (*GetProductGroupQuotaResponse, error) {
+	rsp, err := c.GetProductGroupQuota(ctx, productGroupId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetProductGroupQuotaResponse(rsp)
+}
+
+// TransferVMQuotaWithBodyWithResponse request with arbitrary body returning *TransferVMQuotaResponse
+func (c *ClientWithResponses) TransferVMQuotaWithBodyWithResponse(ctx context.Context, productGroupId ProductGroupId, params *TransferVMQuotaParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*TransferVMQuotaResponse, error) {
+	rsp, err := c.TransferVMQuotaWithBody(ctx, productGroupId, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseTransferVMQuotaResponse(rsp)
+}
+
+func (c *ClientWithResponses) TransferVMQuotaWithResponse(ctx context.Context, productGroupId ProductGroupId, params *TransferVMQuotaParams, body TransferVMQuotaJSONRequestBody, reqEditors ...RequestEditorFn) (*TransferVMQuotaResponse, error) {
+	rsp, err := c.TransferVMQuota(ctx, productGroupId, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseTransferVMQuotaResponse(rsp)
+}
+
+// GetUserQuotasForProductGroupWithResponse request returning *GetUserQuotasForProductGroupResponse
+func (c *ClientWithResponses) GetUserQuotasForProductGroupWithResponse(ctx context.Context, productGroupId ProductGroupId, params *GetUserQuotasForProductGroupParams, reqEditors ...RequestEditorFn) (*GetUserQuotasForProductGroupResponse, error) {
+	rsp, err := c.GetUserQuotasForProductGroup(ctx, productGroupId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetUserQuotasForProductGroupResponse(rsp)
+}
+
+// SetDefaultUserQuotaWithBodyWithResponse request with arbitrary body returning *SetDefaultUserQuotaResponse
+func (c *ClientWithResponses) SetDefaultUserQuotaWithBodyWithResponse(ctx context.Context, productGroupId ProductGroupId, params *SetDefaultUserQuotaParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetDefaultUserQuotaResponse, error) {
+	rsp, err := c.SetDefaultUserQuotaWithBody(ctx, productGroupId, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetDefaultUserQuotaResponse(rsp)
+}
+
+func (c *ClientWithResponses) SetDefaultUserQuotaWithResponse(ctx context.Context, productGroupId ProductGroupId, params *SetDefaultUserQuotaParams, body SetDefaultUserQuotaJSONRequestBody, reqEditors ...RequestEditorFn) (*SetDefaultUserQuotaResponse, error) {
+	rsp, err := c.SetDefaultUserQuota(ctx, productGroupId, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetDefaultUserQuotaResponse(rsp)
+}
+
+// DeleteUserQuotaWithResponse request returning *DeleteUserQuotaResponse
+func (c *ClientWithResponses) DeleteUserQuotaWithResponse(ctx context.Context, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *DeleteUserQuotaParams, reqEditors ...RequestEditorFn) (*DeleteUserQuotaResponse, error) {
+	rsp, err := c.DeleteUserQuota(ctx, productGroupId, userIdentifier, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteUserQuotaResponse(rsp)
+}
+
+// GetUserQuotaWithResponse request returning *GetUserQuotaResponse
+func (c *ClientWithResponses) GetUserQuotaWithResponse(ctx context.Context, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *GetUserQuotaParams, reqEditors ...RequestEditorFn) (*GetUserQuotaResponse, error) {
+	rsp, err := c.GetUserQuota(ctx, productGroupId, userIdentifier, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetUserQuotaResponse(rsp)
+}
+
+// SetUserQuotaWithBodyWithResponse request with arbitrary body returning *SetUserQuotaResponse
+func (c *ClientWithResponses) SetUserQuotaWithBodyWithResponse(ctx context.Context, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *SetUserQuotaParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*SetUserQuotaResponse, error) {
+	rsp, err := c.SetUserQuotaWithBody(ctx, productGroupId, userIdentifier, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetUserQuotaResponse(rsp)
+}
+
+func (c *ClientWithResponses) SetUserQuotaWithResponse(ctx context.Context, productGroupId ProductGroupId, userIdentifier UserIdentifier, params *SetUserQuotaParams, body SetUserQuotaJSONRequestBody, reqEditors ...RequestEditorFn) (*SetUserQuotaResponse, error) {
+	rsp, err := c.SetUserQuota(ctx, productGroupId, userIdentifier, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseSetUserQuotaResponse(rsp)
+}
+
+// GetSlotsystemsWithResponse request returning *GetSlotsystemsResponse
+func (c *ClientWithResponses) GetSlotsystemsWithResponse(ctx context.Context, params *GetSlotsystemsParams, reqEditors ...RequestEditorFn) (*GetSlotsystemsResponse, error) {
+	rsp, err := c.GetSlotsystems(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetSlotsystemsResponse(rsp)
+}
+
+// GetSlotImagesWithResponse request returning *GetSlotImagesResponse
+func (c *ClientWithResponses) GetSlotImagesWithResponse(ctx context.Context, params *GetSlotImagesParams, reqEditors ...RequestEditorFn) (*GetSlotImagesResponse, error) {
+	rsp, err := c.GetSlotImages(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetSlotImagesResponse(rsp)
+}
+
+// DeleteSlotSystemWithBodyWithResponse request with arbitrary body returning *DeleteSlotSystemResponse
+func (c *ClientWithResponses) DeleteSlotSystemWithBodyWithResponse(ctx context.Context, systemName string, params *DeleteSlotSystemParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteSlotSystemResponse, error) {
+	rsp, err := c.DeleteSlotSystemWithBody(ctx, systemName, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteSlotSystemResponse(rsp)
+}
+
+func (c *ClientWithResponses) DeleteSlotSystemWithResponse(ctx context.Context, systemName string, params *DeleteSlotSystemParams, body DeleteSlotSystemJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteSlotSystemResponse, error) {
+	rsp, err := c.DeleteSlotSystem(ctx, systemName, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteSlotSystemResponse(rsp)
+}
+
+// RestartSlotSystemWithResponse request returning *RestartSlotSystemResponse
+func (c *ClientWithResponses) RestartSlotSystemWithResponse(ctx context.Context, systemName string, params *RestartSlotSystemParams, reqEditors ...RequestEditorFn) (*RestartSlotSystemResponse, error) {
+	rsp, err := c.RestartSlotSystem(ctx, systemName, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseRestartSlotSystemResponse(rsp)
+}
+
+// StartSlotSystemWithBodyWithResponse request with arbitrary body returning *StartSlotSystemResponse
+func (c *ClientWithResponses) StartSlotSystemWithBodyWithResponse(ctx context.Context, systemName string, params *StartSlotSystemParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StartSlotSystemResponse, error) {
+	rsp, err := c.StartSlotSystemWithBody(ctx, systemName, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStartSlotSystemResponse(rsp)
+}
+
+func (c *ClientWithResponses) StartSlotSystemWithResponse(ctx context.Context, systemName string, params *StartSlotSystemParams, body StartSlotSystemJSONRequestBody, reqEditors ...RequestEditorFn) (*StartSlotSystemResponse, error) {
+	rsp, err := c.StartSlotSystem(ctx, systemName, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStartSlotSystemResponse(rsp)
+}
+
+// StopSlotSystemWithBodyWithResponse request with arbitrary body returning *StopSlotSystemResponse
+func (c *ClientWithResponses) StopSlotSystemWithBodyWithResponse(ctx context.Context, systemName string, params *StopSlotSystemParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*StopSlotSystemResponse, error) {
+	rsp, err := c.StopSlotSystemWithBody(ctx, systemName, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStopSlotSystemResponse(rsp)
+}
+
+func (c *ClientWithResponses) StopSlotSystemWithResponse(ctx context.Context, systemName string, params *StopSlotSystemParams, body StopSlotSystemJSONRequestBody, reqEditors ...RequestEditorFn) (*StopSlotSystemResponse, error) {
+	rsp, err := c.StopSlotSystem(ctx, systemName, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseStopSlotSystemResponse(rsp)
 }
 
 // GetStencilDetailsWithResponse request returning *GetStencilDetailsResponse
@@ -9262,6 +17352,15 @@ func (c *ClientWithResponses) GetUserDetailsWithResponse(ctx context.Context, pa
 		return nil, err
 	}
 	return ParseGetUserDetailsResponse(rsp)
+}
+
+// GetUserAPIKeyWithResponse request returning *GetUserAPIKeyResponse
+func (c *ClientWithResponses) GetUserAPIKeyWithResponse(ctx context.Context, params *GetUserAPIKeyParams, reqEditors ...RequestEditorFn) (*GetUserAPIKeyResponse, error) {
+	rsp, err := c.GetUserAPIKey(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetUserAPIKeyResponse(rsp)
 }
 
 // ListVMsWithResponse request returning *ListVMsResponse
@@ -10059,6 +18158,1227 @@ func ParseAttachFloatingIPResponse(rsp *http.Response) (*AttachFloatingIPRespons
 	return response, nil
 }
 
+// ParseCheckNFSServerNameResponse parses an HTTP response from a CheckNFSServerNameWithResponse call
+func ParseCheckNFSServerNameResponse(rsp *http.Response) (*CheckNFSServerNameResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CheckNFSServerNameResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest NFSNameCheck
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCheckNFSShareNameResponse parses an HTTP response from a CheckNFSShareNameWithResponse call
+func ParseCheckNFSShareNameResponse(rsp *http.Response) (*CheckNFSShareNameResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CheckNFSShareNameResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest NFSNameCheck
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetNFSClientsResponse parses an HTTP response from a GetNFSClientsWithResponse call
+func ParseGetNFSClientsResponse(rsp *http.Response) (*GetNFSClientsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetNFSClientsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest NFSClientsList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetNFSPermissionsResponse parses an HTTP response from a GetNFSPermissionsWithResponse call
+func ParseGetNFSPermissionsResponse(rsp *http.Response) (*GetNFSPermissionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetNFSPermissionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest NFSPermissionsList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUpdateNFSPermissionsResponse parses an HTTP response from a UpdateNFSPermissionsWithResponse call
+func ParseUpdateNFSPermissionsResponse(rsp *http.Response) (*UpdateNFSPermissionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UpdateNFSPermissionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseProtectNFSStorageResponse parses an HTTP response from a ProtectNFSStorageWithResponse call
+func ParseProtectNFSStorageResponse(rsp *http.Response) (*ProtectNFSStorageResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ProtectNFSStorageResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseRequestNFSStorageResponse parses an HTTP response from a RequestNFSStorageWithResponse call
+func ParseRequestNFSStorageResponse(rsp *http.Response) (*RequestNFSStorageResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &RequestNFSStorageResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteNFSStorageRequestResponse parses an HTTP response from a DeleteNFSStorageRequestWithResponse call
+func ParseDeleteNFSStorageRequestResponse(rsp *http.Response) (*DeleteNFSStorageRequestResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteNFSStorageRequestResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetNFSStorageResponse parses an HTTP response from a GetNFSStorageWithResponse call
+func ParseGetNFSStorageResponse(rsp *http.Response) (*GetNFSStorageResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetNFSStorageResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest NFSStorageList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetNFSStorageByProductGroupResponse parses an HTTP response from a GetNFSStorageByProductGroupWithResponse call
+func ParseGetNFSStorageByProductGroupResponse(rsp *http.Response) (*GetNFSStorageByProductGroupResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetNFSStorageByProductGroupResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest NFSStorageList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteNFSStorageResponse parses an HTTP response from a DeleteNFSStorageWithResponse call
+func ParseDeleteNFSStorageResponse(rsp *http.Response) (*DeleteNFSStorageResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteNFSStorageResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseTransferNFSStorageResponse parses an HTTP response from a TransferNFSStorageWithResponse call
+func ParseTransferNFSStorageResponse(rsp *http.Response) (*TransferNFSStorageResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &TransferNFSStorageResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUnprotectNFSStorageResponse parses an HTTP response from a UnprotectNFSStorageWithResponse call
+func ParseUnprotectNFSStorageResponse(rsp *http.Response) (*UnprotectNFSStorageResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UnprotectNFSStorageResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetOCPClustersResponse parses an HTTP response from a GetOCPClustersWithResponse call
+func ParseGetOCPClustersResponse(rsp *http.Response) (*GetOCPClustersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetOCPClustersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest OCPClusterList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetOCPRequestStatusResponse parses an HTTP response from a GetOCPRequestStatusWithResponse call
+func ParseGetOCPRequestStatusResponse(rsp *http.Response) (*GetOCPRequestStatusResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetOCPRequestStatusResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest RequestStatus
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteOCPClusterResponse parses an HTTP response from a DeleteOCPClusterWithResponse call
+func ParseDeleteOCPClusterResponse(rsp *http.Response) (*DeleteOCPClusterResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteOCPClusterResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetOCPClusterDetailsResponse parses an HTTP response from a GetOCPClusterDetailsWithResponse call
+func ParseGetOCPClusterDetailsResponse(rsp *http.Response) (*GetOCPClusterDetailsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetOCPClusterDetailsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest OCPClusterDetails
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAcceptOCPClusterTransferResponse parses an HTTP response from a AcceptOCPClusterTransferWithResponse call
+func ParseAcceptOCPClusterTransferResponse(rsp *http.Response) (*AcceptOCPClusterTransferResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AcceptOCPClusterTransferResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDisableOCPClusterDeleteResponse parses an HTTP response from a DisableOCPClusterDeleteWithResponse call
+func ParseDisableOCPClusterDeleteResponse(rsp *http.Response) (*DisableOCPClusterDeleteResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DisableOCPClusterDeleteResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseEnableOCPClusterDeleteResponse parses an HTTP response from a EnableOCPClusterDeleteWithResponse call
+func ParseEnableOCPClusterDeleteResponse(rsp *http.Response) (*EnableOCPClusterDeleteResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &EnableOCPClusterDeleteResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUpdateOCPClusterExpirationResponse parses an HTTP response from a UpdateOCPClusterExpirationWithResponse call
+func ParseUpdateOCPClusterExpirationResponse(rsp *http.Response) (*UpdateOCPClusterExpirationResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UpdateOCPClusterExpirationResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetOCPClusterStatusResponse parses an HTTP response from a GetOCPClusterStatusWithResponse call
+func ParseGetOCPClusterStatusResponse(rsp *http.Response) (*GetOCPClusterStatusResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetOCPClusterStatusResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest OCPClusterStatus
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCancelOCPClusterTransferResponse parses an HTTP response from a CancelOCPClusterTransferWithResponse call
+func ParseCancelOCPClusterTransferResponse(rsp *http.Response) (*CancelOCPClusterTransferResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CancelOCPClusterTransferResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseTransferOCPClusterToUserResponse parses an HTTP response from a TransferOCPClusterToUserWithResponse call
+func ParseTransferOCPClusterToUserResponse(rsp *http.Response) (*TransferOCPClusterToUserResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &TransferOCPClusterToUserResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteOCPVIPResponse parses an HTTP response from a DeleteOCPVIPWithResponse call
+func ParseDeleteOCPVIPResponse(rsp *http.Response) (*DeleteOCPVIPResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteOCPVIPResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAddOCPVIPResponse parses an HTTP response from a AddOCPVIPWithResponse call
+func ParseAddOCPVIPResponse(rsp *http.Response) (*AddOCPVIPResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AddOCPVIPResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetOCPClusterVMDetailsResponse parses an HTTP response from a GetOCPClusterVMDetailsWithResponse call
+func ParseGetOCPClusterVMDetailsResponse(rsp *http.Response) (*GetOCPClusterVMDetailsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetOCPClusterVMDetailsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest OCPVMDetails
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAddOCPWorkerResponse parses an HTTP response from a AddOCPWorkerWithResponse call
+func ParseAddOCPWorkerResponse(rsp *http.Response) (*AddOCPWorkerResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AddOCPWorkerResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseOcpClusterPowerActionResponse parses an HTTP response from a OcpClusterPowerActionWithResponse call
+func ParseOcpClusterPowerActionResponse(rsp *http.Response) (*OcpClusterPowerActionResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &OcpClusterPowerActionResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAddOCPVMDiskResponse parses an HTTP response from a AddOCPVMDiskWithResponse call
+func ParseAddOCPVMDiskResponse(rsp *http.Response) (*AddOCPVMDiskResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AddOCPVMDiskResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseModifyOCPVMResourcesResponse parses an HTTP response from a ModifyOCPVMResourcesWithResponse call
+func ParseModifyOCPVMResourcesResponse(rsp *http.Response) (*ModifyOCPVMResourcesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ModifyOCPVMResourcesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseOcpVMPowerActionResponse parses an HTTP response from a OcpVMPowerActionWithResponse call
+func ParseOcpVMPowerActionResponse(rsp *http.Response) (*OcpVMPowerActionResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &OcpVMPowerActionResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseBuildOCPClusterResponse parses an HTTP response from a BuildOCPClusterWithResponse call
+func ParseBuildOCPClusterResponse(rsp *http.Response) (*BuildOCPClusterResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &BuildOCPClusterResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetAvailableOCPVersionsResponse parses an HTTP response from a GetAvailableOCPVersionsWithResponse call
+func ParseGetAvailableOCPVersionsResponse(rsp *http.Response) (*GetAvailableOCPVersionsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetAvailableOCPVersionsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest OCPVersionList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseRemoveProductGroupOwnerResponse parses an HTTP response from a RemoveProductGroupOwnerWithResponse call
+func ParseRemoveProductGroupOwnerResponse(rsp *http.Response) (*RemoveProductGroupOwnerResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &RemoveProductGroupOwnerResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseAddProductGroupOwnerResponse parses an HTTP response from a AddProductGroupOwnerWithResponse call
+func ParseAddProductGroupOwnerResponse(rsp *http.Response) (*AddProductGroupOwnerResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &AddProductGroupOwnerResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetProductGroupUsersResponse parses an HTTP response from a GetProductGroupUsersWithResponse call
+func ParseGetProductGroupUsersResponse(rsp *http.Response) (*GetProductGroupUsersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetProductGroupUsersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest UserList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetQuotaResponse parses an HTTP response from a GetQuotaWithResponse call
 func ParseGetQuotaResponse(rsp *http.Response) (*GetQuotaResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -10075,6 +19395,435 @@ func ParseGetQuotaResponse(rsp *http.Response) (*GetQuotaResponse, error) {
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest QuotaResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetProductGroupQuotaResponse parses an HTTP response from a GetProductGroupQuotaWithResponse call
+func ParseGetProductGroupQuotaResponse(rsp *http.Response) (*GetProductGroupQuotaResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetProductGroupQuotaResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest QuotaResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseTransferVMQuotaResponse parses an HTTP response from a TransferVMQuotaWithResponse call
+func ParseTransferVMQuotaResponse(rsp *http.Response) (*TransferVMQuotaResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &TransferVMQuotaResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetUserQuotasForProductGroupResponse parses an HTTP response from a GetUserQuotasForProductGroupWithResponse call
+func ParseGetUserQuotasForProductGroupResponse(rsp *http.Response) (*GetUserQuotasForProductGroupResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetUserQuotasForProductGroupResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest UserQuotaList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSetDefaultUserQuotaResponse parses an HTTP response from a SetDefaultUserQuotaWithResponse call
+func ParseSetDefaultUserQuotaResponse(rsp *http.Response) (*SetDefaultUserQuotaResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SetDefaultUserQuotaResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteUserQuotaResponse parses an HTTP response from a DeleteUserQuotaWithResponse call
+func ParseDeleteUserQuotaResponse(rsp *http.Response) (*DeleteUserQuotaResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteUserQuotaResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetUserQuotaResponse parses an HTTP response from a GetUserQuotaWithResponse call
+func ParseGetUserQuotaResponse(rsp *http.Response) (*GetUserQuotaResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetUserQuotaResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest QuotaResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseSetUserQuotaResponse parses an HTTP response from a SetUserQuotaWithResponse call
+func ParseSetUserQuotaResponse(rsp *http.Response) (*SetUserQuotaResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &SetUserQuotaResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetSlotsystemsResponse parses an HTTP response from a GetSlotsystemsWithResponse call
+func ParseGetSlotsystemsResponse(rsp *http.Response) (*GetSlotsystemsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetSlotsystemsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SlotsList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetSlotImagesResponse parses an HTTP response from a GetSlotImagesWithResponse call
+func ParseGetSlotImagesResponse(rsp *http.Response) (*GetSlotImagesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetSlotImagesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest SlotImageList
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteSlotSystemResponse parses an HTTP response from a DeleteSlotSystemWithResponse call
+func ParseDeleteSlotSystemResponse(rsp *http.Response) (*DeleteSlotSystemResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteSlotSystemResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseRestartSlotSystemResponse parses an HTTP response from a RestartSlotSystemWithResponse call
+func ParseRestartSlotSystemResponse(rsp *http.Response) (*RestartSlotSystemResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &RestartSlotSystemResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseStartSlotSystemResponse parses an HTTP response from a StartSlotSystemWithResponse call
+func ParseStartSlotSystemResponse(rsp *http.Response) (*StartSlotSystemResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &StartSlotSystemResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseStopSlotSystemResponse parses an HTTP response from a StopSlotSystemWithResponse call
+func ParseStopSlotSystemResponse(rsp *http.Response) (*StopSlotSystemResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &StopSlotSystemResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest Success
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -10346,6 +20095,39 @@ func ParseGetUserDetailsResponse(rsp *http.Response) (*GetUserDetailsResponse, e
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest UserDetails
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetUserAPIKeyResponse parses an HTTP response from a GetUserAPIKeyWithResponse call
+func ParseGetUserAPIKeyResponse(rsp *http.Response) (*GetUserAPIKeyResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetUserAPIKeyResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest UserAPIKeyResponse
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -10835,6 +20617,13 @@ func ParseUpdateVMDescriptionResponse(rsp *http.Response) (*UpdateVMDescriptionR
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest Error
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
 
 	}
 

@@ -1,4 +1,4 @@
-// Copyright IBM Corp. 2021, 2026
+// Copyright IBM Corp. 2026
 // SPDX-License-Identifier: MPL-2.0
 
 package provider
@@ -48,9 +48,9 @@ type FyreProviderModel struct {
 
 // FyreProviderData is the data passed to data sources and resources.
 type FyreProviderData struct {
-	Client                 *client.ClientWithResponses
-	DefaultSite            string
-	DefaultProductGroupID  *int64
+	Client                *client.ClientWithResponses
+	DefaultSite           string
+	DefaultProductGroupID *int64
 }
 
 func (p *FyreProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
@@ -197,6 +197,7 @@ func (p *FyreProvider) DataSources(ctx context.Context) []func() datasource.Data
 		NewDataSourceQuota,
 		NewDataSourceStencils,
 		NewDataSourceUser,
+		NewDataSourceUserAPIKey,
 		NewDataSourceVMCheckHostname,
 		NewDataSourceVMDetails,
 		NewDataSourceVMOSAvailable,

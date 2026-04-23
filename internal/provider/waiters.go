@@ -28,6 +28,10 @@ func pollRequestStatus(ctx context.Context,
 	pollCtx, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
 
+	if pollInterval < 1 {
+		return fmt.Errorf("poll internal must be positive, got: %d", pollInterval)
+	}
+
 	ticker := time.NewTicker(pollInterval)
 	defer ticker.Stop()
 

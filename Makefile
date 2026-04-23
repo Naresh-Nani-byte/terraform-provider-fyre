@@ -33,7 +33,7 @@ build-race-detector:
 .PHONY: docs
 docs:
 	type tfplugindocs || go install github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@latest
-	tfplugindocs generate --examples-dir examples --provider-dir command/plugin --provider-name ${PROVIDER_BIN_NAME} --rendered-website-dir ../../docs --website-source-dir ./templates
+	tfplugindocs generate --examples-dir examples --provider-dir . --provider-name fyre --rendered-website-dir docs
 
 .PHONY: check-doc-delta
 check-doc-delta:

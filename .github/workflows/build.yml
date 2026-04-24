@@ -139,29 +139,6 @@ jobs:
             echo "result=${result}"
             echo "results=${results}"
           } | tee -a "$GITHUB_OUTPUT"
-      - id: terraform-registry-manifest
-        run: |
-          name="terraform-provider-fyre"
-          version="${{ needs.setup.outputs.product-version }}"
-          source="terraform-registry-manifest.json"
-          destination="${name}_${version}_manifest.json"
-          cp "$source" "$destination"
-          echo "filename=$destination" | tee -a "$GITHUB_OUTPUT"
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: terraform-registry-manifest.json
-          path: ${{ steps.terraform-registry-manifest.outputs.filename }}
-          if-no-files-found: error
-      - id: generate-metadata-file
-        uses: hashicorp/actions-generate-metadata@f1d852525201cb7bbbf031dd2e985fb4c22307fc # v1.1.3
-        with:
-          version: ${{ needs.setup.outputs.product-version }}
-          product: terraform-provider-fyre
-          repositoryOwner: hashicorp-forge
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
-        with:
-          name: metadata.json
-          path: ${{ steps.generate-metadata-file.outputs.filepath }}
       - if: always() && steps.status.outputs.result != 'success'
         name: Check for failed status
         run: |

@@ -36,7 +36,7 @@ jobs:
           version="$(go list -f '{{.GoVersion}}' -m)"
           echo "go-version=$version" | tee -a "$GITHUB_OUTPUT"
       - id: set-product-version
-        uses: hashicorp/actions-set-product-version@2ec1b51402b3070bccf7ca95306afbd039e574ff # v2.0.1
+        uses: ./.github/actions/set-product-version
       - run: go mod download # so that the modules are cached
 
   build:
@@ -60,7 +60,6 @@ jobs:
           CGO_ENABLED: 0
           BASE_VERSION: ${{ needs.setup.outputs.product-base-version }}
           PRERELEASE_VERSION: ${{ needs.setup.outputs.product-prerelease-version}}
-          METADATA_VERSION: ${{ env.METADATA }}
         with:
           bin_name: "terraform-provider-fyre_v${{ needs.setup.outputs.product-version }}"
           product_name: terraform-provider-fyre

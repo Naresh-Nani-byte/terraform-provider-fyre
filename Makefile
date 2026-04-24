@@ -6,7 +6,7 @@ PROVIDER_NAME?=fyre
 PROVIDER_BIN_NAME=terraform-provider-fyre
 PROVIDER_BIN_OS?=$$(go env GOOS)
 PROVIDER_BIN_ARCH?=$$(go env GOARCH)
-PROVIDER_BIN_VERSION?=$$(cat VERSION)
+PROVIDER_BIN_VERSION?=$$(cat version/VERSION)
 PROVIDER_BUILD_TAGS?=-tags osusergo
 PROVIDER_LD_FLAGS?=-ldflags="-extldflags=-static"
 CI?=false

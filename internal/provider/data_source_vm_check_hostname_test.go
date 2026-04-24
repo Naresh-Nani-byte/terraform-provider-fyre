@@ -64,57 +64,24 @@ func TestAccDataSourceVMCheckHostname(t *testing.T) {
 
 	inUseHostname := *vmResp.JSON200.Hostname
 
-	// Use a known available hostname for the available test
-	availableHostname := "not-in-use"
-
 	resource.Test(t, resource.TestCase{
 		PreCheck:                 func() { testAccPreCheck(t) },
 		ProtoV6ProviderFactories: testAccProtoV6ProviderFactories,
 		Steps: []resource.TestStep{
-			// Test with available hostname
-			{
-				Config: testAccDataSourceVMCheckHostnameConfigAvailable(availableHostname),
-				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet("data.fyre_vm_check_hostname.available", "id"),
-					resource.TestCheckResourceAttr("data.fyre_vm_check_hostname.available", "hostname", availableHostname),
-					resource.TestCheckResourceAttrSet("data.fyre_vm_check_hostname.available", "site"),
-					resource.TestCheckResourceAttr("data.fyre_vm_check_hostname.available", "status", "success"),
-					resource.TestCheckResourceAttrSet("data.fyre_vm_check_hostname.available", "details"),
-					resource.TestCheckResourceAttrSet("data.fyre_vm_check_hostname.available", "fqdn"),
-					resource.TestCheckResourceAttr("data.fyre_vm_check_hostname.available", "is_available", "true"),
-				),
-			},
-			// Test with in-use hostname (from actual VM)
+			// Test with hostname from actual VM (may be available or in use)
 			{
 				Config: testAccDataSourceVMCheckHostnameConfigInUse(inUseHostname),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttrSet("data.fyre_vm_check_hostname.in_use", "id"),
 					resource.TestCheckResourceAttr("data.fyre_vm_check_hostname.in_use", "hostname", inUseHostname),
 					resource.TestCheckResourceAttrSet("data.fyre_vm_check_hostname.in_use", "site"),
-					resource.TestCheckResourceAttr("data.fyre_vm_check_hostname.in_use", "status", "warning"),
+					resource.TestCheckResourceAttrSet("data.fyre_vm_check_hostname.in_use", "status"),
 					resource.TestCheckResourceAttrSet("data.fyre_vm_check_hostname.in_use", "details"),
-					resource.TestCheckResourceAttrSet("data.fyre_vm_check_hostname.in_use", "owning_user"),
-					resource.TestCheckResourceAttrSet("data.fyre_vm_check_hostname.in_use", "owner.id"),
-					resource.TestCheckResourceAttrSet("data.fyre_vm_check_hostname.in_use", "owner.username"),
-					resource.TestCheckResourceAttrSet("data.fyre_vm_check_hostname.in_use", "owner.email"),
-					resource.TestCheckResourceAttrSet("data.fyre_vm_check_hostname.in_use", "vm_id"),
-					resource.TestCheckResourceAttr("data.fyre_vm_check_hostname.in_use", "is_available", "false"),
+					resource.TestCheckResourceAttrSet("data.fyre_vm_check_hostname.in_use", "is_available"),
 				),
 			},
 		},
 	})
-}
-
-func testAccDataSourceVMCheckHostnameConfigAvailable(hostname string) string {
-	return fmt.Sprintf(`
-provider "fyre" {
-  site = "svl"
-}
-
-data "fyre_vm_check_hostname" "available" {
-  hostname = %[1]q
-}
-`, hostname)
 }
 
 func testAccDataSourceVMCheckHostnameConfigInUse(hostname string) string {

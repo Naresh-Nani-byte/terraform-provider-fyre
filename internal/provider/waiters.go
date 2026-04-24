@@ -8,8 +8,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
-
 	"github.com/hashicorp-forge/terraform-provider-fyre/internal/client"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
@@ -104,7 +102,7 @@ func pollRequestStatus(ctx context.Context,
 	for {
 		select {
 		case <-pollCtx.Done():
-			return fmt.Errorf("%s: timed out after %v waiting for request to complete: %w, %v", operation, timeout, err, spew.Sdump(statusResp))
+			return fmt.Errorf("%s: timed out after %v waiting for request to complete: %w", operation, timeout, err)
 		case <-ticker.C:
 			err = checkRequestCompleted()
 			if err == nil {

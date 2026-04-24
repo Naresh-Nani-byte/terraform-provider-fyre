@@ -12,7 +12,7 @@ import (
 
 // TestAccDataSourceVMSnapshots verifies the fyre_vm_snapshots data source can successfully
 // retrieve VM snapshot information from the Fyre API. It requires FYRE_USERNAME,
-// FYRE_API_KEY, and FYRE_TEST_VM_ID environment variables to be set.
+// FYRE_API_KEY, and FYRE_ACC_VM_ID environment variables to be set.
 // The test validates that the data source returns expected attributes including
 // snapshot count, snapshot limit, and the list of snapshots.
 func TestAccDataSourceVMSnapshots(t *testing.T) {
@@ -20,9 +20,9 @@ func TestAccDataSourceVMSnapshots(t *testing.T) {
 		t.Skip("FYRE_USERNAME and FYRE_API_KEY must be set for acceptance tests")
 	}
 
-	vmID := os.Getenv("FYRE_TEST_VM_ID")
+	vmID := os.Getenv("FYRE_ACC_VM_ID")
 	if vmID == "" {
-		t.Skip("FYRE_TEST_VM_ID must be set for acceptance tests")
+		t.Skip("FYRE_ACC_VM_ID must be set for acceptance tests")
 	}
 
 	resource.Test(t, resource.TestCase{

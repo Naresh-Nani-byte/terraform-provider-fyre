@@ -66,7 +66,7 @@ test-acc:
 
 .PHONY: test-race-detector
 test-race-detector:
-	GORACE=log_path=/tmp/gorace.log TF_ACC=1 go test -race $(TEST) -v $(TESTARGS) -timeout 120m ./command/plugin
+	GORACE=log_path=/tmp/gorace.log TF_ACC=1 go test -race $(TEST) -v $(TESTARGS) -timeout 120m
 
 .PHONY: fmt
 fmt: fmt-golang fmt-enos

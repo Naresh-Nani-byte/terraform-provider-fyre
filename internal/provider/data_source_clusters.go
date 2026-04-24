@@ -175,11 +175,15 @@ func (d *DataSourceClusters) Read(ctx context.Context, req datasource.ReadReques
 	data.ID = types.StringValue("clusters")
 	data.Site = types.StringValue(string(site))
 
-	// Set cluster count
+	// Set cluster count - default to 0 if not provided
 	if clustersResp.JSON200.ClusterCount != nil {
 		data.ClusterCount = types.Int64Value(int64(*clustersResp.JSON200.ClusterCount))
+	} else if clustersResp.JSON200.Clusters != nil {
+		// If ClusterCount is not provided but we have clusters, use the length
+		data.ClusterCount = types.Int64Value(int64(len(*clustersResp.JSON200.Clusters)))
 	} else {
-		data.ClusterCount = types.Int64Null()
+		// No clusters and no count, default to 0
+		data.ClusterCount = types.Int64Value(0)
 	}
 
 	// Map clusters array

@@ -1,0 +1,5061 @@
+# Copyright IBM Corp. 2026
+# SPDX-License-Identifier: MPL-2.0
+
+# NOTE: This specification ought not be considered a source of truth. It has
+# been generated largely with the help of bob. Unless specified, responses are
+# likely hallucinated and incorrect. If you find a need to update it you can
+# use the `fyre-api-updater` skill to assist in updating the spec and
+# regenerating the client module.
+
+openapi: 3.0.0
+info:
+  title: Fyre API
+  description: |
+    API for managing virtual machines, clusters, and stencils in the Fyre development environment.
+
+    ## Authentication
+    This API uses HTTP Basic Authentication with your Fyre username and API key. You must be on
+    the VPN to use the API.
+
+    ## Sites
+    The API is available at two sites:
+    - SVL (San Jose, Silicon Valley Labs)
+    - RTP (Raleigh, Research Triangle Park)
+
+    You can specify the site using the `site` query parameter or in the request body.
+    Default site is SVL if not specified.
+
+    ## VM Identifiers
+    Many endpoints accept a VM identifier which can be:
+    - VM ID (format: x-xxxxxxx)
+    - IP address
+    - Fully Qualified Domain Name (FQDN) - must be in DNS
+  version: 1.0.0
+  contact:
+    name: DevIT Support
+    url: https://w3.ibm.com/w3publisher/devit/support
+  termsOfService: https://terms.devit.ibm.com/tous/12
+  license:
+    name: Mozilla Public License 2.0
+    url: https://www.mozilla.org/en-US/MPL/2.0/
+
+servers:
+  - url: https://ocpapi.svl.ibm.com/v1
+    description: SVL (San Jose) Production Server
+
+security:
+  - basicAuth: []
+
+tags:
+  - name: Quota
+    description: Operations related to quota management
+  - name: VMs
+    description: Operations for managing virtual machines
+  - name: VM Actions
+    description: Power and state management operations for VMs
+  - name: Stencils
+    description: Operations for creating and managing VM templates (stencils)
+  - name: Snapshots
+    description: Operations for managing VM snapshots
+  - name: Clusters
+    description: Operations for managing VM clusters
+  - name: Users
+    description: Operations related to user information
+  - name: Networking
+    description: Operations for managing IP addresses and networking
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic Authentication using Fyre username and API key
+
+  parameters:
+    vmIdentifier:
+      name: vm_identifier
+      in: path
+      required: true
+      description: VM identifier (can be VM ID, IP address, or FQDN)
+      schema:
+        type: string
+      example: x-1234567
+
+    clusterIdentifier:
+      name: cluster_identifier
+      in: path
+      required: true
+      description: Cluster identifier (can be cluster ID or name)
+      schema:
+        type: string
+
+    productGroupId:
+      name: product_group_id
+      in: path
+      required: true
+      description: Product group identifier
+      schema:
+        type: string
+
+    stencilId:
+      name: stencil_id
+      in: path
+      required: true
+      description: Stencil identifier
+      schema:
+        type: string
+
+    requestId:
+      name: request_id
+      in: path
+      required: true
+      description: Request identifier
+      schema:
+        type: string
+
+    platform:
+      name: platform
+      in: path
+      required: true
+      description: Platform type
+      schema:
+        type: string
+        enum: [x, pvm, z]
+      example: x
+
+    hostname:
+      name: hostname
+      in: path
+      required: true
+      description: Hostname to check availability
+      schema:
+        type: string
+
+    search:
+      name: search
+      in: path
+      required: true
+      description: Search term (email or name)
+      schema:
+        type: string
+
+    vmAction:
+      name: action
+      in: path
+      required: true
+      description: VM power action
+      schema:
+        type: string
+        enum: [boot, shutdown, reboot]
+
+    userIdentifier:
+      name: user_identifier
+      in: path
+      required: true
+      description: User identifier (can be user ID, username, or email)
+      schema:
+        type: string
+
+    vipType:
+      name: vip_type
+      in: path
+      required: true
+      description: Virtual IP type
+      schema:
+        type: string
+        enum: [private, public]
+
+    vipCount:
+      name: count
+      in: path
+      required: false
+      description: Number of IPs to allocate
+      schema:
+        type: integer
+        minimum: 1
+
+    vipSequential:
+      name: sequential
+      in: path
+      required: false
+      description: Request sequential IPs
+      schema:
+        type: string
+        enum: [sequential]
+
+    siteQuery:
+      name: site
+      in: query
+      required: false
+      description: Site location (svl or rtp)
+      schema:
+        type: string
+        enum: [svl, rtp]
+        default: svl
+
+  schemas:
+    ClusterCreateRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Cluster name
+        description:
+          type: string
+          description: URL-encoded description
+
+    ClusterDetails:
+      # Updated from actual API response on 2026-04-13
+      type: object
+      properties:
+        cluster:
+          type: object
+          properties:
+            id:
+              type: integer
+            user_id:
+              type: integer
+            name:
+              type: string
+            description:
+              type: string
+            created:
+              type: string
+              description: Cluster creation timestamp
+            updated:
+              type: string
+              description: Cluster last update timestamp
+            vms:
+              type: array
+              description: VM details (only present when include_vms is used)
+              items:
+                $ref: '#/components/schemas/VMSummary'
+
+    ClusterList:
+      # Updated from actual API response on 2026-04-14
+      type: object
+      properties:
+        cluster_count:
+          type: integer
+          description: Total number of clusters
+        clusters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClusterSummary'
+
+    ClusterSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Cluster ID
+        name:
+          type: string
+          description: Cluster name
+        description:
+          type: string
+          description: Cluster description
+        created:
+          type: string
+          description: Cluster creation timestamp
+          example: "2026-04-13 16:00:49"
+        updated:
+          type: string
+          description: Cluster last update timestamp
+          example: "2026-04-13 16:00:49"
+        vm_count:
+          type: integer
+          description: Number of VMs in the cluster
+
+    ClusterUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Cluster name
+        description:
+          type: string
+          description: URL-encoded description
+
+    ClusterVMRequest:
+      type: object
+      required:
+        - vm_id
+      properties:
+        vm_id:
+          type: array
+          items:
+            type: string
+          description: Array of VM IDs
+
+    Error:
+      # Updated from actual API response on 2026-04-22
+      type: object
+      properties:
+        status:
+          type: string
+          example: error
+        message:
+          type: string
+          example: Error message description
+        details:
+          description: Human-readable details about the error. Live create-VM validation
+            errors may return either a plain string or an object containing an errors array.
+          oneOf:
+            - type: string
+              example: "VM password has not been changed because the vm is not running"
+            - type: object
+              properties:
+                errors:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                    - invalid os provided
+                    - node has non-numeric value for additional disk specified
+              additionalProperties: true
+
+    ExpirationUpdate:
+      type: object
+      required:
+        - expiration
+      properties:
+        expiration:
+          type: string
+          description: Expiration time in hours or "X days X hours" format (max 90 days)
+
+    FloatingIPRequest:
+      type: object
+      required:
+        - floating_ip
+      properties:
+        floating_ip:
+          type: string
+          description: Floating IP address
+
+    HostnameCheck:
+      # Updated from actual API response on 2026-04-13
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [success, warning]
+          description: "success if hostname is available, warning if in use"
+        details:
+          type: string
+          description: "Human-readable message about hostname availability"
+        fqdn:
+          type: string
+          description: "Fully qualified domain name (only present when status is success)"
+        owning_user:
+          type: integer
+          description: "User ID of current owner (only present when status is warning)"
+        owner:
+          type: object
+          description: "Owner details (only present when status is warning)"
+          properties:
+            id:
+              type: integer
+            username:
+              type: string
+            email:
+              type: string
+        vm_id:
+          type: string
+          description: "VM ID of the VM using this hostname (only present when status is warning)"
+
+    NFSClientsList:
+      type: object
+      properties:
+        status:
+          type: string
+        clients:
+          type: array
+          items:
+            type: object
+            properties:
+              ip_address:
+                type: string
+              mount_point:
+                type: string
+
+    NFSNameCheck:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [success, warning]
+        details:
+          type: string
+
+    NFSPermission:
+      type: object
+      properties:
+        storage_path:
+          type: string
+        ip_address:
+          type: string
+        permission:
+          type: string
+          enum: [rw, ro]
+        root_squash:
+          type: string
+          enum: [root_squash, no_root_squash]
+
+    NFSPermissionsList:
+      type: object
+      properties:
+        status:
+          type: string
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/NFSPermission'
+
+    NFSPermissionsUpdate:
+      type: object
+      required:
+        - storage_array
+      properties:
+        storage_array:
+          type: array
+          items:
+            type: object
+            required:
+              - action
+              - storage_path
+              - ip_address
+            properties:
+              action:
+                type: string
+                enum: [add, change, delete]
+              storage_path:
+                type: string
+              ip_address:
+                type: string
+              permission:
+                type: string
+                enum: [rw, ro]
+              root_squash:
+                type: string
+                enum: [root_squash, no_root_squash]
+
+    NFSStorageList:
+      type: object
+      properties:
+        status:
+          type: string
+        storage:
+          type: array
+          items:
+            $ref: '#/components/schemas/NFSStorageSummary'
+
+    NFSStorageRequest:
+      type: object
+      required:
+        - share_name
+        - server_name
+        - capacity
+      properties:
+        share_name:
+          type: string
+        server_name:
+          type: string
+        capacity:
+          type: string
+          description: Capacity in GB
+        justification:
+          type: string
+          description: Optional justification
+
+    NFSStorageSummary:
+      type: object
+      properties:
+        storage_name:
+          type: string
+        server_name:
+          type: string
+        capacity:
+          type: integer
+        used:
+          type: integer
+        available:
+          type: integer
+        protected:
+          type: boolean
+
+    NFSStorageTransfer:
+      type: object
+      required:
+        - new_owner_email
+      properties:
+        new_owner_email:
+          type: string
+
+    OCPClusterBuildRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        ocp_version:
+          type: string
+        master:
+          type: object
+          properties:
+            count:
+              type: integer
+            cpu:
+              type: integer
+            memory:
+              type: integer
+            disk:
+              type: integer
+        worker:
+          type: array
+          items:
+            type: object
+            properties:
+              count:
+                type: integer
+              cpu:
+                type: integer
+              memory:
+                type: integer
+              os_disk:
+                type: integer
+              additional_disk:
+                type: array
+                items:
+                  type: integer
+        infra:
+          type: object
+          properties:
+            cpu:
+              type: integer
+            memory:
+              type: integer
+            disk:
+              type: integer
+        expiration:
+          type: string
+        quick_burn:
+          type: boolean
+        size:
+          type: string
+          enum: [medium, large]
+
+    OCPClusterDetails:
+      type: object
+      properties:
+        cluster_id:
+          type: string
+        cluster_name:
+          type: string
+        description:
+          type: string
+        platform:
+          type: string
+        ocp_version:
+          type: string
+        status:
+          type: string
+        created:
+          type: string
+        expiration:
+          type: string
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/OCPNodeSummary'
+
+    OCPClusterList:
+      type: object
+      properties:
+        status:
+          type: string
+        clusters:
+          type: array
+          items:
+            $ref: '#/components/schemas/OCPClusterSummary'
+
+    OCPClusterStatus:
+      type: object
+      properties:
+        status:
+          type: string
+        cluster_status:
+          type: string
+        details:
+          type: string
+
+    OCPClusterSummary:
+      type: object
+      properties:
+        cluster_id:
+          type: string
+        cluster_name:
+          type: string
+        platform:
+          type: string
+        status:
+          type: string
+        created:
+          type: string
+
+    OCPClusterTransfer:
+      type: object
+      properties:
+        comment:
+          type: string
+
+    OCPNodeSummary:
+      type: object
+      properties:
+        node_name:
+          type: string
+        node_type:
+          type: string
+        cpu:
+          type: integer
+        memory:
+          type: integer
+        status:
+          type: string
+
+    OCPVersionList:
+      type: object
+      properties:
+        status:
+          type: string
+        versions:
+          type: array
+          items:
+            type: string
+
+    OCPVMDetails:
+      type: object
+      properties:
+        vm_id:
+          type: string
+        hostname:
+          type: string
+        cpu:
+          type: integer
+        memory:
+          type: integer
+        disk:
+          type: integer
+        status:
+          type: string
+
+    OCPVMDiskAdd:
+      type: object
+      required:
+        - additional_disk
+      properties:
+        additional_disk:
+          type: array
+          items:
+            type: integer
+
+    OCPVMResourceUpdate:
+      type: object
+      properties:
+        cpu:
+          type: integer
+        memory:
+          type: integer
+
+    OCPWorkerAdd:
+      type: object
+      properties:
+        count:
+          type: integer
+        cpu:
+          type: integer
+        memory:
+          type: integer
+        os_disk:
+          type: integer
+        additional_disk:
+          type: array
+          items:
+            type: integer
+
+    OSList:
+      # Updated from actual API response on 2026-04-21
+      # Response structure verified for x and z platforms across SVL and RTP sites
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        operating_systems:
+          type: object
+          description: Available operating systems organized by distribution
+          properties:
+            CentOS:
+              type: array
+              items:
+                type: string
+              description: Available CentOS versions
+            RedHat:
+              type: array
+              items:
+                type: string
+              description: Available RedHat versions
+            Rocky:
+              type: array
+              items:
+                type: string
+              description: Available Rocky Linux versions
+            SLES:
+              type: array
+              items:
+                type: string
+              description: Available SUSE Linux Enterprise Server versions
+            Ubuntu:
+              type: array
+              items:
+                type: string
+              description: Available Ubuntu versions
+            Windows:
+              type: array
+              items:
+                type: string
+              description: Available Windows versions
+        default_size:
+          type: object
+          description: Default and maximum VM sizing constraints
+          properties:
+            vm:
+              type: object
+              properties:
+                count:
+                  type: string
+                  description: Default VM count
+                cpu:
+                  type: string
+                  description: Default CPU count
+                memory:
+                  type: string
+                  description: Default memory in GB
+                max_count:
+                  type: string
+                  description: Maximum VM count
+                max_cpu:
+                  type: string
+                  description: Maximum CPU count
+                max_memory:
+                  type: string
+                  description: Maximum memory in GB
+                max_disk_count:
+                  type: string
+                  description: Maximum number of disks
+                max_disk_size:
+                  type: string
+                  description: Maximum disk size in GB
+                max_total_disk_size:
+                  type: string
+                  description: Maximum total disk size in GB
+                pvm:
+                  type: object
+                  description: PVM-specific maximums (may not be present in all responses)
+                  properties:
+                    max_cpu:
+                      type: string
+                    max_memory:
+                      type: string
+
+    QuotaResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        details:
+          type: array
+          items:
+            type: object
+            properties:
+              product_group_id:
+                type: integer
+              product_group_name:
+                type: string
+              platforms:
+                type: array
+                items:
+                  type: string
+              x:
+                type: object
+                properties:
+                  cpu:
+                    type: integer
+                  cpu_used:
+                    type: integer
+                  memory:
+                    type: integer
+                  memory_used:
+                    type: integer
+                  disk:
+                    type: integer
+                  disk_used:
+                    type: integer
+                  cpu_percent:
+                    type: integer
+                  memory_percent:
+                    type: integer
+                  disk_percent:
+                    type: integer
+              z:
+                type: object
+                properties:
+                  cpu:
+                    type: integer
+                  cpu_used:
+                    type: integer
+                  memory:
+                    type: integer
+                  memory_used:
+                    type: integer
+                  disk:
+                    type: integer
+                  disk_used:
+                    type: integer
+                  cpu_percent:
+                    type: integer
+                  memory_percent:
+                    type: integer
+                  disk_percent:
+                    type: integer
+              # NOTE: This object mirrors that of x and z but as of yet has not
+              # been verified.
+              pvm:
+                type: object
+                properties:
+                  cpu:
+                    type: integer
+                  cpu_used:
+                    type: integer
+                  memory:
+                    type: integer
+                  memory_used:
+                    type: integer
+                  disk:
+                    type: integer
+                  disk_used:
+                    type: integer
+                  cpu_percent:
+                    type: integer
+                  memory_percent:
+                    type: integer
+                  disk_percent:
+                    type: integer
+              ip:
+                type: object
+                properties:
+                  public:
+                    type: object
+                    properties:
+                      quota:
+                        type: integer
+                      used:
+                        type: integer
+
+    QuotaTransfer:
+      type: object
+      required:
+        - product_group_id
+        - site
+      properties:
+        site:
+          type: string
+          enum: [svl, rtp]
+        product_group_id:
+          type: string
+        vm:
+          type: object
+          properties:
+            x:
+              type: object
+              properties:
+                cpu:
+                  type: string
+                memory:
+                  type: string
+                disk:
+                  type: string
+
+    RequestStatus:
+      # Updated from actual API response on 2026-04-14
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response (success, error, etc.)
+        request:
+          type: object
+          description: Request details object
+          properties:
+            request_id:
+              type: string
+              description: Unique request identifier
+            operation:
+              type: string
+              description: Type of operation (e.g., "build vm")
+            last_status:
+              type: string
+              description: Last status message from the operation
+            last_status_time:
+              type: string
+              description: Timestamp of last status update
+            job_count:
+              type: integer
+              description: Total number of jobs
+            task_count:
+              type: integer
+              description: Total number of tasks
+            complete:
+              type: string
+              description: Number of completed tasks (as string)
+            failed:
+              type: string
+              description: Number of failed tasks (as string)
+            in_progress:
+              type: string
+              description: Number of tasks in progress (as string)
+            pending:
+              type: string
+              description: Number of pending tasks (as string)
+            completion_percent:
+              type: integer
+              description: Overall completion percentage
+
+    SlotsList:
+      type: object
+      properties:
+        status:
+          type: string
+        systems:
+          type: array
+          items:
+            $ref: '#/components/schemas/SlotSummary'
+
+    SlotSummary:
+      type: object
+      properties:
+        system_name:
+          type: string
+        status:
+          type: string
+        image:
+          type: string
+
+    SlotImageList:
+      type: object
+      properties:
+        status:
+          type: string
+        images:
+          type: array
+          items:
+            type: string
+
+    SlotStartRequest:
+      type: object
+      properties:
+        image:
+          type: string
+        overwrite:
+          type: boolean
+
+    SlotStopRequest:
+      type: object
+      properties:
+        overwrite:
+          type: boolean
+
+    SlotDeleteRequest:
+      type: object
+      properties:
+        delete_backups:
+          type: boolean
+
+    Snapshot:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Snapshot name
+        comment:
+          type: string
+          description: Snapshot comment/description
+        full_snapshot:
+          type: string
+          description: Whether this is a full snapshot - "true" or "false" as string
+        active:
+          type: string
+          description: Whether snapshot is active - "true" or "false" as string
+        used:
+          type: integer
+          description: Disk space used by snapshot
+        enabled:
+          type: string
+          description: Whether snapshot is enabled - "y" or "n"
+        created:
+          type: string
+          description: Snapshot creation timestamp
+          example: "2026-04-13 14:06:59"
+
+    SnapshotCreateRequest:
+      type: object
+      required:
+        - snapshot_name
+      properties:
+        snapshot_name:
+          type: string
+          description: Snapshot name
+        snapshot_comment:
+          type: string
+          description: Comment text
+        full_snapshot:
+          type: boolean
+          description: true for all disks, false for base OS disk only
+
+    SnapshotDeleteRequest:
+      type: object
+      required:
+        - snapshot_name
+      properties:
+        snapshot_name:
+          type: string
+          description: Snapshot name to delete
+
+    # Updated from actual API response on 2026-04-13
+    SnapshotList:
+      type: object
+      properties:
+        snapshot_count:
+          type: string
+          description: Number of snapshots (returned as string)
+        snapshot_limit:
+          type: string
+          description: Maximum number of snapshots allowed (returned as string)
+        snapshots:
+          type: array
+          items:
+            $ref: '#/components/schemas/Snapshot'
+
+    SnapshotRevertRequest:
+      type: object
+      required:
+        - snapshot_name
+      properties:
+        snapshot_name:
+          type: string
+          description: Snapshot name to revert to
+
+    StencilCreateRequest:
+      type: object
+      required:
+        - name
+        - product_group_id
+      properties:
+        name:
+          type: string
+          description: Stencil name
+        description:
+          type: string
+          description: Stencil description
+        product_group_id:
+          type: string
+          description: Product group identifier
+        public:
+          type: boolean
+          default: false
+          description: Make stencil public
+
+    StencilDeployRequest:
+      type: object
+      properties:
+        hostname:
+          type: string
+          description: Hostname for the VM
+        description:
+          type: string
+          description: VM description
+        public_network:
+          type: string
+          enum: ['y', 'n']
+          description: Assign public IP address
+        expiration:
+          type: string
+          description: Expiration time in hours or "X days X hours" format
+
+    StencilDetails:
+      # Updated from actual API response on 2026-04-13
+      type: object
+      properties:
+        id:
+          type: string
+          description: Stencil ID
+        name:
+          type: string
+          description: Stencil name
+        description:
+          type: string
+          description: Stencil description
+        active:
+          type: string
+          enum: ['y', 'n']
+          description: Whether stencil is active
+        private:
+          type: string
+          enum: ['y', 'n']
+          description: Whether stencil is private
+        created:
+          type: string
+          description: Creation timestamp
+        updated:
+          type: string
+          description: Last update timestamp
+        site:
+          type: string
+          enum: [svl, rtp]
+          description: Site location
+        owner:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: Owner user ID
+            email:
+              type: string
+              description: Owner email
+            username:
+              type: string
+              description: Owner username
+            displayname:
+              type: string
+              description: Owner display name
+        product_group:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: Product group ID
+            product_group:
+              type: string
+              description: Product group name
+        vms:
+          type: array
+          description: VM configuration details
+          items:
+            type: object
+            properties:
+              product_group_id:
+                type: integer
+              platform:
+                type: string
+                enum: [x, pvm, z]
+              compliance_date:
+                type: string
+              disk_qty:
+                type: integer
+              disk_capacity:
+                type: string
+              interfaces:
+                type: array
+                items:
+                  type: string
+                  enum: [private, public]
+
+    StencilList:
+      # Updated from actual API response on 2026-04-13
+      # Response is a direct array of stencil objects
+      type: array
+      items:
+        $ref: '#/components/schemas/StencilSummary'
+
+    StencilSummary:
+      # Updated from actual API response on 2026-04-13
+      type: object
+      properties:
+        stencil_ids:
+          type: array
+          items:
+            type: object
+            properties:
+              stencil_id:
+                type: string
+              location:
+                type: string
+        name:
+          type: string
+        description:
+          type: string
+        platform:
+          type: string
+        type:
+          type: string
+        product_group_id:
+          type: integer
+        os:
+          type: string
+        cpu:
+          type: integer
+        memory:
+          type: integer
+        disk_qty:
+          type: integer
+        disk:
+          type: string
+        public_ip:
+          type: string
+        private_ip:
+          type: string
+        compliance_date:
+          type: string
+        permission:
+          type: string
+        created:
+          type: string
+        updated:
+          type: string
+        owner:
+          type: object
+          properties:
+            user_id:
+              type: integer
+            email:
+              type: string
+            username:
+              type: string
+            name:
+              type: string
+
+    Success:
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        message:
+          type: string
+          example: Operation completed successfully
+        details:
+          type: string
+          description: Human-readable details about the operation
+          example: vm specification change initiated
+        request_id:
+          type: string
+          description: Request identifier for tracking asynchronous operations
+          example: "1-233609208"
+
+    UserAPIKeyResponse:
+      # Updated from actual API response on 2026-04-22
+      type: object
+      properties:
+        status:
+          type: string
+          example: info
+          description: Response status
+        details:
+          type: string
+          description: Human-readable message about the API key
+          example: "Successfully retrieved expiration for api key for user ryan.cragun"
+        expiration:
+          type: string
+          description: API key expiration timestamp
+          example: "2026-10-09 10:50:21"
+
+    UserDetails:
+      type: object
+      properties:
+        full_name:
+          type: string
+        email:
+          type: string
+        client_ip:
+          type: string
+        authenticated:
+          type: boolean
+        sentry:
+          type: object
+          properties:
+            user_status:
+              type: string
+            auth_method:
+              type: string
+            status:
+              type: string
+            2fa_status:
+              type: string
+            access:
+              type: string
+            authenticator:
+              type: string
+            default_2fa_method:
+              type: string
+        login:
+            type: string
+        login_expiration:
+            type: integer
+        unix_expiration_timestamp:
+            type: integer
+        programs:
+          type: array
+          items:
+            type: string
+        development:
+          type: object
+          properties:
+            id:
+              type: integer
+            email:
+              type: string
+            username:
+              type: string
+            display_name:
+              type: string
+            default_product_group_id:
+              type: integer
+            default_location:
+              type: string
+            authenticated:
+              type: boolean
+            valid_api_key:
+              type: string
+            password_set:
+              type: string
+            login:
+              type: string
+            login_expiration:
+              type: integer
+            default_password_expiration:
+              type: string
+            product_groups:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  product_name:
+                    type: string
+                  group_name:
+                    type: string
+            quick_burn:
+              type: string
+            roles:
+              type: array
+              items:
+                # NOTE: not actually sure of this
+                type: string
+            product_group_owner:
+              type: string
+            authorizations:
+              #
+              type: array
+              items:
+                # NOTE: not actually sure of this
+                type: string
+            settings:
+              type: array
+              items:
+                # NOTE: not actually sure of this
+                type: string
+
+    UserList:
+      type: object
+      properties:
+        status:
+          type: string
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSummary'
+
+    UserQuotaList:
+      type: object
+      properties:
+        status:
+          type: string
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserQuotaSummary'
+
+    UserQuotaSummary:
+      type: object
+      properties:
+        user_id:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+        quota:
+          type: object
+
+    UserQuotaUpdate:
+      type: object
+      properties:
+        site:
+          type: string
+          enum: [svl, rtp]
+        vm:
+          type: object
+          properties:
+            x:
+              type: object
+              properties:
+                cpu:
+                  type: string
+                memory:
+                  type: string
+                disk:
+                  type: string
+            pvm:
+              type: object
+              properties:
+                cpu:
+                  type: string
+                memory:
+                  type: string
+                disk:
+                  type: string
+            z:
+              type: object
+              properties:
+                cpu:
+                  type: string
+                memory:
+                  type: string
+                disk:
+                  type: string
+        ip:
+          type: object
+          properties:
+            public:
+              type: string
+            floating:
+              type: string
+            port_map:
+              type: string
+
+    UserSummary:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        name:
+          type: string
+
+    VMAdditionalDisk:
+      type: object
+      properties:
+        size:
+          type: integer
+
+    VMCloneRequest:
+      type: object
+      properties:
+        expiration:
+          type: string
+          description: Expiration time in hours or "X days X hours" format
+        ssh_key:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          description: SSH key(s)
+        hostname:
+          type: string
+          description: Hostname for the cloned VM
+        cpu:
+          type: integer
+          description: Number of CPUs
+        memory:
+          type: integer
+          description: Memory in GB
+        disk:
+          type: integer
+          description: Disk size in GB
+        public_network:
+          type: string
+          enum: ['y', 'n']
+          description: Assign public IP address
+        dns:
+          type: string
+          enum: ['y', 'n']
+          description: Add hostname to DNS
+
+    VMCreateRequest:
+      # Updated from actual API response on 2026-04-14
+      type: object
+      required:
+        - node_array
+      properties:
+        quota_type:
+          type: string
+          enum: [product_group, quick_burn]
+          default: product_group
+          description: Type of quota to use
+        product_group_id:
+          type: string
+          description: Product group identifier (defaults to user's default product group)
+        time_to_live:
+          type: string
+          description: Hours - required if quota_type is quick_burn
+        expiration:
+          type: string
+          description: Expiration time in hours or "X days X hours" format (max 90 days)
+        ssh_key:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+          description: SSH key(s) - can be array or comma-separated string
+        check_config:
+          type: string
+          enum: ['y', 'n']
+          default: 'n'
+          description: If 'y', validates configuration without building
+        node_array:
+          type: array
+          description: Array of VM configurations to create
+          items:
+            type: object
+            required:
+              - os
+            properties:
+              count:
+                type: integer
+                default: 1
+                description: Number of VMs to create with this configuration
+              hostname:
+                oneOf:
+                  - type: string
+                  - type: array
+                    items:
+                      type: string
+                description: Hostname(s) for the VM(s)
+              platform:
+                type: string
+                enum: [x, pvm, z]
+                default: x
+                description: Platform type
+              cpu:
+                type: integer
+                default: 4
+                description: Number of CPUs
+              memory:
+                type: integer
+                default: 8
+                description: Memory in GB
+              os:
+                type: string
+                description: Operating system (required)
+              description:
+                type: string
+                description: VM description
+              public_network:
+                type: string
+                enum: ['y', 'n']
+                default: 'n'
+                description: Provision public IP on VM
+              dns:
+                type: string
+                enum: ['y', 'n']
+                default: 'n'
+                description: Add hostname to DNS in dev.fyre.ibm.com domain
+              additional_disk:
+                type: array
+                items:
+                  type: string
+                description: Additional disk sizes in GB (max 2)
+                maxItems: 2
+              dedicated:
+                type: string
+                enum: ['y', 'n']
+                default: 'n'
+                description: Use dedicated host
+              dedicated_host:
+                type: array
+                items:
+                  type: string
+                description: Specific dedicated host(s) to use
+
+    VMCreateResponse:
+      # Updated from actual API response on 2026-04-14
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response (success, error, etc.)
+        details:
+          type: string
+          description: Details about the operation (e.g., "build initiated")
+        vm_id:
+          type: string
+          description: The VM identifier assigned to the new VM
+        request_id:
+          type: string
+          description: Unique request identifier for tracking the build operation
+
+    VMDeleteResponse:
+      # Updated from actual API response on 2026-04-14
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response (success, error, etc.)
+        details:
+          type: string
+          description: Details about the operation (e.g., "vm deletion initiated")
+        request_id:
+          type: string
+          description: Unique request identifier for tracking the deletion operation
+
+    VMDescriptionUpdate:
+      type: object
+      required:
+        - description
+      properties:
+        description:
+          type: string
+          description: VM description
+
+    VMDetails:
+      # Updated from actual API response on 2026-04-13
+      # Updated additional_disk field from actual API response on 2026-04-20
+      # Updated time_remaining field from actual API response on 2026-04-23
+      type: object
+      properties:
+        location:
+          type: string
+        vm_id:
+          type: string
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+            username:
+              type: string
+            email:
+              type: string
+            display_name:
+              type: string
+            status:
+              type: string
+        quota_type:
+          type: string
+        product_group_id:
+          type: integer
+        product_group:
+          type: string
+        hostname:
+          type: string
+        domain:
+          type: string
+        description:
+          type: string
+        state:
+          type: string
+        pingable:
+          type: string
+        pingable_last_checked:
+          type: string
+          nullable: true
+        transfer_comment:
+          type: string
+        sshable:
+          type: string
+        sshable_last_checked:
+          type: string
+          nullable: true
+        cpu:
+          type: integer
+        memory:
+          type: integer
+        os:
+          type: string
+        platform:
+          type: string
+        disk_driver:
+          type: string
+        comment:
+          type: string
+        expiration:
+          type: string
+        time_remaining:
+          type: string
+          description: Human-readable time remaining until expiration
+        timezone:
+          type: string
+        security_lock:
+          type: string
+        compliance:
+          type: string
+        disable_delete:
+          type: string
+        auto_patch:
+          type: string
+        created:
+          type: string
+        fqdn:
+          type: string
+        host_down:
+          type: string
+        created_iso8601:
+          type: string
+        os_disk:
+          type: integer
+        additional_disk:
+          type: array
+          items:
+            type: integer
+          description: Array of additional disk sizes in GB
+        ips:
+          type: array
+          items:
+            type: object
+            properties:
+              ip:
+                type: string
+              type:
+                type: string
+              scope:
+                type: string
+        allow_floating_ip:
+          type: string
+
+    VMDiskAdd:
+      type: object
+      required:
+        - additional_disk
+      properties:
+        additional_disk:
+          type: array
+          items:
+            type: integer
+          description: Additional disk sizes in GB
+          maxItems: 2
+
+    VMIP:
+      type: object
+      properties:
+        ip_address:
+          type: string
+
+    VMListResponse:
+      # Verified against live GET /vm/product_group/XXX/list on 2026-04-13.
+      # GET /vm returned {"status":"info","details":"no vms found"} in the current account,
+      # so /vm is modeled to use the same successful list payload shape as the product-group list.
+      type: array
+      items:
+        $ref: '#/components/schemas/VMSummary'
+
+    VMOwnerSummary:
+      type: object
+      properties:
+        user_id:
+          type: integer
+        email:
+          type: string
+        username:
+          type: string
+        displayname:
+          type: string
+
+    VMStatus:
+      # Updated from actual API response on 2026-04-13
+      type: object
+      properties:
+        last_os_state:
+          type: string
+          description: The last known operating system state of the VM
+        status:
+          type: string
+          description: Status message about any requests in progress
+
+    VMSummary:
+      type: object
+      properties:
+        location:
+          type: string
+        vm_id:
+          type: string
+        quota_type:
+          type: string
+        hostname:
+          type: string
+        fqdn:
+          type: string
+        description:
+          type: string
+        platform:
+          type: string
+          enum: [x, pvm, z]
+        state:
+          type: string
+        product_group_id:
+          type: integer
+        pingable:
+          type: string
+        pingable_last_checked:
+          type: string
+          nullable: true
+        expiration:
+          type: string
+        host_down:
+          type: string
+        cpu:
+          type: integer
+        memory:
+          type: integer
+        compliance:
+          type: string
+        disable_delete:
+          type: string
+        created:
+          type: string
+        created_iso8601:
+          type: string
+        auto_patch:
+          type: string
+        in_progress:
+          type: string
+        current_owner:
+          $ref: '#/components/schemas/VMOwnerSummary'
+        os:
+          type: string
+        os_disk:
+          type: integer
+        total_disk:
+          type: integer
+        snapshot_disk:
+          type: integer
+        ips:
+          type: array
+          items:
+            $ref: '#/components/schemas/VMIP'
+        additional_disks:
+          type: array
+          items:
+            $ref: '#/components/schemas/VMAdditionalDisk'
+        allow_floating_ip:
+          type: string
+        added_to_cluster:
+          type: string
+          description: Timestamp when VM was added to cluster (only present in cluster context)
+
+    VMHostnameUpdate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: New hostname for the VM
+
+    VMPasswordUpdate:
+      type: object
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          description: New password
+
+    VMResourceUpdate:
+      type: object
+      properties:
+        cpu:
+          type: integer
+          description: Number of CPUs
+        memory:
+          type: integer
+          description: Memory in GB
+
+    VMTransferAccept:
+      type: object
+      properties:
+        ownership_only:
+          type: string
+          enum: ['y', 'n']
+          default: 'n'
+          description: Only change ownership without checking VM state
+
+    VMTransferRequest:
+      type: object
+      properties:
+        comment:
+          type: string
+          description: Optional comment for the transfer
+
+    VMUpdateResponse:
+      # Response from VM update operations (hostname, etc.)
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the response (success, error, etc.)
+        details:
+          type: string
+          description: Details about the operation
+        final_task:
+          type: string
+          description: Final task identifier
+        request_id:
+          type: string
+          description: Unique request identifier for tracking the operation
+
+    VIPAttachResponse:
+      # Updated from actual API response on 2026-04-14
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        details:
+          type: string
+          description: Human-readable message about the operation
+        ips:
+          type: array
+          items:
+            type: object
+            properties:
+              ip:
+                type: string
+                description: IP address that was added
+              type:
+                type: string
+                enum: [private, public]
+                description: Type of IP address
+        default_gateway:
+          type: string
+          description: Default gateway for the network
+        subnet_mask:
+          type: string
+          description: Subnet mask for the network
+        request_id:
+          type: string
+          description: Request identifier
+
+    VIPDeleteRequest:
+      type: object
+      properties:
+        ip_address:
+          type: string
+          description: Specific IP address to delete
+
+    VIPDeleteResponse:
+      # Updated from actual API response on 2026-04-14
+      type: object
+      properties:
+        status:
+          type: string
+          example: success
+        details:
+          type: string
+          description: Human-readable message about the operation
+        ips:
+          type: array
+          items:
+            type: string
+          description: List of IP addresses that were removed
+        request_id:
+          type: string
+          description: Request identifier
+
+paths:
+  # Cluster API endpoints
+  /clusters:
+    get:
+      tags:
+        - Clusters
+      summary: List clusters
+      description: Get list of user clusters
+      operationId: listClusters
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      tags:
+        - Clusters
+      summary: Create cluster
+      description: Create a new cluster
+      operationId: createCluster
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClusterCreateRequest'
+      responses:
+        '200':
+          description: Cluster created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /clusters/{cluster_identifier}:
+    get:
+      tags:
+        - Clusters
+      summary: Get cluster details
+      description: Get details of a specific cluster
+      operationId: getClusterDetails
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterDetails'
+        '404':
+          description: Cluster not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    patch:
+      tags:
+        - Clusters
+      summary: Update cluster
+      description: Update cluster name or description
+      operationId: updateCluster
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClusterUpdateRequest'
+      responses:
+        '200':
+          description: Cluster updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - Clusters
+      summary: Delete cluster
+      description: Delete a cluster (VMs are not affected)
+      operationId: deleteCluster
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Cluster deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '404':
+          description: Cluster not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /clusters/{cluster_identifier}/add_vm:
+    patch:
+      tags:
+        - Clusters
+      summary: Add VMs to cluster
+      description: Add one or more VMs to a cluster
+      operationId: addVMsToCluster
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClusterVMRequest'
+      responses:
+        '200':
+          description: VMs added to cluster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /clusters/{cluster_identifier}/include_vms:
+    get:
+      tags:
+        - Clusters
+      summary: Get cluster details with VMs
+      description: Get details of a specific cluster including VM information
+      operationId: getClusterDetailsWithVMs
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClusterDetails'
+        '404':
+          description: Cluster not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /clusters/{cluster_identifier}/remove_vm:
+    patch:
+      tags:
+        - Clusters
+      summary: Remove VMs from cluster
+      description: Remove one or more VMs from a cluster
+      operationId: removeVMsFromCluster
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClusterVMRequest'
+      responses:
+        '200':
+          description: VMs removed from cluster
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # NFS Storage API endpoints
+  /nfs/storage:
+    get:
+      tags:
+        - NFS Storage
+      summary: Get user NFS storage
+      description: Get all NFS Storage you have
+      operationId: getNFSStorage
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NFSStorageList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /nfs/storage/{product_group_id}:
+    get:
+      tags:
+        - NFS Storage
+      summary: Get deployed storage for product group
+      description: Get all NFS Storage for your product group
+      operationId: getNFSStorageByProductGroup
+      parameters:
+        - $ref: '#/components/parameters/productGroupId'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NFSStorageList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /nfs/storage/{storage_name}:
+    delete:
+      tags:
+        - NFS Storage
+      summary: Delete NFS storage
+      description: Delete NFS storage
+      operationId: deleteNFSStorage
+      parameters:
+        - name: storage_name
+          in: path
+          required: true
+          description: Storage name
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Storage deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /nfs/permissions/{storage_name}:
+    get:
+      tags:
+        - NFS Storage
+      summary: Get storage permissions
+      description: Get all permissions for storage share
+      operationId: getNFSPermissions
+      parameters:
+        - name: storage_name
+          in: path
+          required: true
+          description: Storage name
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NFSPermissionsList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      tags:
+        - NFS Storage
+      summary: Update storage permissions
+      description: Update permissions for storage share
+      operationId: updateNFSPermissions
+      parameters:
+        - name: storage_name
+          in: path
+          required: true
+          description: Storage name
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NFSPermissionsUpdate'
+      responses:
+        '200':
+          description: Permissions updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /nfs/check_name/{name}:
+    get:
+      tags:
+        - NFS Storage
+      summary: Check share name availability
+      description: Check if share name is available
+      operationId: checkNFSShareName
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Share name to check
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Name availability check result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NFSNameCheck'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /nfs/check_fqdn/{name}:
+    get:
+      tags:
+        - NFS Storage
+      summary: Check server name availability
+      description: Check if server name is available
+      operationId: checkNFSServerName
+      parameters:
+        - name: name
+          in: path
+          required: true
+          description: Server name to check
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Server name availability check result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NFSNameCheck'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /nfs/clients/{storage_name}:
+    get:
+      tags:
+        - NFS Storage
+      summary: Get mounted clients
+      description: Get list of clients mounted to your NFS
+      operationId: getNFSClients
+      parameters:
+        - name: storage_name
+          in: path
+          required: true
+          description: Storage name
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NFSClientsList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /nfs/protect/{storage_name}:
+    put:
+      tags:
+        - NFS Storage
+      summary: Protect storage
+      description: Protect storage share from accidental delete
+      operationId: protectNFSStorage
+      parameters:
+        - name: storage_name
+          in: path
+          required: true
+          description: Storage name
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Storage protected
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /nfs/request:
+    post:
+      tags:
+        - NFS Storage
+      summary: Request NFS storage
+      description: Submit a NFS storage request
+      operationId: requestNFSStorage
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NFSStorageRequest'
+      responses:
+        '200':
+          description: Storage request submitted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /nfs/request/{storage_name}:
+    delete:
+      tags:
+        - NFS Storage
+      summary: Delete storage request
+      description: Delete NFS storage request
+      operationId: deleteNFSStorageRequest
+      parameters:
+        - name: storage_name
+          in: path
+          required: true
+          description: Storage name
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Storage request deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /nfs/transfer/{storage_name}:
+    put:
+      tags:
+        - NFS Storage
+      summary: Transfer storage
+      description: Transfer storage share to provided email
+      operationId: transferNFSStorage
+      parameters:
+        - name: storage_name
+          in: path
+          required: true
+          description: Storage name
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NFSStorageTransfer'
+      responses:
+        '200':
+          description: Storage transfer initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /nfs/unprotect/{storage_name}:
+    put:
+      tags:
+        - NFS Storage
+      summary: Unprotect storage
+      description: Remove protect flag from storage share
+      operationId: unprotectNFSStorage
+      parameters:
+        - name: storage_name
+          in: path
+          required: true
+          description: Storage name
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Storage unprotected
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # OCP Cluster API endpoints
+  /ocp/:
+    get:
+      tags:
+        - OCP Clusters
+      summary: Get OCP clusters
+      description: Get list of OCP+ clusters
+      operationId: getOCPClusters
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OCPClusterList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp/{platform}:
+    post:
+      tags:
+        - OCP Clusters
+      summary: Build OCP cluster
+      description: Build OCP cluster with custom or default settings
+      operationId: buildOCPCluster
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OCPClusterBuildRequest'
+      responses:
+        '200':
+          description: Cluster build initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp/{cluster_identifier}:
+    get:
+      tags:
+        - OCP Clusters
+      summary: Get OCP cluster details
+      description: Get cluster details
+      operationId: getOCPClusterDetails
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OCPClusterDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - OCP Clusters
+      summary: Delete OCP cluster
+      description: Delete OCP cluster
+      operationId: deleteOCPCluster
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Cluster deletion initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp/{cluster_identifier}/status:
+    get:
+      tags:
+        - OCP Clusters
+      summary: Get OCP cluster status
+      description: Get cluster status
+      operationId: getOCPClusterStatus
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OCPClusterStatus'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp/{cluster_identifier}/vm/{node_name}:
+    get:
+      tags:
+        - OCP Clusters
+      summary: Get OCP cluster VM details
+      description: Get details for a specific VM in an OCP cluster
+      operationId: getOCPClusterVMDetails
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - name: node_name
+          in: path
+          required: true
+          description: Node name (worker0, worker1, master0, etc.)
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OCPVMDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp/{cluster_identifier}/{node_name}/resource:
+    put:
+      tags:
+        - OCP Clusters
+      summary: Modify OCP VM CPU/Memory
+      description: Change CPU and/or memory for a VM in cluster
+      operationId: modifyOCPVMResources
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - name: node_name
+          in: path
+          required: true
+          description: Node name
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OCPVMResourceUpdate'
+      responses:
+        '200':
+          description: Resource modification initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp/{cluster_identifier}/{node_name}/disk:
+    put:
+      tags:
+        - OCP Clusters
+      summary: Add disk to OCP VM
+      description: Add additional disk to a VM in cluster
+      operationId: addOCPVMDisk
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - name: node_name
+          in: path
+          required: true
+          description: Node name
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OCPVMDiskAdd'
+      responses:
+        '200':
+          description: Disk addition initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp/{cluster_identifier}/worker:
+    put:
+      tags:
+        - OCP Clusters
+      summary: Add worker node
+      description: Add worker node to OCP cluster
+      operationId: addOCPWorker
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OCPWorkerAdd'
+      responses:
+        '200':
+          description: Worker addition initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp/{cluster_identifier}/vip/{vip_type}:
+    patch:
+      tags:
+        - OCP Clusters
+      summary: Add VIP to cluster
+      description: Add virtual IP to OCP cluster
+      operationId: addOCPVIP
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/vipType'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: VIP added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - OCP Clusters
+      summary: Delete VIP from cluster
+      description: Delete virtual IP from OCP cluster
+      operationId: deleteOCPVIP
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/vipType'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VIPDeleteRequest'
+      responses:
+        '200':
+          description: VIP deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp/{cluster_identifier}/{action}:
+    put:
+      tags:
+        - OCP Clusters
+      summary: OCP cluster power actions
+      description: Boot/Shutdown/Reboot cluster
+      operationId: ocpClusterPowerAction
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - name: action
+          in: path
+          required: true
+          description: Power action
+          schema:
+            type: string
+            enum: [boot, shutdown, reboot]
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Action initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp/{cluster_identifier}/{node_name}/{action}:
+    put:
+      tags:
+        - OCP Clusters
+      summary: OCP VM power actions
+      description: Boot/Shutdown/Reboot VM in cluster
+      operationId: ocpVMPowerAction
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - name: node_name
+          in: path
+          required: true
+          description: Node name
+          schema:
+            type: string
+        - name: action
+          in: path
+          required: true
+          description: Power action
+          schema:
+            type: string
+            enum: [boot, shutdown, reboot]
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Action initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp/{cluster_identifier}/disable_delete:
+    put:
+      tags:
+        - OCP Clusters
+      summary: Disable OCP cluster delete
+      description: Disable delete of cluster to prevent accidental deletes
+      operationId: disableOCPClusterDelete
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Delete disabled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp/{cluster_identifier}/enable_delete:
+    put:
+      tags:
+        - OCP Clusters
+      summary: Enable OCP cluster delete
+      description: Enable delete of cluster
+      operationId: enableOCPClusterDelete
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Delete enabled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp/{cluster_identifier}/transfer/user/{user_identifier}:
+    put:
+      tags:
+        - OCP Clusters
+      summary: Transfer OCP cluster to user
+      description: Transfer cluster ownership to another user
+      operationId: transferOCPClusterToUser
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/userIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OCPClusterTransfer'
+      responses:
+        '200':
+          description: Transfer initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp/{cluster_identifier}/accept_transfer:
+    put:
+      tags:
+        - OCP Clusters
+      summary: Accept OCP cluster transfer
+      description: Accept incoming cluster transfer
+      operationId: acceptOCPClusterTransfer
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Transfer accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp/{cluster_identifier}/transfer:
+    delete:
+      tags:
+        - OCP Clusters
+      summary: Cancel OCP cluster transfer
+      description: Cancel cluster transfer
+      operationId: cancelOCPClusterTransfer
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Transfer cancelled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp/{cluster_identifier}/expiration:
+    put:
+      tags:
+        - OCP Clusters
+      summary: Change OCP cluster expiration
+      description: Update expiration for cluster (max 90 days)
+      operationId: updateOCPClusterExpiration
+      parameters:
+        - $ref: '#/components/parameters/clusterIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpirationUpdate'
+      responses:
+        '200':
+          description: Expiration updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp_available/{platform}:
+    get:
+      tags:
+        - OCP Clusters
+      summary: Get available OCP versions
+      description: Get available OCP versions for platform
+      operationId: getAvailableOCPVersions
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OCPVersionList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /ocp/request/{request_id}:
+    get:
+      tags:
+        - OCP Clusters
+      summary: Get OCP request status
+      description: Get status of OCP request
+      operationId: getOCPRequestStatus
+      parameters:
+        - $ref: '#/components/parameters/requestId'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestStatus'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # Quota Management API endpoints (extended)
+  /quota/product_group/{product_group_id}:
+    get:
+      tags:
+        - Quota
+      summary: Get product group quota
+      description: Get quota for a specific product group
+      operationId: getProductGroupQuota
+      parameters:
+        - $ref: '#/components/parameters/productGroupId'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuotaResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /quota/product_group/{product_group_id}/user:
+    get:
+      tags:
+        - Quota
+      summary: Get user quotas for product group
+      description: Get list of user-level quotas for product group
+      operationId: getUserQuotasForProductGroup
+      parameters:
+        - $ref: '#/components/parameters/productGroupId'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserQuotaList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      tags:
+        - Quota
+      summary: Set default user quota
+      description: Set default user VM/IP quota for product group
+      operationId: setDefaultUserQuota
+      parameters:
+        - $ref: '#/components/parameters/productGroupId'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserQuotaUpdate'
+      responses:
+        '200':
+          description: Quota updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /quota/product_group/{product_group_id}/user/{user_identifier}:
+    get:
+      tags:
+        - Quota
+      summary: Get user quota
+      description: Get quota for specific user in product group
+      operationId: getUserQuota
+      parameters:
+        - $ref: '#/components/parameters/productGroupId'
+        - $ref: '#/components/parameters/userIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuotaResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      tags:
+        - Quota
+      summary: Set user quota
+      description: Set VM/IP quota for specific user
+      operationId: setUserQuota
+      parameters:
+        - $ref: '#/components/parameters/productGroupId'
+        - $ref: '#/components/parameters/userIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserQuotaUpdate'
+      responses:
+        '200':
+          description: Quota updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - Quota
+      summary: Delete user quota
+      description: Delete quota for specific user
+      operationId: deleteUserQuota
+      parameters:
+        - $ref: '#/components/parameters/productGroupId'
+        - $ref: '#/components/parameters/userIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Quota deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /quota/product_group/{product_group_id}/transfer/vm:
+    put:
+      tags:
+        - Quota
+      summary: Transfer VM quota
+      description: Transfer quota from one product group to another
+      operationId: transferVMQuota
+      parameters:
+        - $ref: '#/components/parameters/productGroupId'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuotaTransfer'
+      responses:
+        '200':
+          description: Quota transferred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /product_group/{product_group_id}/user:
+    get:
+      tags:
+        - Quota
+      summary: Get product group users
+      description: Get list of users in product group
+      operationId: getProductGroupUsers
+      parameters:
+        - $ref: '#/components/parameters/productGroupId'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /product_group/product_group_owner/{product_group_id}/{owner_email}:
+    put:
+      tags:
+        - Quota
+      summary: Add product group owner
+      description: Add a new owner to product group (max 12 owners)
+      operationId: addProductGroupOwner
+      parameters:
+        - $ref: '#/components/parameters/productGroupId'
+        - name: owner_email
+          in: path
+          required: true
+          description: Email of new owner
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Owner added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - Quota
+      summary: Remove product group owner
+      description: Remove an owner from product group
+      operationId: removeProductGroupOwner
+      parameters:
+        - $ref: '#/components/parameters/productGroupId'
+        - name: owner_email
+          in: path
+          required: true
+          description: Email of owner to remove
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Owner removed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # Quota Management API endpoints
+  /quota:
+    get:
+      tags:
+        - Quota
+      summary: Get quota information
+      description: Get all quotas for product groups you're part of
+      operationId: getQuota
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuotaResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # Slots API endpoints
+  /slots:
+    get:
+      tags:
+        - Slots
+      summary: Get slots systems
+      description: Get all systems you own
+      operationId: getSlotsystems
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlotsList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /slots/images:
+    get:
+      tags:
+        - Slots
+      summary: Get available slot images
+      description: Get list of available images
+      operationId: getSlotImages
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlotImageList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /slots/{system_name}/:
+    delete:
+      tags:
+        - Slots
+      summary: Delete slot system
+      description: Delete a system
+      operationId: deleteSlotSystem
+      parameters:
+        - name: system_name
+          in: path
+          required: true
+          description: System name
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SlotDeleteRequest'
+      responses:
+        '200':
+          description: System deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /slots/{system_name}/restart:
+    put:
+      tags:
+        - Slots
+      summary: Restart slot system
+      description: Restart your system
+      operationId: restartSlotSystem
+      parameters:
+        - name: system_name
+          in: path
+          required: true
+          description: System name
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: System restarted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /slots/{system_name}/start:
+    put:
+      tags:
+        - Slots
+      summary: Start slot system
+      description: Start your system
+      operationId: startSlotSystem
+      parameters:
+        - name: system_name
+          in: path
+          required: true
+          description: System name
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SlotStartRequest'
+      responses:
+        '200':
+          description: System started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /slots/{system_name}/stop:
+    put:
+      tags:
+        - Slots
+      summary: Stop slot system
+      description: Stop your system
+      operationId: stopSlotSystem
+      parameters:
+        - name: system_name
+          in: path
+          required: true
+          description: System name
+          schema:
+            type: string
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SlotStopRequest'
+      responses:
+        '200':
+          description: System stopped
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # Stencil API endpoints
+  /stencils:
+    get:
+      tags:
+        - Stencils
+      summary: List stencils
+      description: |
+        Get list of available stencils. This endpoint supports flexible URL-based filtering
+        where filter segments can be combined in any order after /stencils.
+
+        Available filter segments:
+        - `/product_group/{id}` - Only stencils from specified product group
+        - `/public` - Only public stencils
+        - `/private` - Only private stencils
+        - `/site/{site}` - Stencils available at provided site (svl or rtp)
+        - `/my_stencils` - Only stencils owned by authenticating user
+
+        Examples of valid combinations:
+        - `/stencils` - All accessible stencils
+        - `/stencils/public` - All public stencils
+        - `/stencils/public/site/rtp` - Public stencils at RTP site
+        - `/stencils/product_group/1/public` - Public stencils in product group 1
+        - `/stencils/site/rtp/product_group/1` - Product group 1 stencils at RTP
+        - `/stencils/private/site/svl` - Private stencils at SVL site
+
+        Note: Filters can be combined in any order. The API uses URL path segments
+        rather than query parameters for filtering. OpenAPI cannot handle
+        arbitrary path segments so we only enumarate a few.
+
+        Updated from actual API testing on 2026-04-13
+      operationId: listStencils
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StencilList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /stencil/{stencil_id}:
+    get:
+      tags:
+        - Stencils
+      summary: Get stencil details
+      description: |
+        Get detailed information about a specific stencil by ID.
+
+        Updated from actual API response on 2026-04-13
+      operationId: getStencilDetails
+      parameters:
+        - $ref: '#/components/parameters/stencilId'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StencilDetails'
+        '404':
+          description: Stencil not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /stencils/product_group/{product_group_id}:
+    get:
+      tags:
+        - Stencils
+      summary: List stencils by product group
+      description: |
+        Get list of stencils filtered by product group ID.
+
+        This filter can be combined with other filters in any order:
+        - `/stencils/product_group/{id}/public` - Public stencils in product group
+        - `/stencils/product_group/{id}/private` - Private stencils in product group
+        - `/stencils/product_group/{id}/site/{site}` - Product group stencils at site
+        - `/stencils/site/{site}/product_group/{id}` - Same as above, different order
+
+        Updated from actual API testing on 2026-04-13
+      operationId: listStencilsByProductGroup
+      parameters:
+        - $ref: '#/components/parameters/productGroupId'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StencilList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /stencils/public:
+    get:
+      tags:
+        - Stencils
+      summary: List public stencils
+      description: |
+        Get list of public stencils available to all users.
+
+        This filter can be combined with other filters in any order:
+        - `/stencils/public/site/{site}` - Public stencils at specific site
+        - `/stencils/public/product_group/{id}` - Public stencils in product group
+        - `/stencils/site/{site}/public` - Same as first, different order
+
+        Updated from actual API testing on 2026-04-13
+      operationId: listPublicStencils
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StencilList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /stencils/private:
+    get:
+      tags:
+        - Stencils
+      summary: List private stencils
+      description: |
+        Get list of private stencils owned by the authenticated user.
+
+        This filter can be combined with other filters in any order:
+        - `/stencils/private/site/{site}` - Private stencils at specific site
+        - `/stencils/private/product_group/{id}` - Private stencils in product group
+        - `/stencils/site/{site}/private` - Same as first, different order
+
+        Updated from actual API testing on 2026-04-13
+      operationId: listPrivateStencils
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StencilList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /stencils/site/{site}:
+    get:
+      tags:
+        - Stencils
+      summary: List stencils by site
+      description: |
+        Get list of stencils available at a specific site.
+
+        This filter can be combined with other filters in any order:
+        - `/stencils/site/{site}/public` - Public stencils at site
+        - `/stencils/site/{site}/private` - Private stencils at site
+        - `/stencils/site/{site}/product_group/{id}` - Product group stencils at site
+        - `/stencils/site/{site}/my_stencils` - User's stencils at site
+
+        Updated from actual API testing on 2026-04-13
+      operationId: listStencilsBySite
+      parameters:
+        - name: site
+          in: path
+          required: true
+          description: Site name (svl or rtp)
+          schema:
+            type: string
+            enum: [svl, rtp]
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StencilList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /stencils/my_stencils:
+    get:
+      tags:
+        - Stencils
+      summary: List my stencils
+      description: |
+        Get list of stencils owned by the authenticated user.
+
+        This filter can be combined with other filters in any order:
+        - `/stencils/my_stencils/site/{site}` - User's stencils at specific site
+        - `/stencils/my_stencils/product_group/{id}` - User's stencils in product group
+        - `/stencils/site/{site}/my_stencils` - Same as first, different order
+
+        Updated from actual API testing on 2026-04-13
+      operationId: listMyStencils
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StencilList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+
+
+  /user:
+    get:
+      tags:
+        - Users
+      summary: Get user details
+      description: Get details for the currently authenticated user
+      operationId: getUserDetails
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /user/api_key:
+    get:
+      tags:
+        - Users
+      summary: Get API key expiration
+      description: Get the expiration date for the authenticated user's API key
+      operationId: getUserAPIKey
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAPIKeyResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # VM API endpoints
+  /vm/:
+    get:
+      tags:
+        - VMs
+      summary: List all VMs
+      description: Get list of all VMs accessible to the authenticated user
+      operationId: listVMs
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VMListResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      tags:
+        - VMs
+      summary: Create VM(s)
+      description: Provision one or more VMs with specified configuration
+      operationId: createVM
+      parameters:
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VMCreateRequest'
+            examples:
+              simple:
+                summary: Simple VM creation
+                value:
+                  platform: x
+                  os: RHEL9
+                  cpu: 2
+                  memory: 4
+                  disk: 100
+                  hostname: myvm
+              multiple:
+                summary: Create multiple VMs
+                value:
+                  platform: x
+                  os: RHEL9
+                  cpu: 4
+                  memory: 8
+                  disk: 200
+                  count: 3
+      responses:
+        '200':
+          description: VM creation initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VMCreateResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/product_group/{product_group_id}/list:
+    get:
+      tags:
+        - VMs
+      summary: List VMs for product group
+      description: Get list of VMs for a specific product group
+      operationId: listVMsByProductGroup
+      parameters:
+        - $ref: '#/components/parameters/productGroupId'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VMListResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/status:
+    get:
+      tags:
+        - VMs
+      summary: Get VM status
+      description: Get the current status of a VM
+      operationId: getVMStatus
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VMStatus'
+        '404':
+          description: VM not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}:
+    delete:
+      tags:
+        - VMs
+      summary: Delete VM
+      description: Delete a virtual machine
+      operationId: deleteVM
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: VM deletion initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VMDeleteResponse'
+        '400':
+          description: Bad request - unable to create deletion job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: VM not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/snapshot:
+    get:
+      tags:
+        - Snapshots
+      summary: Get VM snapshots
+      description: Get list of snapshots for a VM
+      operationId: getVMSnapshots
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SnapshotList'
+        '404':
+          description: VM not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    post:
+      tags:
+        - Snapshots
+      summary: Create snapshot
+      description: Create a snapshot of a VM
+      operationId: createSnapshot
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SnapshotCreateRequest'
+      responses:
+        '200':
+          description: Snapshot creation initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - Snapshots
+      summary: Delete snapshot
+      description: Delete a specific snapshot
+      operationId: deleteSnapshot
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SnapshotDeleteRequest'
+      responses:
+        '200':
+          description: Snapshot deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '404':
+          description: Snapshot not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/snapshot/revert:
+    patch:
+      tags:
+        - Snapshots
+      summary: Revert to snapshot
+      description: Revert a VM to a specific snapshot
+      operationId: revertSnapshot
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SnapshotRevertRequest'
+      responses:
+        '200':
+          description: Snapshot revert initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/os_available/{platform}:
+    get:
+      tags:
+        - VMs
+      summary: Get available operating systems
+      description: Get list of available operating systems for a platform
+      operationId: getAvailableOS
+      parameters:
+        - $ref: '#/components/parameters/platform'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OSList'
+        '400':
+          description: Invalid platform
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/check_hostname/{hostname}:
+    get:
+      tags:
+        - VMs
+      summary: Check hostname availability
+      description: Check if a hostname is available for use
+      operationId: checkHostname
+      parameters:
+        - $ref: '#/components/parameters/hostname'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Hostname check result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HostnameCheck'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/request/{request_id}:
+    get:
+      tags:
+        - VMs
+      summary: Get request status
+      description: Get the status of an asynchronous request
+      operationId: getRequestStatus
+      parameters:
+        - $ref: '#/components/parameters/requestId'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestStatus'
+        '404':
+          description: Request not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/stencil/{stencil_id}:
+    post:
+      tags:
+        - Stencils
+      summary: Deploy stencil
+      description: Deploy a VM from a stencil
+      operationId: deployStencil
+      parameters:
+        - $ref: '#/components/parameters/stencilId'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StencilDeployRequest'
+      responses:
+        '200':
+          description: Stencil deployment initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestStatus'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/get_user_list/{search}:
+    get:
+      tags:
+        - Users
+      summary: Search for users
+      description: Search for users by email or name
+      operationId: searchUsers
+      parameters:
+        - $ref: '#/components/parameters/search'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/resources:
+    patch:
+      tags:
+        - VMs
+      summary: Modify CPU/Memory
+      description: Change CPU and/or memory allocation for a VM
+      operationId: modifyVMResources
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VMResourceUpdate'
+      responses:
+        '200':
+          description: Resource modification initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/disk:
+    patch:
+      tags:
+        - VMs
+      summary: Add additional disk
+      description: Add additional disks to a VM (max 2 additional disks)
+      operationId: addVMDisk
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VMDiskAdd'
+      responses:
+        '200':
+          description: Disk addition initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/description:
+    patch:
+      tags:
+        - VMs
+      summary: Update VM description
+      description: Add or update the description of a VM
+      operationId: updateVMDescription
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VMDescriptionUpdate'
+      responses:
+        '200':
+          description: Description updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/details:
+    get:
+      tags:
+        - VMs
+      summary: Get VM details
+      description: Get detailed information about a specific VM
+      operationId: getVMDetails
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VMDetails'
+        '404':
+          description: VM not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/hostname:
+    patch:
+      tags:
+        - VMs
+      summary: Update VM hostname
+      description: Change the hostname of a VM
+      operationId: updateVMHostname
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VMHostnameUpdate'
+      responses:
+        '200':
+          description: Hostname change initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VMUpdateResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/password:
+    patch:
+      tags:
+        - VMs
+      summary: Change VM password
+      description: Change the password for a VM
+      operationId: changeVMPassword
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VMPasswordUpdate'
+      responses:
+        '200':
+          description: Password change initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestStatus'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/stencil:
+    post:
+      tags:
+        - Stencils
+      summary: Create stencil from VM
+      description: Create a stencil (template) from an existing VM. VM must be compliant. Not supported for PVM platform.
+      operationId: createStencil
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StencilCreateRequest'
+      responses:
+        '200':
+          description: Stencil creation initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/clone:
+    post:
+      tags:
+        - VMs
+      summary: Clone a VM
+      description: Create a new VM by cloning an existing VM
+      operationId: cloneVM
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VMCloneRequest'
+      responses:
+        '200':
+          description: VM clone initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestStatus'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/{action}:
+    patch:
+      tags:
+        - VM Actions
+      summary: VM power actions
+      description: Perform power actions on a VM (boot, shutdown, reboot)
+      operationId: vmPowerAction
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/vmAction'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Action initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Invalid action
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/refresh_status:
+    patch:
+      tags:
+        - VM Actions
+      summary: Refresh VM status
+      description: Recheck the current VM status without modifying state
+      operationId: refreshVMStatus
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Status refreshed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VMStatus'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/disable_delete:
+    patch:
+      tags:
+        - VM Actions
+      summary: Disable VM deletion
+      description: Disable deletion of a VM to prevent accidental deletes
+      operationId: disableVMDelete
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Delete disabled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/enable_delete:
+    patch:
+      tags:
+        - VM Actions
+      summary: Enable VM deletion
+      description: Enable deletion of a VM (only needed if previously disabled)
+      operationId: enableVMDelete
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Delete enabled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/transfer/user/{user_identifier}:
+    patch:
+      tags:
+        - VM Actions
+      summary: Transfer VM to user
+      description: Transfer VM ownership to another user
+      operationId: transferVMToUser
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/userIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VMTransferRequest'
+      responses:
+        '200':
+          description: Transfer initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/transfer/product_group_id/{product_group_id}:
+    patch:
+      tags:
+        - VM Actions
+      summary: Transfer VM to product group
+      description: Transfer VM to another product group
+      operationId: transferVMToProductGroup
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/productGroupId'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VMTransferRequest'
+      responses:
+        '200':
+          description: Transfer initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/accept_transfer:
+    patch:
+      tags:
+        - VM Actions
+      summary: Accept VM transfer
+      description: Accept an incoming VM transfer
+      operationId: acceptVMTransfer
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VMTransferAccept'
+      responses:
+        '200':
+          description: Transfer accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/cancel_transfer:
+    patch:
+      tags:
+        - VM Actions
+      summary: Cancel VM transfer
+      description: Cancel an outgoing VM transfer
+      operationId: cancelVMTransfer
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Transfer cancelled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/reject_transfer:
+    patch:
+      tags:
+        - VM Actions
+      summary: Reject VM transfer
+      description: Reject an incoming VM transfer
+      operationId: rejectVMTransfer
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: Transfer rejected
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/vip/{vip_type}:
+    patch:
+      tags:
+        - Networking
+      summary: Attach virtual IP
+      description: Add a virtual IP to a VM. Max 2 additional private IPs per VM.
+      operationId: attachVIP
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/vipType'
+        - $ref: '#/components/parameters/siteQuery'
+      responses:
+        '200':
+          description: VIP attached
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VIPAttachResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      tags:
+        - Networking
+      summary: Delete virtual IP
+      description: Delete a virtual IP from a VM
+      operationId: deleteVIP
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/vipType'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VIPDeleteRequest'
+      responses:
+        '200':
+          description: VIP deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VIPDeleteResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /vm/{vm_identifier}/expiration:
+    patch:
+      tags:
+        - VMs
+      summary: Update VM expiration
+      description: Update expiration time for a VM (max 90 days, only for user-set expirations)
+      operationId: updateVMExpiration
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExpirationUpdate'
+      responses:
+        '200':
+          description: Expiration updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /floating_ip/{vm_identifier}:
+    post:
+      tags:
+        - Networking
+      summary: Attach floating IP
+      description: Add a floating IP to a VM (rarely used API)
+      operationId: attachFloatingIP
+      parameters:
+        - $ref: '#/components/parameters/vmIdentifier'
+        - $ref: '#/components/parameters/siteQuery'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FloatingIPRequest'
+      responses:
+        '200':
+          description: Floating IP attached
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestStatus'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'

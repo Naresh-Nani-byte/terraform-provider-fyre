@@ -1,0 +1,146 @@
+name: build
+
+# TODO:
+# - Validate examples and check formatting. (needs initial version published)
+# - Run test scenario (needs VPN access from runner?)
+# - Run Acc tests (needs VPN access from runner?)
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - ready_for_review
+      - reopened
+      - synchronize
+  push:
+    branches:
+      - main
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      go-version: ${{ steps.get-go-version.outputs.go-version }}
+      product-version: ${{ steps.set-product-version.outputs.product-version }}
+      product-base-version: ${{ steps.set-product-version.outputs.base-product-version }}
+      product-prerelease-version: ${{ steps.set-product-version.outputs.prerelease-product-version }}
+      product-minor-version: ${{ steps.set-product-version.outputs.minor-product-version }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+        with:
+          go-version-file: 'go.mod'
+      - id: get-go-version
+        run: |
+          version="$(go list -f '{{.GoVersion}}' -m)"
+          echo "go-version=$version" | tee -a "$GITHUB_OUTPUT"
+      - id: set-product-version
+        uses: ./.github/actions/set-product-version
+      - run: go mod download # so that the modules are cached
+
+  build:
+    needs:
+      - setup
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        goos:
+          - linux
+          - darwin
+        goarch:
+          - amd64
+          - arm64
+    name: build ${{ matrix.goos }}/${{ matrix.goarch }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: hashicorp/actions-go-build@b9e2cfba3013adccdc112b01cba922d83c78fac5 # v1.1.1
+        env:
+          CGO_ENABLED: 0
+          BASE_VERSION: ${{ needs.setup.outputs.product-base-version }}
+          PRERELEASE_VERSION: ${{ needs.setup.outputs.product-prerelease-version}}
+        with:
+          bin_name: "terraform-provider-fyre_v${{ needs.setup.outputs.product-version }}"
+          product_name: terraform-provider-fyre
+          product_version: ${{ needs.setup.outputs.product-version }}
+          go_version: ${{ needs.setup.outputs.go-version }}
+          os: ${{ matrix.goos }}
+          arch: ${{ matrix.goarch }}
+          reproducible: report
+          instructions: |
+            go build \
+              -o "$BIN_PATH" \
+              -trimpath \
+              -buildvcs=false \
+              -ldflags "-s -w -X 'main.version=${{ needs.setup.outputs.product-version }}'"
+            cp LICENSE "$TARGET_DIR/LICENSE.txt"
+
+  test:
+    runs-on: ubuntu-latest
+    needs:
+      - setup
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+        with:
+          go-version-file: go.mod
+      - run: make test-race-detector
+
+  static-analysis:
+    name: static analysis
+    runs-on: ubuntu-latest
+    needs:
+      - setup
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+        with:
+          go-version-file: go.mod
+      - uses: hashicorp/setup-terraform@5e8dbf3c6d9deaf4193ca7a8fb23f2ac83bb6c85 # v4.0.0
+        with:
+          # the terraform wrapper will break terraform execution in enos because
+          # it changes the output to text when we expect it to be JSON.
+          terraform_wrapper: false
+      - uses: hashicorp/action-setup-enos@6ec106c8f809fe645162d73bea565c65f3269907 # v1.52
+      - uses: ./.github/actions/set-up-gofumpt
+      - uses: ./.github/actions/set-up-golangci-lint
+      - name: Run make fmt-check
+        run: make fmt-check
+      - name: Run make lint
+        env:
+          LINT_OUT_FORMAT: github-actions
+        run: make lint
+      - name: Check doc delta
+        run: make check-doc-delta
+      - name: Lint Github Actions
+        uses: docker://docker.mirror.hashicorp.services/rhysd/actionlint@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667
+        with:
+          args: -color
+
+  completed:
+    runs-on: ubuntu-latest
+    needs:
+      - setup
+      - build
+      - test
+      - static-analysis
+    steps:
+      - id: status
+        name: Determine status
+        run: |
+          results=$(tr -d '\n' <<< '${{ toJSON(needs.*.result) }}')
+          if ! grep -q -v -E '(failure|cancelled)' <<< "$results"; then
+            result="failed"
+          else
+            result="success"
+          fi
+          {
+            echo "result=${result}"
+            echo "results=${results}"
+          } | tee -a "$GITHUB_OUTPUT"
+      - if: always() && steps.status.outputs.result != 'success'
+        name: Check for failed status
+        run: |
+          echo "One or more required build workflows failed: ${{ steps.status.outputs.results }}"
+          exit 1

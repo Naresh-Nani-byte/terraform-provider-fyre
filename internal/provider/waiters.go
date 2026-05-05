@@ -39,7 +39,7 @@ func pollRequestStatus(ctx context.Context,
 	checkRequestCompleted := func() error {
 		var err error
 
-		checkCtx, checkCancel := context.WithDeadline(pollCtx, time.Now().Add(2*time.Second))
+		checkCtx, checkCancel := context.WithDeadline(pollCtx, time.Now().Add(30*time.Second))
 		defer checkCancel()
 		statusResp, err = api.GetRequestStatusWithResponse(checkCtx, requestID, &client.GetRequestStatusParams{
 			Site: &statusSiteParam,

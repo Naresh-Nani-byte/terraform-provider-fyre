@@ -7,67 +7,93 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"strings"
+	"net/http"
 	"time"
 
+	"github.com/hashicorp-forge/terraform-provider-fyre/internal/client"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-// retryWithBackoff executes a function with exponential backoff retry logic.
-// It retries up to maxRetries times for transient errors (5xx, network issues).
-// Does NOT retry on 4xx client errors as these indicate permanent request problems.
-// Uses exponential backoff: 1s, 2s, 4s between retries.
-// The function fn should return an error if the operation failed.
-func retryWithBackoff(ctx context.Context, operation string, maxRetries int, fn func() error) error {
+// retryWithBackoff executes a function with configurable retry logic.
+func retryWithBackoff(
+	ctx context.Context,
+	operation string,
+	maxRetries int,
+	errorHandler responseErrorHandler,
+	fn func() (*http.Response, *client.Error, error),
+) error {
+	if errorHandler == nil {
+		errorHandler = &defaultResponseErrorHandler{}
+	}
+
 	var lastErr error
 	var actualAttempts int
 
 	for attempt := 0; attempt <= maxRetries; attempt++ {
 		actualAttempts = attempt + 1
-		err := fn()
+		resp, apiError, err := fn()
 
-		// Success case
-		if err == nil {
+		if err == nil && (resp == nil || (resp.StatusCode >= 200 && resp.StatusCode < 300)) {
 			return nil
 		}
 
-		// Store error for final error message
-		lastErr = errors.Join(lastErr, err)
-
-		// Don't retry on 4xx client errors - these are permanent request problems
-		// Check if error message contains "status 4" which indicates a 400-level error
-		if strings.Contains(err.Error(), "status 4") {
-			tflog.Debug(ctx, "Not retrying 4xx client error", map[string]any{
-				"operation": operation,
-				"error":     err.Error(),
-				"attempts":  actualAttempts,
-			})
-			return fmt.Errorf("%s: %w", operation, lastErr)
+		if err != nil {
+			lastErr = errors.Join(lastErr, err)
+		} else if resp != nil {
+			lastErr = errors.Join(lastErr, fmt.Errorf("status %d", resp.StatusCode))
 		}
 
-		// Don't retry on last attempt
-		if attempt == maxRetries {
+		statusCode := 0
+		if resp != nil {
+			statusCode = resp.StatusCode
+		}
+
+		shouldRetry, waitDuration := errorHandler.shouldRetry(statusCode, apiError, attempt)
+
+		if statusCode >= 400 && statusCode < 500 {
+			logFields := map[string]any{
+				"operation":   operation,
+				"status_code": statusCode,
+				"attempt":     actualAttempts,
+				"max_retries": maxRetries + 1,
+				"will_retry":  shouldRetry,
+			}
+
+			if apiError != nil {
+				if apiError.Message != nil {
+					logFields["error_message"] = *apiError.Message
+				}
+				if apiError.Details != nil {
+					if detailsStr, detailsErr := extractDetailsString(apiError.Details); detailsErr == nil {
+						logFields["error_details"] = detailsStr
+					}
+				}
+			}
+
+			if waitDuration > 0 {
+				logFields["wait_duration"] = waitDuration.String()
+			}
+
+			tflog.Warn(ctx, "HTTP 4xx error encountered", logFields)
+		}
+
+		if !shouldRetry || attempt == maxRetries {
 			break
 		}
 
-		// Exponential backoff: 1s, 2s, 4s
-		backoffDuration := time.Duration(1<<uint(attempt)) * time.Second
 		tflog.Debug(ctx, "Retrying operation after error", map[string]any{
 			"operation":   operation,
-			"attempt":     attempt + 1,
-			"max_retries": maxRetries,
-			"backoff":     backoffDuration.String(),
-			"error":       err.Error(),
+			"attempt":     actualAttempts,
+			"max_retries": maxRetries + 1,
+			"backoff":     waitDuration.String(),
 		})
 
 		select {
 		case <-ctx.Done():
-			return fmt.Errorf("%s failed: context cancelled during retry backoff", operation)
-		case <-time.After(backoffDuration):
-			// Continue to next retry
+			return fmt.Errorf("%s failed: reached deadline during retry backoff", operation)
+		case <-time.After(waitDuration):
 		}
 	}
 
-	// All retries exhausted, return wrapped error
 	return fmt.Errorf("%s failed after %d attempts: %w", operation, actualAttempts, lastErr)
 }

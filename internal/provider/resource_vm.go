@@ -6,6 +6,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/hashicorp-forge/terraform-provider-fyre/internal/client"
@@ -438,18 +439,18 @@ func (r *ResourceVM) Create(ctx context.Context, req resource.CreateRequest, res
 	// Call API with retry logic
 	siteParam := client.CreateVMParamsSite(site)
 	var createResp *client.CreateVMResponse
-	err := retryWithBackoff(ctx, "Create VM", 2, func() error {
+	err := retryWithBackoff(ctx, "Create VM", 2, nil, func() (*http.Response, *client.Error, error) {
 		var callErr error
 		createResp, callErr = r.client.CreateVMWithResponse(ctx, &client.CreateVMParams{
 			Site: &siteParam,
 		}, createReq)
 		if callErr != nil {
-			return callErr
+			return nil, nil, callErr
 		}
 		if createResp.StatusCode() < 200 || createResp.StatusCode() >= 300 {
-			return fmt.Errorf("API returned status %d: %s", createResp.StatusCode(), string(createResp.Body))
+			return createResp.HTTPResponse, createResp.JSON400, fmt.Errorf("API returned status %d: %s", createResp.StatusCode(), string(createResp.Body))
 		}
-		return nil
+		return createResp.HTTPResponse, nil, nil
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", err.Error())
@@ -488,8 +489,20 @@ func (r *ResourceVM) Create(ctx context.Context, req resource.CreateRequest, res
 		"request_id": requestID,
 	})
 
-	// Poll for request completion (max 10 minutes, check every 10 seconds)
-	if err := pollRequestStatus(ctx, r.client, requestID, site, "VM Build", 10*time.Minute, 10*time.Second); err != nil {
+	// Poll for request completion (max 10 minutes, check every 30 seconds after 2 minute initial delay)
+	pollCtx, cancel := context.WithTimeout(ctx, 10*time.Minute)
+	defer cancel()
+
+	poller := newRequestPoller(
+		r.client,
+		requestID,
+		site,
+		"VM Build",
+		newFixedIntervalStrategy(30*time.Second),
+		withInitialDelay(2*time.Minute),
+	)
+
+	if err := poller.poll(pollCtx); err != nil {
 		resp.Diagnostics.AddError("VM Build Failed", err.Error())
 		return
 	}
@@ -497,21 +510,21 @@ func (r *ResourceVM) Create(ctx context.Context, req resource.CreateRequest, res
 	// Now read the VM details to populate full state
 	readSite := client.GetVMDetailsParamsSite(site)
 	var vmResp *client.GetVMDetailsResponse
-	err = retryWithBackoff(ctx, "Get VM Details", 1, func() error {
+	err = retryWithBackoff(ctx, "Get VM Details", 1, nil, func() (*http.Response, *client.Error, error) {
 		var callErr error
 		vmResp, callErr = r.client.GetVMDetailsWithResponse(ctx, vmID, &client.GetVMDetailsParams{
 			Site: &readSite,
 		})
 		if callErr != nil {
-			return callErr
+			return nil, nil, callErr
 		}
 		if vmResp.StatusCode() < 200 || vmResp.StatusCode() >= 300 {
-			return fmt.Errorf("API returned status %d", vmResp.StatusCode())
+			return vmResp.HTTPResponse, nil, fmt.Errorf("API returned status %d", vmResp.StatusCode())
 		}
 		if vmResp.JSON200 == nil {
-			return fmt.Errorf("no response payload returned")
+			return vmResp.HTTPResponse, nil, fmt.Errorf("no response payload returned")
 		}
-		return nil
+		return vmResp.HTTPResponse, nil, nil
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read created VM: %s", err))
@@ -726,22 +739,22 @@ func (r *ResourceVM) Read(ctx context.Context, req resource.ReadRequest, resp *r
 
 	// Call API with retry logic
 	var readResp *client.GetVMDetailsResponse
-	err := retryWithBackoff(ctx, "Get VM Details", 1, func() error {
+	err := retryWithBackoff(ctx, "Get VM Details", 1, nil, func() (*http.Response, *client.Error, error) {
 		var callErr error
 		readResp, callErr = r.client.GetVMDetailsWithResponse(ctx, vmIdentifier, &client.GetVMDetailsParams{
 			Site: &site,
 		})
 		if callErr != nil {
-			return callErr
+			return nil, nil, callErr
 		}
 		// Don't retry on 404 - VM was deleted
 		if readResp.StatusCode() == 404 {
-			return nil
+			return readResp.HTTPResponse, nil, nil
 		}
 		if readResp.StatusCode() < 200 || readResp.StatusCode() >= 300 {
-			return fmt.Errorf("API returned status %d: %s", readResp.StatusCode(), string(readResp.Body))
+			return readResp.HTTPResponse, nil, fmt.Errorf("API returned status %d: %s", readResp.StatusCode(), string(readResp.Body))
 		}
-		return nil
+		return readResp.HTTPResponse, nil, nil
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", err.Error())
@@ -977,18 +990,18 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 		})
 
 		var updateResp *client.ModifyVMResourcesResponse
-		err := retryWithBackoff(ctx, "Modify VM Resources", 2, func() error {
+		err := retryWithBackoff(ctx, "Modify VM Resources", 2, nil, func() (*http.Response, *client.Error, error) {
 			var callErr error
 			updateResp, callErr = r.client.ModifyVMResourcesWithResponse(ctx, vmIdentifier, &client.ModifyVMResourcesParams{
 				Site: &site,
 			}, updateReq)
 			if callErr != nil {
-				return callErr
+				return nil, nil, callErr
 			}
 			if updateResp.StatusCode() < 200 || updateResp.StatusCode() >= 300 {
-				return fmt.Errorf("API returned status %d: %s", updateResp.StatusCode(), string(updateResp.Body))
+				return updateResp.HTTPResponse, updateResp.JSON400, fmt.Errorf("API returned status %d: %s", updateResp.StatusCode(), string(updateResp.Body))
 			}
-			return nil
+			return updateResp.HTTPResponse, nil, nil
 		})
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", err.Error())
@@ -1000,7 +1013,19 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 			requestID := *updateResp.JSON200.RequestId
 			tflog.Debug(ctx, "Polling resource update request", map[string]any{"request_id": requestID})
 
-			if err := pollRequestStatus(ctx, r.client, requestID, siteStr, "Modify VM Resources", 3*time.Minute, 5*time.Second); err != nil {
+			pollCtx, cancel := context.WithTimeout(ctx, 5*time.Minute)
+			defer cancel()
+
+			poller := newRequestPoller(
+				r.client,
+				requestID,
+				siteStr,
+				"Modify VM Resources",
+				newFixedIntervalStrategy(30*time.Second),
+				withInitialDelay(15*time.Second),
+			)
+
+			if err := poller.poll(pollCtx); err != nil {
 				resp.Diagnostics.AddError("Modify VM Resources Failed", err.Error())
 				return
 			}
@@ -1020,21 +1045,21 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 		})
 
 		var hostnameResp *client.UpdateVMHostnameResponse
-		err := retryWithBackoff(ctx, "Update VM Hostname", 2, func() error {
+		err := retryWithBackoff(ctx, "Update VM Hostname", 2, nil, func() (*http.Response, *client.Error, error) {
 			var callErr error
 			hostnameResp, callErr = r.client.UpdateVMHostnameWithResponse(ctx, vmIdentifier, &client.UpdateVMHostnameParams{
 				Site: &hostnameSite,
 			}, hostnameReq)
 			if callErr != nil {
-				return callErr
+				return nil, nil, callErr
 			}
 			if hostnameResp.StatusCode() < 200 || hostnameResp.StatusCode() >= 300 {
-				return fmt.Errorf("API returned status %d: %s", hostnameResp.StatusCode(), string(hostnameResp.Body))
+				return hostnameResp.HTTPResponse, nil, fmt.Errorf("API returned status %d: %s", hostnameResp.StatusCode(), string(hostnameResp.Body))
 			}
 			if hostnameResp.JSON200 == nil {
-				return fmt.Errorf("no response payload returned")
+				return hostnameResp.HTTPResponse, nil, fmt.Errorf("no response payload returned")
 			}
-			return nil
+			return hostnameResp.HTTPResponse, nil, nil
 		})
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", err.Error())
@@ -1046,7 +1071,19 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 			requestID := *hostnameResp.JSON200.RequestId
 			tflog.Debug(ctx, "Polling change hostname request", map[string]any{"request_id": requestID})
 
-			if err := pollRequestStatus(ctx, r.client, requestID, siteStr, "Change Hostname", 1*time.Minute, 5*time.Second); err != nil {
+			pollCtx, cancel := context.WithTimeout(ctx, 5*time.Minute)
+			defer cancel()
+
+			poller := newRequestPoller(
+				r.client,
+				requestID,
+				siteStr,
+				"Change Hostname",
+				newFixedIntervalStrategy(30*time.Second),
+				withInitialDelay(15*time.Second),
+			)
+
+			if err := poller.poll(pollCtx); err != nil {
 				resp.Diagnostics.AddError("Change Hostname Failed", err.Error())
 				return
 			}
@@ -1061,18 +1098,18 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 		}
 
 		var descResp *client.UpdateVMDescriptionResponse
-		err := retryWithBackoff(ctx, "Update VM Description", 2, func() error {
+		err := retryWithBackoff(ctx, "Update VM Description", 2, nil, func() (*http.Response, *client.Error, error) {
 			var callErr error
 			descResp, callErr = r.client.UpdateVMDescriptionWithResponse(ctx, vmIdentifier, &client.UpdateVMDescriptionParams{
 				Site: &descSite,
 			}, descReq)
 			if callErr != nil {
-				return callErr
+				return nil, nil, callErr
 			}
 			if descResp.StatusCode() < 200 || descResp.StatusCode() >= 300 {
-				return fmt.Errorf("API returned status %d: %s", descResp.StatusCode(), string(descResp.Body))
+				return descResp.HTTPResponse, nil, fmt.Errorf("API returned status %d: %s", descResp.StatusCode(), string(descResp.Body))
 			}
-			return nil
+			return descResp.HTTPResponse, nil, nil
 		})
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", err.Error())
@@ -1089,7 +1126,19 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 			rid := *descResp.JSON200.RequestId
 			tflog.Debug(ctx, "Polling description update request", map[string]any{"request_id": rid})
 
-			if err := pollRequestStatus(ctx, r.client, rid, siteStr, "Update VM Description", 1*time.Minute, 5*time.Second); err != nil {
+			pollCtx, cancel := context.WithTimeout(ctx, 5*time.Minute)
+			defer cancel()
+
+			poller := newRequestPoller(
+				r.client,
+				rid,
+				siteStr,
+				"Update VM Description",
+				newFixedIntervalStrategy(30*time.Second),
+				withInitialDelay(15*time.Second),
+			)
+
+			if err := poller.poll(pollCtx); err != nil {
 				resp.Diagnostics.AddError("Update VM Description Failed", err.Error())
 				return
 			}
@@ -1104,18 +1153,18 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 		}
 
 		var expResp *client.UpdateVMExpirationResponse
-		err := retryWithBackoff(ctx, "Update VM Expiration", 2, func() error {
+		err := retryWithBackoff(ctx, "Update VM Expiration", 2, nil, func() (*http.Response, *client.Error, error) {
 			var callErr error
 			expResp, callErr = r.client.UpdateVMExpirationWithResponse(ctx, vmIdentifier, &client.UpdateVMExpirationParams{
 				Site: &expSite,
 			}, expReq)
 			if callErr != nil {
-				return callErr
+				return nil, nil, callErr
 			}
 			if expResp.StatusCode() < 200 || expResp.StatusCode() >= 300 {
-				return fmt.Errorf("API returned status %d: %s", expResp.StatusCode(), string(expResp.Body))
+				return expResp.HTTPResponse, expResp.JSON400, fmt.Errorf("API returned status %d: %s", expResp.StatusCode(), string(expResp.Body))
 			}
-			return nil
+			return expResp.HTTPResponse, nil, nil
 		})
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to update VM expiration: %s", err))
@@ -1132,7 +1181,19 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 			requestID := *expResp.JSON200.RequestId
 			tflog.Debug(ctx, "Polling expiration update request", map[string]any{"request_id": requestID})
 
-			if err := pollRequestStatus(ctx, r.client, requestID, siteStr, "Change VM Expiration", 1*time.Minute, 5*time.Second); err != nil {
+			pollCtx, cancel := context.WithTimeout(ctx, 5*time.Minute)
+			defer cancel()
+
+			poller := newRequestPoller(
+				r.client,
+				requestID,
+				siteStr,
+				"Change VM Expiration",
+				newFixedIntervalStrategy(30*time.Second),
+				withInitialDelay(15*time.Second),
+			)
+
+			if err := poller.poll(pollCtx); err != nil {
 				resp.Diagnostics.AddError("Change VM Expiration Failed", err.Error())
 				return
 			}
@@ -1147,18 +1208,18 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 		}
 
 		var pwdResp *client.ChangeVMPasswordResponse
-		err := retryWithBackoff(ctx, "Change VM Password", 2, func() error {
+		err := retryWithBackoff(ctx, "Change VM Password", 2, nil, func() (*http.Response, *client.Error, error) {
 			var callErr error
 			pwdResp, callErr = r.client.ChangeVMPasswordWithResponse(ctx, vmIdentifier, &client.ChangeVMPasswordParams{
 				Site: &pwdSite,
 			}, pwdReq)
 			if callErr != nil {
-				return callErr
+				return nil, nil, callErr
 			}
 			if pwdResp.StatusCode() < 200 || pwdResp.StatusCode() >= 300 {
-				return fmt.Errorf("API returned status %d: %s", pwdResp.StatusCode(), string(pwdResp.Body))
+				return pwdResp.HTTPResponse, nil, fmt.Errorf("API returned status %d: %s", pwdResp.StatusCode(), string(pwdResp.Body))
 			}
-			return nil
+			return pwdResp.HTTPResponse, nil, nil
 		})
 		if err != nil {
 			resp.Diagnostics.AddError("Client Error", err.Error())
@@ -1172,18 +1233,18 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 			disableSite := client.DisableVMDeleteParamsSite(siteStr)
 
 			var disableResp *client.DisableVMDeleteResponse
-			err := retryWithBackoff(ctx, "Disable VM Delete", 2, func() error {
+			err := retryWithBackoff(ctx, "Disable VM Delete", 2, nil, func() (*http.Response, *client.Error, error) {
 				var callErr error
 				disableResp, callErr = r.client.DisableVMDeleteWithResponse(ctx, vmIdentifier, &client.DisableVMDeleteParams{
 					Site: &disableSite,
 				})
 				if callErr != nil {
-					return callErr
+					return nil, nil, callErr
 				}
 				if disableResp.StatusCode() < 200 || disableResp.StatusCode() >= 300 {
-					return fmt.Errorf("API returned status %d: %s", disableResp.StatusCode(), string(disableResp.Body))
+					return disableResp.HTTPResponse, nil, fmt.Errorf("API returned status %d: %s", disableResp.StatusCode(), string(disableResp.Body))
 				}
-				return nil
+				return disableResp.HTTPResponse, nil, nil
 			})
 			if err != nil {
 				resp.Diagnostics.AddError("Client Error", err.Error())
@@ -1195,7 +1256,19 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 				requestID := *disableResp.JSON200.RequestId
 				tflog.Debug(ctx, "Polling disable delete request", map[string]any{"request_id": requestID})
 
-				if err := pollRequestStatus(ctx, r.client, requestID, siteStr, "Disable Delete Update", 1*time.Minute, 5*time.Second); err != nil {
+				pollCtx, cancel := context.WithTimeout(ctx, 5*time.Minute)
+				defer cancel()
+
+				poller := newRequestPoller(
+					r.client,
+					requestID,
+					siteStr,
+					"Disable Delete Update",
+					newFixedIntervalStrategy(30*time.Second),
+					withInitialDelay(15*time.Second),
+				)
+
+				if err := poller.poll(pollCtx); err != nil {
 					resp.Diagnostics.AddError("Disable Delete Failed", err.Error())
 					return
 				}
@@ -1204,18 +1277,18 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 			enableSite := client.EnableVMDeleteParamsSite(siteStr)
 
 			var enableResp *client.EnableVMDeleteResponse
-			err := retryWithBackoff(ctx, "Enable VM Delete", 2, func() error {
+			err := retryWithBackoff(ctx, "Enable VM Delete", 2, nil, func() (*http.Response, *client.Error, error) {
 				var callErr error
 				enableResp, callErr = r.client.EnableVMDeleteWithResponse(ctx, vmIdentifier, &client.EnableVMDeleteParams{
 					Site: &enableSite,
 				})
 				if callErr != nil {
-					return callErr
+					return nil, nil, callErr
 				}
 				if enableResp.StatusCode() < 200 || enableResp.StatusCode() >= 300 {
-					return fmt.Errorf("API returned status %d: %s", enableResp.StatusCode(), string(enableResp.Body))
+					return enableResp.HTTPResponse, nil, fmt.Errorf("API returned status %d: %s", enableResp.StatusCode(), string(enableResp.Body))
 				}
-				return nil
+				return enableResp.HTTPResponse, nil, nil
 			})
 			if err != nil {
 				resp.Diagnostics.AddError("Client Error", err.Error())
@@ -1227,7 +1300,19 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 				requestID := *enableResp.JSON200.RequestId
 				tflog.Debug(ctx, "Polling enable delete request", map[string]any{"request_id": requestID})
 
-				if err := pollRequestStatus(ctx, r.client, requestID, siteStr, "Enable Delete Update", 2*time.Minute, 5*time.Second); err != nil {
+				pollCtx, cancel := context.WithTimeout(ctx, 5*time.Minute)
+				defer cancel()
+
+				poller := newRequestPoller(
+					r.client,
+					requestID,
+					siteStr,
+					"Enable Delete Update",
+					newFixedIntervalStrategy(30*time.Second),
+					withInitialDelay(15*time.Second),
+				)
+
+				if err := poller.poll(pollCtx); err != nil {
 					resp.Diagnostics.AddError("Enable Delete Failed", err.Error())
 					return
 				}
@@ -1267,18 +1352,18 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 			}
 
 			var diskResp *client.AddVMDiskResponse
-			err := retryWithBackoff(ctx, "Add VM Disk", 2, func() error {
+			err := retryWithBackoff(ctx, "Add VM Disk", 2, nil, func() (*http.Response, *client.Error, error) {
 				var callErr error
 				diskResp, callErr = r.client.AddVMDiskWithResponse(ctx, vmIdentifier, &client.AddVMDiskParams{
 					Site: &diskSite,
 				}, diskReq)
 				if callErr != nil {
-					return callErr
+					return nil, nil, callErr
 				}
 				if diskResp.StatusCode() < 200 || diskResp.StatusCode() >= 300 {
-					return fmt.Errorf("API returned status %d: %s", diskResp.StatusCode(), string(diskResp.Body))
+					return diskResp.HTTPResponse, diskResp.JSON400, fmt.Errorf("API returned status %d: %s", diskResp.StatusCode(), string(diskResp.Body))
 				}
-				return nil
+				return diskResp.HTTPResponse, nil, nil
 			})
 			if err != nil {
 				resp.Diagnostics.AddError("Client Error", err.Error())
@@ -1292,21 +1377,21 @@ func (r *ResourceVM) Update(ctx context.Context, req resource.UpdateRequest, res
 	// Read the updated VM state
 	readSite := client.GetVMDetailsParamsSite(siteStr)
 	var readResp *client.GetVMDetailsResponse
-	err := retryWithBackoff(ctx, "Get VM Details", 1, func() error {
+	err := retryWithBackoff(ctx, "Get VM Details", 1, nil, func() (*http.Response, *client.Error, error) {
 		var callErr error
 		readResp, callErr = r.client.GetVMDetailsWithResponse(ctx, vmIdentifier, &client.GetVMDetailsParams{
 			Site: &readSite,
 		})
 		if callErr != nil {
-			return callErr
+			return nil, nil, callErr
 		}
 		if readResp.StatusCode() < 200 || readResp.StatusCode() >= 300 {
-			return fmt.Errorf("API returned status %d", readResp.StatusCode())
+			return readResp.HTTPResponse, nil, fmt.Errorf("API returned status %d", readResp.StatusCode())
 		}
 		if readResp.JSON200 == nil {
-			return fmt.Errorf("no response payload returned")
+			return readResp.HTTPResponse, nil, fmt.Errorf("no response payload returned")
 		}
-		return nil
+		return readResp.HTTPResponse, nil, nil
 	})
 	if err != nil {
 		resp.Diagnostics.AddError("Client Error", fmt.Sprintf("Unable to read updated VM: %s", err))
@@ -1460,22 +1545,22 @@ func (r *ResourceVM) Delete(ctx context.Context, req resource.DeleteRequest, res
 	// First, check if the VM is already deleted by reading its current state
 	readSite := client.GetVMDetailsParamsSite(siteStr)
 	var readResp *client.GetVMDetailsResponse
-	readErr := retryWithBackoff(ctx, "Get VM Details", 1, func() error {
+	readErr := retryWithBackoff(ctx, "Get VM Details", 1, nil, func() (*http.Response, *client.Error, error) {
 		var callErr error
 		readResp, callErr = r.client.GetVMDetailsWithResponse(ctx, vmIdentifier, &client.GetVMDetailsParams{
 			Site: &readSite,
 		})
 		if callErr != nil {
-			return callErr
+			return nil, nil, callErr
 		}
 		// Don't retry on 404 - VM was already deleted
 		if readResp.StatusCode() == 404 {
-			return nil
+			return readResp.HTTPResponse, nil, nil
 		}
 		if readResp.StatusCode() < 200 || readResp.StatusCode() >= 300 {
-			return fmt.Errorf("API returned status %d: %s", readResp.StatusCode(), string(readResp.Body))
+			return readResp.HTTPResponse, nil, fmt.Errorf("API returned status %d: %s", readResp.StatusCode(), string(readResp.Body))
 		}
-		return nil
+		return readResp.HTTPResponse, nil, nil
 	})
 
 	// If we got a 404 or the VM is in deleting/deleted state, it's already gone
@@ -1565,31 +1650,6 @@ func (r *ResourceVM) Delete(ctx context.Context, req resource.DeleteRequest, res
 		)
 		return
 	}
-
-	// Extract request_id for polling
-	requestID := ""
-	if deleteResp.JSON200.RequestId != nil {
-		requestID = *deleteResp.JSON200.RequestId
-	}
-
-	if requestID == "" {
-		tflog.Debug(ctx, "No request_id returned, assuming synchronous deletion")
-		tflog.Trace(ctx, "deleted VM resource")
-		return
-	}
-
-	tflog.Debug(ctx, "VM deletion initiated, polling for completion", map[string]any{
-		"vm_id":      vmIdentifier,
-		"request_id": requestID,
-	})
-
-	// Poll for deletion completion (max 5 minutes, check every 5 seconds)
-	if err := pollRequestStatus(ctx, r.client, requestID, siteStr, "VM Deletion", 5*time.Minute, 5*time.Second); err != nil {
-		resp.Diagnostics.AddError("VM Deletion Failed", err.Error())
-		return
-	}
-
-	tflog.Trace(ctx, "deleted VM resource")
 }
 
 // ImportState imports an existing resource into Terraform state.

@@ -11,8 +11,8 @@ import (
 
 // pollingStrategy defines how to poll for operation completion.
 type pollingStrategy interface {
-	// Next returns the duration to wait before the next poll attempt.
-	Next(ctx context.Context) (time.Duration, error)
+	// next returns the duration to wait before the next poll attempt.
+	next(ctx context.Context) (time.Duration, error)
 }
 
 // fixedIntervalStrategy polls at a fixed interval.
@@ -53,8 +53,8 @@ func newFixedIntervalStrategy(interval time.Duration) pollingStrategy {
 	}
 }
 
-// Next returns the next fixed polling interval.
-func (s *fixedIntervalStrategy) Next(ctx context.Context) (time.Duration, error) {
+// next returns the next fixed polling interval.
+func (s *fixedIntervalStrategy) next(ctx context.Context) (time.Duration, error) {
 	select {
 	case <-ctx.Done():
 		return 0, ctx.Err()
@@ -73,8 +73,8 @@ func (s *fixedIntervalStrategy) Next(ctx context.Context) (time.Duration, error)
 	return s.interval, nil
 }
 
-// Next returns the next adaptive polling interval.
-func (s *adaptiveIntervalStrategy) Next(ctx context.Context) (time.Duration, error) {
+// next returns the next adaptive polling interval.
+func (s *adaptiveIntervalStrategy) next(ctx context.Context) (time.Duration, error) {
 	select {
 	case <-ctx.Done():
 		return 0, ctx.Err()

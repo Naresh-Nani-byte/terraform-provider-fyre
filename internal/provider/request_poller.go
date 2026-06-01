@@ -116,7 +116,7 @@ func (p *requestPoller) poll(ctx context.Context) error {
 				apiError = statusResp.JSON404
 			}
 
-			shouldRetry, waitDuration := p.errorHandler.ShouldRetry(statusCode, apiError, consecutiveErrors)
+			shouldRetry, waitDuration := p.errorHandler.shouldRetry(statusCode, apiError, consecutiveErrors)
 
 			logFields := map[string]any{
 				"operation":   p.operation,
@@ -228,7 +228,7 @@ func (p *requestPoller) poll(ctx context.Context) error {
 		// strategy.
 		if waitDuration <= 0 {
 			var strategyErr error
-			waitDuration, strategyErr = p.strategy.Next(ctx)
+			waitDuration, strategyErr = p.strategy.next(ctx)
 			if strategyErr != nil {
 				return fmt.Errorf("%s: %w", p.operation, strategyErr)
 			}

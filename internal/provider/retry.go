@@ -48,7 +48,7 @@ func retryWithBackoff(
 			statusCode = resp.StatusCode
 		}
 
-		shouldRetry, waitDuration := errorHandler.ShouldRetry(statusCode, apiError, attempt)
+		shouldRetry, waitDuration := errorHandler.shouldRetry(statusCode, apiError, attempt)
 
 		if statusCode >= 400 && statusCode < 500 {
 			logFields := map[string]any{

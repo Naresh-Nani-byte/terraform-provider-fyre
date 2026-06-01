@@ -11,14 +11,14 @@ import (
 
 // responseErrorHandler determines retry behavior for HTTP errors.
 type responseErrorHandler interface {
-	ShouldRetry(statusCode int, errorDetails *client.Error, attemptNumber int) (shouldRetry bool, waitDuration time.Duration)
+	shouldRetry(statusCode int, errorDetails *client.Error, attemptNumber int) (shouldRetry bool, waitDuration time.Duration)
 }
 
 // defaultResponseErrorHandler implements standard retry logic.
 type defaultResponseErrorHandler struct{}
 
-// ShouldRetry returns whether an HTTP error should be retried and how long to wait.
-func (h *defaultResponseErrorHandler) ShouldRetry(statusCode int, errorDetails *client.Error, attemptNumber int) (bool, time.Duration) {
+// shouldRetry returns whether an HTTP error should be retried and how long to wait.
+func (h *defaultResponseErrorHandler) shouldRetry(statusCode int, errorDetails *client.Error, attemptNumber int) (bool, time.Duration) {
 	switch {
 	case statusCode < 300:
 		// Don't retry non-errors
@@ -30,8 +30,9 @@ func (h *defaultResponseErrorHandler) ShouldRetry(statusCode int, errorDetails *
 		}
 		return false, 0
 	case statusCode >= 400 && statusCode < 500:
-		// Client errors are tricky. If we're blocked return the time as the time
-		// we should wait. Chances are we'll timeout but you never know!
+		// If we've received a 400 error we might have a temporary ban. If we are
+		// and the error is retryable we'll wait for until our temporary ban has
+		// expired.
 		if errorDetails != nil && errorDetails.Details != nil {
 			if blockUntil, ok := parseBlockedTime(errorDetails.Details); ok {
 				waitDuration := time.Until(blockUntil.Add(time.Second))
@@ -45,11 +46,12 @@ func (h *defaultResponseErrorHandler) ShouldRetry(statusCode int, errorDetails *
 		switch {
 		case isRetryable4XXStatusCode(statusCode):
 			// Retry 429 after 10 minutes. We don't want to retry sooner so that we
-			// don't get blocked.
+			// don't get a temporary ban for too many requests.
 			if statusCode == 429 {
 				return true, 10 * time.Minute
 			}
 
+			// Retry other 400's one more time after a minute.
 			if attemptNumber == 0 {
 				return true, time.Minute
 			}

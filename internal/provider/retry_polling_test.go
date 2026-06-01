@@ -21,7 +21,7 @@ func TestFixedIntervalStrategyNext(t *testing.T) {
 		strategy := newFixedIntervalStrategy(5 * time.Second)
 
 		for i := range 10 {
-			got, err := strategy.Next(context.Background())
+			got, err := strategy.next(context.Background())
 			require.NoErrorf(t, err, "expected 5 seconds on attempt %d, got: %d", i, got)
 			require.Equal(t, 5*time.Second, got)
 		}
@@ -40,13 +40,13 @@ func TestAdaptiveIntervalStrategyNext(t *testing.T) {
 			startTime: now.Add(-30 * time.Second),
 		}
 
-		got, err := strategy.Next(context.Background())
+		got, err := strategy.next(context.Background())
 		require.NoError(t, err, "expected no error in first phase")
 		require.Equal(t, 10*time.Second, got, "expected 10s in first phase")
 
 		strategy.startTime = now.Add(-2 * time.Minute)
 
-		got, err = strategy.Next(context.Background())
+		got, err = strategy.next(context.Background())
 		require.NoError(t, err, "expected no error in final phase")
 		require.Equal(t, 30*time.Second, got, "expected 30s in final phase")
 	})
@@ -200,7 +200,7 @@ func TestDefaultResponseErrorHandlerShouldRetry(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			t.Parallel()
 
-			shouldRetry, wait := handler.ShouldRetry(tc.statusCode, nil, tc.attempt)
+			shouldRetry, wait := handler.shouldRetry(tc.statusCode, nil, tc.attempt)
 			require.Equal(t, tc.shouldRetry, shouldRetry, "unexpected shouldRetry value")
 			require.Equal(t, tc.wait, wait, "unexpected wait duration")
 		})
@@ -218,12 +218,12 @@ func TestDefaultResponseErrorHandlerBlockingOverride(t *testing.T) {
 		}
 
 		apiErr := &client.Error{Details: &details}
-		shouldRetry, wait := handler.ShouldRetry(400, apiErr, 0)
+		shouldRetry, wait := handler.shouldRetry(400, apiErr, 0)
 		require.True(t, shouldRetry, "expected retry for blocking 400")
 		require.GreaterOrEqual(t, wait, time.Minute, "expected blocking wait >= 1m")
 		require.LessOrEqual(t, wait, 3*time.Minute, "expected blocking wait <= 3m")
 
-		shouldRetry, wait = handler.ShouldRetry(403, apiErr, 0)
+		shouldRetry, wait = handler.shouldRetry(403, apiErr, 0)
 		require.False(t, shouldRetry, "expected no retry for non-retryable status")
 		require.Equal(t, time.Duration(0), wait, "expected zero wait for non-retryable status")
 	})

@@ -9,12 +9,12 @@ import (
 	"github.com/hashicorp-forge/terraform-provider-fyre/internal/client"
 )
 
-// ResponseErrorHandler determines retry behavior for HTTP errors.
+// responseErrorHandler determines retry behavior for HTTP errors.
 type responseErrorHandler interface {
 	ShouldRetry(statusCode int, errorDetails *client.Error, attemptNumber int) (shouldRetry bool, waitDuration time.Duration)
 }
 
-// DefaultResponseErrorHandler implements standard retry logic.
+// defaultResponseErrorHandler implements standard retry logic.
 type defaultResponseErrorHandler struct{}
 
 // ShouldRetry returns whether an HTTP error should be retried and how long to wait.

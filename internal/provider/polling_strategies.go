@@ -9,33 +9,33 @@ import (
 	"time"
 )
 
-// PollingStrategy defines how to poll for operation completion.
+// pollingStrategy defines how to poll for operation completion.
 type pollingStrategy interface {
 	// Next returns the duration to wait before the next poll attempt.
 	Next(ctx context.Context) (time.Duration, error)
 }
 
-// FixedIntervalStrategy polls at a fixed interval.
+// fixedIntervalStrategy polls at a fixed interval.
 type fixedIntervalStrategy struct {
 	interval  time.Duration
 	startTime time.Time
 	attempt   int
 }
 
-// AdaptiveIntervalStrategy changes polling frequency over time.
+// adaptiveIntervalStrategy changes polling frequency over time.
 type adaptiveIntervalStrategy struct {
 	phases    []pollingPhase
 	startTime time.Time
 	attempt   int
 }
 
-// PollingPhase defines a polling interval for a period of time.
+// pollingPhase defines a polling interval for a period of time.
 type pollingPhase struct {
 	Duration time.Duration
 	Interval time.Duration
 }
 
-// NewVMBuildPollingStrategy creates an adaptive strategy for VM build operations.
+// newVMBuildPollingStrategy creates an adaptive strategy for VM build operations.
 func newVMBuildPollingStrategy() pollingStrategy {
 	return &adaptiveIntervalStrategy{
 		phases: []pollingPhase{
@@ -46,7 +46,7 @@ func newVMBuildPollingStrategy() pollingStrategy {
 	}
 }
 
-// NewFixedIntervalStrategy creates a strategy that polls at a fixed interval.
+// newFixedIntervalStrategy creates a strategy that polls at a fixed interval.
 func newFixedIntervalStrategy(interval time.Duration) pollingStrategy {
 	return &fixedIntervalStrategy{
 		interval: interval,

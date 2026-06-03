@@ -12,20 +12,17 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      go-version: ${{ steps.get-go-version.outputs.go-version }}
+      go-version: ${{ steps.set-up-go.outputs.go-version }}
       product-version: ${{ steps.set-product-version.outputs.product-version }}
       product-base-version: ${{ steps.set-product-version.outputs.base-product-version }}
       product-prerelease-version: ${{ steps.set-product-version.outputs.prerelease-product-version }}
       product-minor-version: ${{ steps.set-product-version.outputs.minor-product-version }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
+      - id: set-up-go
+        uses: actions/setup-go@4a3601121dd01d1626a1e23e37211e3254c1c06c # v6.4.0
         with:
           go-version-file: 'go.mod'
-      - id: get-go-version
-        run: |
-          version="$(go list -f '{{.GoVersion}}' -m)"
-          echo "go-version=$version" | tee -a "$GITHUB_OUTPUT"
       - id: set-product-version
         uses: ./.github/actions/set-product-version
       - run: go mod download # so that the modules are cached
@@ -52,7 +49,7 @@ jobs:
           BASE_VERSION: ${{ needs.setup.outputs.product-base-version }}
           PRERELEASE_VERSION: ${{ needs.setup.outputs.product-prerelease-version}}
         with:
-          bin_name: "terraform-provider-fyre_v${{ needs.setup.outputs.product-version }}"
+          bin_name: "terraform-provider-fyre_v${{ needs.setup.outputs.product-version }}_${{ matrix.goos }}_${{ matrix.goarch }}"
           product_name: terraform-provider-fyre
           product_version: ${{ needs.setup.outputs.product-version }}
           go_version: ${{ needs.setup.outputs.go-version }}
@@ -92,13 +89,16 @@ jobs:
           path: dist
           pattern: terraform-provider-fyre_*
           merge-multiple: true
-      - name: unzip
+      - name: prepare dist
         run: |
           pushd dist
           ls -al
-          unzip ./*.zip
-          rm -f ./*.zip
-          chmod +x .
+          unzip -o \*.zip
+          rm -rf ./*.zip.json
+          rm -rf ./*.zip
+          rm LICENSE.txt
+          chmod +x ./*
+          ls -al
       - name: Import gpg key
         uses: crazy-max/ghaction-import-gpg@2dc316deee8e90f13e1a351ab510b4d5bc0c82cd # v7.0.0
         with:
@@ -119,5 +119,5 @@ jobs:
             --dist ../dist \
             --gpg-key-id "${{ secrets.GPG_KEY_ID }}" \
             --commit "${{ inputs.sha }}" \
-            --version "$(cat VERSION)" \
+            --version "v$(cat ../version/VERSION)" \
             --manifest-path ../terraform-registry-manifest.json
